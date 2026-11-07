@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8fafc;
+}
+
+.gradient-hero {
+    background: linear-gradient(135deg, #5A0020 0%, #3d0015 100%);
+}
+
+.smooth-transition {
+    transition: all 0.3s ease-in-out;
+}

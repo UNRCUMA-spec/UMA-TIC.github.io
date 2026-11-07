@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UMA-TIC | Unidades de Microaprendizaje TIC - UNRC</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        vino: {
+                            50: '#fdf2f4', 100: '#fbe5e9', 200: '#f7ced7', 300: '#f0a8b8',
+                            400: '#e47690', 500: '#d34a6a', 600: '#b72c4e', 700: '#8f1c39',
+                            800: '#5A0020', 900: '#430018', 950: '#2a000e',
+                        },
+                        dorado: {
+                            400: '#e5c158', 500: '#BC955C', 600: '#9d783e'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen flex flex-col text-slate-800 antialiased">
+
+    <!-- CINTILLA INSTITUCIONAL SUPERIOR -->
+    <div class="border-b-2 border-dorado-500 py-2.5 px-4 sm:px-8 shadow-sm" style="background-color: #630037;">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
+            
+            <!-- Imagen institucional centrada/izquierda -->
+            <div class="flex items-center justify-center md:justify-start w-full md:w-auto">
+                <img src="cintillainstitucional.png" alt="Gobierno de México, Ciencia y Tecnología, UNRC" class="h-10 sm:h-12 w-auto object-contain">
+            </div>
+
+            <!-- Insignia a la derecha -->
+            <div class="hidden lg:flex items-center space-x-2 bg-black/20 px-3.5 py-1.5 rounded-md border border-dorado-500/40 text-xs text-amber-100 font-medium shrink-0">
+                <i class="fas fa-graduation-cap text-amber-300"></i>
+                <span>Plataforma Oficial de Microaprendizaje</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ENCABEZADO (HEADER) CON EL LOGOTIPO UMA-TIC -->
+    <header class="bg-vino-900 text-white sticky top-0 z-50 shadow-lg border-b border-vino-950">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- LOGOTIPO UMA-TIC CON MARGEN DORADO -->
+                <div class="flex items-center space-x-3 cursor-pointer py-2" onclick="navegarA('inicio')">
+                    <img src="logoumatic.png" alt="UMA-TIC Unidades de Microaprendizaje en TIC" class="h-12 sm:h-14 w-auto object-contain bg-white/95 px-3 py-1.5 rounded-lg shadow-md border-4 border-dorado-500">
+                </div>
+
+                <!-- NAVEGACIÓN -->
+                <nav class="hidden md:flex space-x-1 lg:space-x-3 items-center">
+                    <button onclick="navegarA('inicio')" class="px-3 py-1.5 rounded-md text-sm font-medium text-white hover:bg-vino-800 transition">Inicio</button>
+                    <button onclick="filtrarPorArea('Programación')" class="px-3 py-1.5 rounded-md text-sm font-medium text-vino-100 hover:bg-vino-800 transition">Programación</button>
+                    <button onclick="filtrarPorArea('Matemáticas')" class="px-3 py-1.5 rounded-md text-sm font-medium text-vino-100 hover:bg-vino-800 transition">Matemáticas</button>
+                    <button onclick="filtrarPorArea('Ciencias Sociales')" class="px-3 py-1.5 rounded-md text-sm font-medium text-vino-100 hover:bg-vino-800 transition">Ciencias Sociales</button>
+                    <button onclick="navegarA('acerca')" class="px-3 py-1.5 rounded-md text-sm font-medium text-vino-100 hover:bg-vino-800 transition">Acerca del Proyecto</button>
+                </nav>
+
+                <!-- BUSCADOR EN HEADER -->
+                <div class="hidden lg:flex items-center space-x-2">
+                    <div class="relative">
+                        <input type="text" id="busquedaHeader" onkeypress="buscarHeader(event)" placeholder="Buscar cápsula..." class="bg-vino-950/80 text-white placeholder-vino-300 text-sm rounded-full pl-9 pr-4 py-1.5 focus:outline-none focus:ring-2 focus:ring-dorado-500 w-44 transition-all focus:w-56 border border-vino-700">
+                        <i class="fas fa-search absolute left-3 top-2.5 text-vino-300 text-xs"></i>
+                    </div>
+                </div>
+
+                <!-- BOTÓN MENÚ MÓVIL -->
+                <div class="md:hidden flex items-center">
+                    <button id="btnMobileMenu" onclick="toggleMenuMobil()" class="text-white hover:text-amber-200 focus:outline-none p-1">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MENÚ MÓVIL DESPLEGABLE -->
+        <div id="mobileMenu" class="hidden md:hidden bg-vino-950 border-t border-vino-800 px-4 pt-2 pb-4 space-y-2">
+            <button onclick="navegarA('inicio'); toggleMenuMobil()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-white hover:bg-vino-800">Inicio</button>
+            <button onclick="filtrarPorArea('Programación'); toggleMenuMobil()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-vino-200 hover:bg-vino-800">Programación</button>
+            <button onclick="filtrarPorArea('Matemáticas'); toggleMenuMobil()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-vino-200 hover:bg-vino-800">Matemáticas</button>
+            <button onclick="filtrarPorArea('Ciencias Sociales'); toggleMenuMobil()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-vino-200 hover:bg-vino-800">Ciencias Sociales</button>
+            <button onclick="navegarA('acerca'); toggleMenuMobil()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-vino-200 hover:bg-vino-800">Acerca del Proyecto</button>
+        </div>
+    </header>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="flex-grow">
+        
+        <!-- SECCIÓN 1: INICIO / HERO -->
+        <section id="sec-inicio" class="seccion-pagina">
+            <div class="bg-white text-slate-900 py-16 px-4 sm:px-6 lg:px-8 shadow-inner border-b-4 border-dorado-500">
+                <div class="max-w-5xl mx-auto space-y-8">
+                    
+                    <!-- TÍTULO PRINCIPAL -->
+                    <div class="text-center space-y-3">
+                        <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight text-vino-900">
+                            Unidades de <span class="text-dorado-600">Microaprendizaje</span> para el <span class="text-dorado-600">Aprendizaje</span>
+                        </h1>
+                    </div>
+
+                    <!-- BIENVENIDA CON DOS COLUMNAS (TEXTO E IMAGEN) -->
+                    <div class="bg-slate-50 p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        
+                        <!-- Columna de Texto -->
+                        <div class="space-y-3 text-left">
+                            <h2 class="text-2xl font-bold text-vino-900">Bienvenid@</h2>
+                            <p class="text-sm sm:text-base text-slate-700 leading-relaxed">
+                                La Universidad Nacional Rosario Castellanos (UNRC), a través de los proyectos de Prácticas Profesionales de la Licenciatura en Tecnologías de la Información y la Comunicación (LTIC), brinda apoyo a la comunidad estudiantil mediante recursos de libre acceso.
+                            </p>
+                            <p class="text-sm sm:text-base text-slate-700 leading-relaxed">
+                                En este sitio encontrarás recursos educativos denominados <strong>Unidades de Microaprendizaje en TIC (UMA-TIC)</strong>, que abordan temas derivados de planes y programas de estudio; son recursos de autoestudio diseñados para reforzar conocimientos clave en Programación, Matemáticas y Ciencias Sociales, facilitando el aprendizaje autónomo y continuo.
+                            </p>
+                        </div>
+
+                        <!-- Columna de Imagen (Con cita APA 7 en atributo alt y comentario) -->
+                        <div class="flex flex-col items-center justify-center">
+                            <!-- Nota APA 7: La Cadera de Eva (2022). ¿Cuándo nació Rosario Castellanos? https://lacaderadeeva.com/entrevistas/cuando-nacio-rosario-castellanos/13898 -->
+                            <img src="rosariocastellanos.png" alt="Ilustración conmemorativa de Rosario Castellanos. Tomada de La Cadera de Eva (2022)" class="max-h-72 w-auto object-cover rounded-xl shadow-md border-2 border-dorado-500 bg-white p-1.5">
+                            <span class="text-[10px] text-slate-500 mt-2 text-center">Imagen tomada por Sandra Rojas de: La Cadera de Eva (2022)</span>
+                        </div>
+
+                    </div>
+
+                    <!-- BUSCADOR CENTRAL -->
+                    <div class="pt-4 max-w-xl mx-auto">
+                        <div class="relative flex items-center">
+                            <input type="text" id="busquedaCentral" onkeypress="buscarHero(event)" placeholder="¿Qué tema quieres repasar hoy? (Ej. APA 7, C++, Cálculo)..." class="w-full bg-slate-50 text-slate-800 pl-12 pr-28 py-4 rounded-xl shadow-lg border border-slate-300 focus:outline-none focus:ring-4 focus:ring-dorado-500 text-sm sm:text-base">
+                            <i class="fas fa-search absolute left-4 text-slate-400 text-lg"></i>
+                            <button onclick="ejecutarBusquedaCentral()" class="absolute right-2 bg-vino-800 hover:bg-vino-900 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition shadow border border-dorado-500/40">
+                                Buscar
+                            </button>
+                        </div>
+                        <div class="flex flex-wrap justify-center gap-2 mt-3 text-xs text-slate-600">
+                            <span class="font-medium">Sugerencias:</span>
+                            <button onclick="buscarEtiqueta('APA 7')" class="text-vino-800 underline hover:text-vino-950 font-semibold">APA 7</button>
+                            <span>•</span>
+                            <button onclick="buscarEtiqueta('Estructuras de Datos')" class="text-vino-800 underline hover:text-vino-950 font-semibold">Estructuras de Datos</button>
+                            <span>•</span>
+                            <button onclick="buscarEtiqueta('Cálculo')" class="text-vino-800 underline hover:text-vino-950 font-semibold">Cálculo</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TARJETAS DE ACCESO POR ÁREAS -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div onclick="filtrarPorArea('Programación')" class="bg-white rounded-2xl shadow-xl p-6 border-t-4 border-vino-800 hover:-translate-y-1 transition duration-300 cursor-pointer group">
+                        <div class="w-14 h-14 bg-vino-50 text-vino-800 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:bg-vino-800 group-hover:text-white transition border border-vino-200">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 group-hover:text-vino-800 transition">🖥️ Programación</h3>
+                        <p class="text-sm text-slate-500 mt-2">Fundamentos de lógica, estructuras de datos, paradigmas y desarrollo web.</p>
+                    </div>
+
+                    <div onclick="filtrarPorArea('Matemáticas')" class="bg-white rounded-2xl shadow-xl p-6 border-t-4 border-vino-800 hover:-translate-y-1 transition duration-300 cursor-pointer group">
+                        <div class="w-14 h-14 bg-vino-50 text-vino-800 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:bg-vino-800 group-hover:text-white transition border border-vino-200">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 group-hover:text-vino-800 transition">📐 Matemáticas</h3>
+                        <p class="text-sm text-slate-500 mt-2">Álgebra, cálculo, probabilidad y matemáticas discretas aplicadas a TIC.</p>
+                    </div>
+
+                    <div onclick="filtrarPorArea('Ciencias Sociales')" class="bg-white rounded-2xl shadow-xl p-6 border-t-4 border-vino-800 hover:-translate-y-1 transition duration-300 cursor-pointer group">
+                        <div class="w-14 h-14 bg-vino-50 text-vino-800 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:bg-vino-800 group-hover:text-white transition border border-vino-200">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 group-hover:text-vino-800 transition">🌍 Ciencias Sociales</h3>
+                        <p class="text-sm text-slate-500 mt-2">Normativa APA 7ma, redacción técnica y el impacto social de la tecnología.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: CATÁLOGO -->
+        <section id="sec-catalogo" class="seccion-pagina hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                <div>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">Catálogo de Cápsulas de Aprendizaje</h2>
+                    <p class="text-sm text-slate-600">Explora la colección de microrecursos interactivos desarrollados para la comunidad UNRC.</p>
+                </div>
+                <div class="flex flex-wrap items-center gap-3">
+                    <select id="filtroAreaSelect" onchange="filtrarCapsulas()" class="bg-white border border-slate-300 text-slate-700 text-sm rounded-lg px-3 py-2 focus:ring-2 focus:ring-vino-800 focus:outline-none">
+                        <option value="Todas">Todas las áreas</option>
+                        <option value="Programación">Programación</option>
+                        <option value="Matemáticas">Matemáticas</option>
+                        <option value="Ciencias Sociales">Ciencias Sociales</option>
+                    </select>
+                    <select id="filtroFormatoSelect" onchange="filtrarCapsulas()" class="bg-white border border-slate-300 text-slate-700 text-sm rounded-lg px-3 py-2 focus:ring-2 focus:ring-vino-800 focus:outline-none">
+                        <option value="Todos">Todos los formatos</option>
+                        <option value="Infografía">Infografía</option>
+                        <option value="Video">Video</option>
+                        <option value="Quiz">Quiz Interactivo</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="gridCapsulas" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </section>
+
+        <!-- SECCIÓN 3: DETALLE -->
+        <section id="sec-capsula" class="seccion-pagina hidden max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <button onclick="navegarA('catalogo')" class="mb-6 inline-flex items-center text-xs font-semibold text-vino-800 hover:text-vino-950 bg-vino-50 px-3 py-1.5 rounded-md border border-vino-200 transition">
+                <i class="fas fa-arrow-left mr-2"></i> Volver al Catálogo
+            </button>
+            <div id="detalleCapsulaContenido" class="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200"></div>
+        </section>
+
+        <!-- SECCIÓN 4: ACERCA DEL PROYECTO (CON MISIÓN, VISIÓN Y OBJETIVOS) -->
+        <section id="sec-acerca" class="seccion-pagina hidden max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="bg-white rounded-2xl shadow-xl p-8 sm:p-10 border border-slate-200 space-y-8">
+                <div class="border-b border-slate-200 pb-4">
+                    <span class="text-xs font-bold text-vino-800 uppercase tracking-widest">Proyecto Institucional UMA-TIC</span>
+                    <h2 class="text-3xl font-extrabold text-slate-900 mt-1">Acerca del Proyecto</h2>
+                </div>
+                
+                <p class="text-slate-700 leading-relaxed text-sm sm:text-base">
+                    El proyecto <strong>UMA-TIC (Unidades de Microaprendizaje en TIC)</strong> es una iniciativa de la Licenciatura en Tecnologías de la Información y la Comunicación de la <strong>Universidad Nacional Rosario Castellanos (UNRC)</strong>, enfocada en resolver las dificultades de aprendizaje detectadas en asignaturas de alta complejidad.
+                </p>
+
+                <!-- MISIÓN Y VISIÓN -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-vino-50 p-6 rounded-2xl border border-vino-200 space-y-2">
+                        <h3 class="font-bold text-vino-900 text-lg flex items-center">
+                            <i class="fas fa-bullseye text-vino-700 mr-2"></i> Misión
+                        </h3>
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            Formar profesionales con compromiso social y capacidad tecnológica, implementando estrategias de microaprendizaje para reforzar conocimientos complejos en programación, matemáticas y ciencias sociales.
+                        </p>
+                    </div>
+
+                    <div class="bg-amber-50 p-6 rounded-2xl border border-amber-200 space-y-2">
+                        <h3 class="font-bold text-amber-900 text-lg flex items-center">
+                            <i class="fas fa-eye text-amber-700 mr-2"></i> Visión
+                        </h3>
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            Consolidarse como una plataforma institucional de vanguardia en la generación e innovación del conocimiento tecno-pedagógico para toda la comunidad universitaria.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- OBJETIVOS -->
+                <div class="space-y-3 pt-2">
+                    <h3 class="font-bold text-vino-900 text-lg flex items-center">
+                        <i class="fas fa-check-circle text-dorado-600 mr-2"></i> Objetivos del Proyecto
+                    </h3>
+                    <ul class="list-disc list-inside space-y-2 text-xs sm:text-sm text-slate-700 bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                        <li><strong>Objetivo General:</strong> Diseñar, desarrollar, implementar y documentar el sitio web UMA-TIC mediante la aplicación integrada de conocimientos de los estudiantes de séptimo semestre.</li>
+                        <li><strong>Análisis de necesidades:</strong> Identificar áreas de oportunidad en el aprendizaje de estudiantes de semestres iniciales.</li>
+                        <li><strong>Recursos interactivos:</strong> Desarrollar cápsulas multimedia (videos, infografías y quizzes) y herramientas de gamificación.</li>
+                    </ul>
+                </div>
+
+                <!-- REFERENCIA DE LA IMAGEN EN ACERCA -->
+                <div class="text-xs text-slate-500 pt-4 border-t border-slate-200">
+                    <p><strong>Créditos de imagen conmemorativa:</strong> La Cadera de Eva. (2022). <em>¿Cuándo nació Rosario Castellanos?</em> [Ilustración]. https://lacaderadeeva.com/entrevistas/cuando-nacio-rosario-castellanos/13898</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-vino-950 text-white border-t-2 border-dorado-500 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 text-center text-xs text-vino-200/60">
+            &copy; UMA-TIC - Universidad Nacional Rosario Castellanos | Gobierno de México. Todos los derechos reservados. MFM
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="capsulassociales.js"></script>
+    <script src="capsulasprogramacion.js"></script>
+    <script src="capsulasmatematicas.js"></script>
+    <script src="main.js"></script>
+
+</body>
+</html>
