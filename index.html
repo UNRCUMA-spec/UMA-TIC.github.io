@@ -30,15 +30,11 @@
 <body class="min-h-screen flex flex-col text-slate-800 antialiased">
 
     <!-- CINTILLA INSTITUCIONAL SUPERIOR -->
-    <div class="border-b-2 border-dorado-500 py-2.5 px-4 sm:px-8 shadow-sm" style="background-color: #630037;">
+    <div class="border-b-2 border-dorado-500 py-3 px-4 sm:px-8 shadow-sm" style="background-color: #630037;">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
-            
-            <!-- Imagen institucional centrada/izquierda -->
             <div class="flex items-center justify-center md:justify-start w-full md:w-auto">
-                <img src="cintillainstitucional.png" alt="Gobierno de México, Ciencia y Tecnología, UNRC" class="h-10 sm:h-12 w-auto object-contain">
+                <img src="UNRCCINTILLA.png" alt="Gobierno de México, Ciencia y Tecnología, UNRC" class="h-12 sm:h-10 w-auto object-contain">
             </div>
-
-            <!-- Insignia a la derecha -->
             <div class="hidden lg:flex items-center space-x-2 bg-black/20 px-3.5 py-1.5 rounded-md border border-dorado-500/40 text-xs text-amber-100 font-medium shrink-0">
                 <i class="fas fa-graduation-cap text-amber-300"></i>
                 <span>Plataforma Oficial de Microaprendizaje</span>
@@ -46,23 +42,23 @@
         </div>
     </div>
 
-    <!-- ENCABEZADO (HEADER) CON EL LOGOTIPO UMA-TIC -->
-    <header class="bg-vino-900 text-white sticky top-0 z-50 shadow-lg border-b border-vino-950">
+    <!-- ENCABEZADO (HEADER) -->
+    <header class="text-white sticky top-0 z-50 shadow-lg border-b border-vino-950" style="background-color: #630037;">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 
-                <!-- LOGOTIPO UMA-TIC CON MARGEN DORADO -->
-                <div class="flex items-center space-x-3 cursor-pointer py-2" onclick="navegarA('inicio')">
-                    <img src="logoumatic.png" alt="UMA-TIC Unidades de Microaprendizaje en TIC" class="h-12 sm:h-14 w-auto object-contain bg-white/95 px-3 py-1.5 rounded-lg shadow-md border-4 border-dorado-500">
+                <!-- LOGOTIPO UMA-TIC -->
+                <div class="flex items-center space-x-3 cursor-pointer py-1.5" onclick="navegarA('inicio')">
+                    <img src="LOGOUMATIC2,0.PNG" alt="UMA-TIC Unidades de Microaprendizaje en TIC" class="h-12 sm:h-19 w-auto object-contain bg-white/95 px-2.5 py-1 rounded-lg shadow-md border-2 border-dorado-500">
                 </div>
 
                 <!-- NAVEGACIÓN -->
-                <nav class="hidden md:flex space-x-1 lg:space-x-3 items-center">
-                    <button onclick="navegarA('inicio')" class="px-3 py-1.5 rounded-md text-sm font-medium text-white hover:bg-vino-800 transition">Inicio</button>
-                    <button onclick="filtrarPorArea('Programación')" class="px-3 py-1.5 rounded-md text-sm font-medium text-vino-100 hover:bg-vino-800 transition">Programación</button>
-                    <button onclick="filtrarPorArea('Matemáticas')" class="px-3 py-1.5 rounded-md text-sm font-medium text-vino-100 hover:bg-vino-800 transition">Matemáticas</button>
-                    <button onclick="filtrarPorArea('Ciencias Sociales')" class="px-3 py-1.5 rounded-md text-sm font-medium text-vino-100 hover:bg-vino-800 transition">Ciencias Sociales</button>
-                    <button onclick="navegarA('acerca')" class="px-3 py-1.5 rounded-md text-sm font-medium text-vino-100 hover:bg-vino-800 transition">Acerca del Proyecto</button>
+                <nav class="hidden md:flex space-x-1 lg:space-x-3 items-center text-sm">
+                    <button onclick="navegarA('inicio')" class="px-3 py-1.5 rounded-md font-medium text-white hover:bg-black/20 transition">Inicio</button>
+                    <button onclick="filtrarPorArea('Programación y desarrollo de software')" class="px-3 py-1.5 rounded-md font-medium text-vino-100 hover:bg-black/20 transition">Programación</button>
+                    <button onclick="filtrarPorArea('Matemáticas y ciencias básicas')" class="px-3 py-1.5 rounded-md font-medium text-vino-100 hover:bg-black/20 transition">Matemáticas</button>
+                    <button onclick="filtrarPorArea('Humanidades, ciencias sociales y formación ética')" class="px-3 py-1.5 rounded-md font-medium text-vino-100 hover:bg-black/20 transition">Sociales</button>
+                    <button onclick="navegarA('acerca')" class="px-3 py-1.5 rounded-md font-medium text-vino-100 hover:bg-black/20 transition">Acerca del Proyecto</button>
                 </nav>
 
                 <!-- BUSCADOR EN HEADER -->
@@ -85,9 +81,13 @@
         <!-- MENÚ MÓVIL DESPLEGABLE -->
         <div id="mobileMenu" class="hidden md:hidden bg-vino-950 border-t border-vino-800 px-4 pt-2 pb-4 space-y-2">
             <button onclick="navegarA('inicio'); toggleMenuMobil()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-white hover:bg-vino-800">Inicio</button>
-            <button onclick="filtrarPorArea('Programación'); toggleMenuMobil()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-vino-200 hover:bg-vino-800">Programación</button>
-            <button onclick="filtrarPorArea('Matemáticas'); toggleMenuMobil()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-vino-200 hover:bg-vino-800">Matemáticas</button>
-            <button onclick="filtrarPorArea('Ciencias Sociales'); toggleMenuMobil()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-vino-200 hover:bg-vino-800">Ciencias Sociales</button>
+            <button onclick="filtrarPorArea('Programación y desarrollo de software'); toggleMenuMobil()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-vino-200 hover:bg-vino-800">Programación</button>
+            <button onclick="filtrarPorArea('Matemáticas y ciencias básicas'); toggleMenuMobil()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-vino-200 hover:bg-vino-800">Matemáticas</button>
+            <button onclick="filtrarPorArea('Infraestructura, arquitectura, redes y ciberseguridad'); toggleMenuMobil()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-vino-200 hover:bg-vino-800">Infraestructura y Redes</button>
+            <button onclick="filtrarPorArea('Datos, sistemas de información e inteligencia artificial'); toggleMenuMobil()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-vino-200 hover:bg-vino-800">Bases de Datos e IA</button>
+            <button onclick="filtrarPorArea('Gestión, innovación y administración tecnológica'); toggleMenuMobil()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-vino-200 hover:bg-vino-800">Gestión Tecnológica</button>
+            <button onclick="filtrarPorArea('Humanidades, ciencias sociales y formación ética'); toggleMenuMobil()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-vino-200 hover:bg-vino-800">Humanidades y Sociales</button>
+            <button onclick="filtrarPorArea('Investigación, integración y práctica profesional'); toggleMenuMobil()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-vino-200 hover:bg-vino-800">Práctica Profesional</button>
             <button onclick="navegarA('acerca'); toggleMenuMobil()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-vino-200 hover:bg-vino-800">Acerca del Proyecto</button>
         </div>
     </header>
@@ -100,40 +100,33 @@
             <div class="bg-white text-slate-900 py-16 px-4 sm:px-6 lg:px-8 shadow-inner border-b-4 border-dorado-500">
                 <div class="max-w-5xl mx-auto space-y-8">
                     
-                    <!-- TÍTULO PRINCIPAL -->
                     <div class="text-center space-y-3">
                         <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight text-vino-900">
-                            Unidades de <span class="text-dorado-600">Microaprendizaje</span> para el <span class="text-dorado-600">Aprendizaje</span>
+                            Unidades de <span class="text-dorado-600">Micro aprendizaje</span> TIC </span>
                         </h1>
                     </div>
 
-                    <!-- BIENVENIDA CON DOS COLUMNAS (TEXTO E IMAGEN) -->
                     <div class="bg-slate-50 p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                        
-                        <!-- Columna de Texto -->
                         <div class="space-y-3 text-left">
                             <h2 class="text-2xl font-bold text-vino-900">Bienvenid@</h2>
                             <p class="text-sm sm:text-base text-slate-700 leading-relaxed">
                                 La Universidad Nacional Rosario Castellanos (UNRC), a través de los proyectos de Prácticas Profesionales de la Licenciatura en Tecnologías de la Información y la Comunicación (LTIC), brinda apoyo a la comunidad estudiantil mediante recursos de libre acceso.
                             </p>
                             <p class="text-sm sm:text-base text-slate-700 leading-relaxed">
-                                En este sitio encontrarás recursos educativos denominados <strong>Unidades de Microaprendizaje en TIC (UMA-TIC)</strong>, que abordan temas derivados de planes y programas de estudio; son recursos de autoestudio diseñados para reforzar conocimientos clave en Programación, Matemáticas y Ciencias Sociales, facilitando el aprendizaje autónomo y continuo.
+                                En este sitio encontrarás recursos educativos denominados <strong>Unidades de Micro aprendizaje en TIC (UMA-TIC)</strong>, diseñados para reforzar conocimientos clave en todas las áreas y UCAs del plan de estudios.
                             </p>
                         </div>
 
-                        <!-- Columna de Imagen (Con cita APA 7 en atributo alt y comentario) -->
                         <div class="flex flex-col items-center justify-center">
-                            <!-- Nota APA 7: La Cadera de Eva (2022). ¿Cuándo nació Rosario Castellanos? https://lacaderadeeva.com/entrevistas/cuando-nacio-rosario-castellanos/13898 -->
                             <img src="rosariocastellanos.png" alt="Ilustración conmemorativa de Rosario Castellanos. Tomada de La Cadera de Eva (2022)" class="max-h-72 w-auto object-cover rounded-xl shadow-md border-2 border-dorado-500 bg-white p-1.5">
                             <span class="text-[10px] text-slate-500 mt-2 text-center">Imagen tomada por Sandra Rojas de: La Cadera de Eva (2022)</span>
                         </div>
-
                     </div>
 
                     <!-- BUSCADOR CENTRAL -->
                     <div class="pt-4 max-w-xl mx-auto">
                         <div class="relative flex items-center">
-                            <input type="text" id="busquedaCentral" onkeypress="buscarHero(event)" placeholder="¿Qué tema quieres repasar hoy? (Ej. APA 7, C++, Cálculo)..." class="w-full bg-slate-50 text-slate-800 pl-12 pr-28 py-4 rounded-xl shadow-lg border border-slate-300 focus:outline-none focus:ring-4 focus:ring-dorado-500 text-sm sm:text-base">
+                            <input type="text" id="busquedaCentral" onkeypress="buscarHero(event)" placeholder="¿Qué tema quieres repasar hoy? (Ej. APA 7, C++, Redes, Bases de Datos)..." class="w-full bg-slate-50 text-slate-800 pl-12 pr-28 py-4 rounded-xl shadow-lg border border-slate-300 focus:outline-none focus:ring-4 focus:ring-dorado-500 text-sm sm:text-base">
                             <i class="fas fa-search absolute left-4 text-slate-400 text-lg"></i>
                             <button onclick="ejecutarBusquedaCentral()" class="absolute right-2 bg-vino-800 hover:bg-vino-900 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition shadow border border-dorado-500/40">
                                 Buscar
@@ -143,40 +136,116 @@
                             <span class="font-medium">Sugerencias:</span>
                             <button onclick="buscarEtiqueta('APA 7')" class="text-vino-800 underline hover:text-vino-950 font-semibold">APA 7</button>
                             <span>•</span>
-                            <button onclick="buscarEtiqueta('Estructuras de Datos')" class="text-vino-800 underline hover:text-vino-950 font-semibold">Estructuras de Datos</button>
+                            <button onclick="buscarEtiqueta('C++')" class="text-vino-800 underline hover:text-vino-950 font-semibold">C++</button>
                             <span>•</span>
-                            <button onclick="buscarEtiqueta('Cálculo')" class="text-vino-800 underline hover:text-vino-950 font-semibold">Cálculo</button>
+                            <button onclick="buscarEtiqueta('Redes')" class="text-vino-800 underline hover:text-vino-950 font-semibold">Redes</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- TARJETAS DE ACCESO POR ÁREAS -->
+            <!-- TARJETAS DE ACCESO POR ÁREAS OFICIALES -->
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div onclick="filtrarPorArea('Programación')" class="bg-white rounded-2xl shadow-xl p-6 border-t-4 border-vino-800 hover:-translate-y-1 transition duration-300 cursor-pointer group">
-                        <div class="w-14 h-14 bg-vino-50 text-vino-800 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:bg-vino-800 group-hover:text-white transition border border-vino-200">
-                            <i class="fas fa-code"></i>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <!-- 1. Matemáticas y ciencias básicas -->
+                    <div onclick="filtrarPorArea('Matemáticas y ciencias básicas')" class="bg-white rounded-2xl shadow-xl overflow-hidden border-2 border-amber-500 hover:-translate-y-1.5 transition duration-300 cursor-pointer group flex flex-col">
+                        <div class="w-full h-36 bg-amber-50 overflow-hidden border-b border-amber-100 flex items-center justify-center">
+                            <div class="text-amber-600 text-4xl"><i class="fas fa-calculator"></i></div>
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 group-hover:text-vino-800 transition">🖥️ Programación</h3>
-                        <p class="text-sm text-slate-500 mt-2">Fundamentos de lógica, estructuras de datos, paradigmas y desarrollo web.</p>
+                        <div class="p-6 flex-grow flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-900 group-hover:text-amber-600 transition">📐 Matemáticas y Ciencias Básicas</h3>
+                                <p class="text-xs text-slate-600 mt-2">Álgebra, Matemáticas Discretas, Cálculo Diferencial, Integral, Vectorial, Probabilidad, Estadística, Métodos Numéricos.</p>
+                            </div>
+                            <span class="mt-4 text-xs font-semibold text-amber-600 flex items-center">Explorar UCAs <i class="fas fa-arrow-right ml-1"></i></span>
+                        </div>
                     </div>
 
-                    <div onclick="filtrarPorArea('Matemáticas')" class="bg-white rounded-2xl shadow-xl p-6 border-t-4 border-vino-800 hover:-translate-y-1 transition duration-300 cursor-pointer group">
-                        <div class="w-14 h-14 bg-vino-50 text-vino-800 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:bg-vino-800 group-hover:text-white transition border border-vino-200">
-                            <i class="fas fa-calculator"></i>
+                    <!-- 2. Programación y desarrollo de software -->
+                    <div onclick="filtrarPorArea('Programación y desarrollo de software')" class="bg-white rounded-2xl shadow-xl overflow-hidden border-2 border-blue-600 hover:-translate-y-1.5 transition duration-300 cursor-pointer group flex flex-col">
+                        <div class="w-full h-36 bg-blue-50 overflow-hidden border-b border-blue-100 flex items-center justify-center">
+                            <div class="text-blue-600 text-4xl"><i class="fas fa-code"></i></div>
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 group-hover:text-vino-800 transition">📐 Matemáticas</h3>
-                        <p class="text-sm text-slate-500 mt-2">Álgebra, cálculo, probabilidad y matemáticas discretas aplicadas a TIC.</p>
+                        <div class="p-6 flex-grow flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition">🖥️ Programación y Desarrollo de Software</h3>
+                                <p class="text-xs text-slate-600 mt-2">Lógica de Programación, Estructura de Datos, Ingeniería de Software, Aplicaciones WEB y Móviles.</p>
+                            </div>
+                            <span class="mt-4 text-xs font-semibold text-blue-600 flex items-center">Explorar UCAs <i class="fas fa-arrow-right ml-1"></i></span>
+                        </div>
                     </div>
 
-                    <div onclick="filtrarPorArea('Ciencias Sociales')" class="bg-white rounded-2xl shadow-xl p-6 border-t-4 border-vino-800 hover:-translate-y-1 transition duration-300 cursor-pointer group">
-                        <div class="w-14 h-14 bg-vino-50 text-vino-800 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:bg-vino-800 group-hover:text-white transition border border-vino-200">
-                            <i class="fas fa-globe"></i>
+                    <!-- 3. Infraestructura, arquitectura, redes y ciberseguridad -->
+                    <div onclick="filtrarPorArea('Infraestructura, arquitectura, redes y ciberseguridad')" class="bg-white rounded-2xl shadow-xl overflow-hidden border-2 border-indigo-600 hover:-translate-y-1.5 transition duration-300 cursor-pointer group flex flex-col">
+                        <div class="w-full h-36 bg-indigo-50 overflow-hidden border-b border-indigo-100 flex items-center justify-center">
+                            <div class="text-indigo-600 text-4xl"><i class="fas fa-network-wired"></i></div>
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 group-hover:text-vino-800 transition">🌍 Ciencias Sociales</h3>
-                        <p class="text-sm text-slate-500 mt-2">Normativa APA 7ma, redacción técnica y el impacto social de la tecnología.</p>
+                        <div class="p-6 flex-grow flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition">🌐 Infraestructura, Redes y Ciberseguridad</h3>
+                                <p class="text-xs text-slate-600 mt-2">Introducción a las TIC, Redes, Sistemas Operativos, Ciberseguridad y Sistemas de Cómputo.</p>
+                            </div>
+                            <span class="mt-4 text-xs font-semibold text-indigo-600 flex items-center">Explorar UCAs <i class="fas fa-arrow-right ml-1"></i></span>
+                        </div>
                     </div>
+
+                    <!-- 4. Datos, sistemas de información e inteligencia artificial -->
+                    <div onclick="filtrarPorArea('Datos, sistemas de información e inteligencia artificial')" class="bg-white rounded-2xl shadow-xl overflow-hidden border-2 border-purple-600 hover:-translate-y-1.5 transition duration-300 cursor-pointer group flex flex-col">
+                        <div class="w-full h-36 bg-purple-50 overflow-hidden border-b border-purple-100 flex items-center justify-center">
+                            <div class="text-purple-600 text-4xl"><i class="fas fa-database"></i></div>
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-900 group-hover:text-purple-600 transition">💾 Datos, Sistemas de Información e IA</h3>
+                                <p class="text-xs text-slate-600 mt-2">Base de Datos, Sistemas de Información e Inteligencia Artificial.</p>
+                            </div>
+                            <span class="mt-4 text-xs font-semibold text-purple-600 flex items-center">Explorar UCAs <i class="fas fa-arrow-right ml-1"></i></span>
+                        </div>
+                    </div>
+
+                    <!-- 5. Gestión, innovación y administración tecnológica (Tono Gris) -->
+                    <div onclick="filtrarPorArea('Gestión, innovación y administración tecnológica')" class="bg-white rounded-2xl shadow-xl overflow-hidden border-2 border-slate-500 hover:-translate-y-1.5 transition duration-300 cursor-pointer group flex flex-col">
+                        <div class="w-full h-36 bg-slate-100 overflow-hidden border-b border-slate-200 flex items-center justify-center">
+                            <div class="text-slate-600 text-4xl"><i class="fas fa-chart-line"></i></div>
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-900 group-hover:text-slate-700 transition">📊 Gestión, Innovación y Administración</h3>
+                                <p class="text-xs text-slate-600 mt-2">Gestión Tecnológica, Economía Digital, Administración de Proyectos, Habilidades Gerenciales.</p>
+                            </div>
+                            <span class="mt-4 text-xs font-semibold text-slate-700 flex items-center">Explorar UCAs <i class="fas fa-arrow-right ml-1"></i></span>
+                        </div>
+                    </div>
+
+                    <!-- 6. Humanidades, ciencias sociales y formación ética -->
+                    <div onclick="filtrarPorArea('Humanidades, ciencias sociales y formación ética')" class="bg-white rounded-2xl shadow-xl overflow-hidden border-2 border-emerald-600 hover:-translate-y-1.5 transition duration-300 cursor-pointer group flex flex-col">
+                        <div class="w-full h-36 bg-emerald-50 overflow-hidden border-b border-emerald-100 flex items-center justify-center">
+                            <div class="text-emerald-600 text-4xl"><i class="fas fa-users"></i></div>
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-900 group-hover:text-emerald-700 transition">🌍 Humanidades y Ciencias Sociales</h3>
+                                <p class="text-xs text-slate-600 mt-2">Expresión Oral y Escrita, Perspectiva de Género, Desarrollo Sostenible, Ética y APA 7ma.</p>
+                            </div>
+                            <span class="mt-4 text-xs font-semibold text-emerald-700 flex items-center">Explorar UCAs <i class="fas fa-arrow-right ml-1"></i></span>
+                        </div>
+                    </div>
+
+                    <!-- 7. Investigación, integración y práctica profesional -->
+                    <div onclick="filtrarPorArea('Investigación, integración y práctica profesional')" class="bg-white rounded-2xl shadow-xl overflow-hidden border-2 border-rose-600 hover:-translate-y-1.5 transition duration-300 cursor-pointer group flex flex-col md:col-span-2 lg:col-span-1">
+                        <div class="w-full h-36 bg-rose-50 overflow-hidden border-b border-rose-100 flex items-center justify-center">
+                            <div class="text-rose-600 text-4xl"><i class="fas fa-graduation-cap"></i></div>
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-900 group-hover:text-rose-600 transition">🎓 Investigación y Práctica Profesional</h3>
+                                <p class="text-xs text-slate-600 mt-2">Seminario de Titulación I, Introducción a la Práctica Profesional y Práctica Profesional I.</p>
+                            </div>
+                            <span class="mt-4 text-xs font-semibold text-rose-600 flex items-center">Explorar UCAs <i class="fas fa-arrow-right ml-1"></i></span>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </section>
@@ -190,10 +259,14 @@
                 </div>
                 <div class="flex flex-wrap items-center gap-3">
                     <select id="filtroAreaSelect" onchange="filtrarCapsulas()" class="bg-white border border-slate-300 text-slate-700 text-sm rounded-lg px-3 py-2 focus:ring-2 focus:ring-vino-800 focus:outline-none">
-                        <option value="Todas">Todas las áreas</option>
-                        <option value="Programación">Programación</option>
-                        <option value="Matemáticas">Matemáticas</option>
-                        <option value="Ciencias Sociales">Ciencias Sociales</option>
+                        <option value="Todas">Todas las áreas / UCAs</option>
+                        <option value="Matemáticas y ciencias básicas">Matemáticas y ciencias básicas</option>
+                        <option value="Programación y desarrollo de software">Programación y desarrollo de software</option>
+                        <option value="Infraestructura, arquitectura, redes y ciberseguridad">Infraestructura y Redes</option>
+                        <option value="Datos, sistemas de información e inteligencia artificial">Bases de Datos e IA</option>
+                        <option value="Gestión, innovación y administración tecnológica">Gestión e Innovación</option>
+                        <option value="Humanidades, ciencias sociales y formación ética">Humanidades y Sociales</option>
+                        <option value="Investigación, integración y práctica profesional">Práctica Profesional</option>
                     </select>
                     <select id="filtroFormatoSelect" onchange="filtrarCapsulas()" class="bg-white border border-slate-300 text-slate-700 text-sm rounded-lg px-3 py-2 focus:ring-2 focus:ring-vino-800 focus:outline-none">
                         <option value="Todos">Todos los formatos</option>
@@ -215,7 +288,7 @@
             <div id="detalleCapsulaContenido" class="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200"></div>
         </section>
 
-        <!-- SECCIÓN 4: ACERCA DEL PROYECTO (CON MISIÓN, VISIÓN Y OBJETIVOS) -->
+        <!-- SECCIÓN 4: ACERCA DEL PROYECTO -->
         <section id="sec-acerca" class="seccion-pagina hidden max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div class="bg-white rounded-2xl shadow-xl p-8 sm:p-10 border border-slate-200 space-y-8">
                 <div class="border-b border-slate-200 pb-4">
@@ -227,14 +300,13 @@
                     El proyecto <strong>UMA-TIC (Unidades de Microaprendizaje en TIC)</strong> es una iniciativa de la Licenciatura en Tecnologías de la Información y la Comunicación de la <strong>Universidad Nacional Rosario Castellanos (UNRC)</strong>, enfocada en resolver las dificultades de aprendizaje detectadas en asignaturas de alta complejidad.
                 </p>
 
-                <!-- MISIÓN Y VISIÓN -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="bg-vino-50 p-6 rounded-2xl border border-vino-200 space-y-2">
                         <h3 class="font-bold text-vino-900 text-lg flex items-center">
                             <i class="fas fa-bullseye text-vino-700 mr-2"></i> Misión
                         </h3>
                         <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
-                            Formar profesionales con compromiso social y capacidad tecnológica, implementando estrategias de microaprendizaje para reforzar conocimientos complejos en programación, matemáticas y ciencias sociales.
+                            Formar profesionales con compromiso social y capacidad tecnológica, implementando estrategias de microaprendizaje para reforzar conocimientos complejos en todas las UCAs del plan de estudios.
                         </p>
                     </div>
 
@@ -248,19 +320,17 @@
                     </div>
                 </div>
 
-                <!-- OBJETIVOS -->
                 <div class="space-y-3 pt-2">
                     <h3 class="font-bold text-vino-900 text-lg flex items-center">
                         <i class="fas fa-check-circle text-dorado-600 mr-2"></i> Objetivos del Proyecto
                     </h3>
                     <ul class="list-disc list-inside space-y-2 text-xs sm:text-sm text-slate-700 bg-slate-50 p-6 rounded-2xl border border-slate-200">
-                        <li><strong>Objetivo General:</strong> Diseñar, desarrollar, implementar y documentar el sitio web UMA-TIC mediante la aplicación integrada de conocimientos de los estudiantes de séptimo semestre.</li>
-                        <li><strong>Análisis de necesidades:</strong> Identificar áreas de oportunidad en el aprendizaje de estudiantes de semestres iniciales.</li>
-                        <li><strong>Recursos interactivos:</strong> Desarrollar cápsulas multimedia (videos, infografías y quizzes) y herramientas de gamificación.</li>
+                        <li><strong>Objetivo General:</strong> Diseñar, desarrollar, implementar y documentar el sitio web UMA-TIC mediante la aplicación integrada de conocimientos de los estudiantes.</li>
+                        <li><strong>Análisis de necesidades:</strong> Identificar áreas de oportunidad en el aprendizaje de estudiantes en todas las líneas formativas.</li>
+                        <li><strong>Recursos interactivos:</strong> Desarrollar cápsulas multimedia (videos, infografías y quizzes) alineadas a los programas institucionales.</li>
                     </ul>
                 </div>
 
-                <!-- REFERENCIA DE LA IMAGEN EN ACERCA -->
                 <div class="text-xs text-slate-500 pt-4 border-t border-slate-200">
                     <p><strong>Créditos de imagen conmemorativa:</strong> La Cadera de Eva. (2022). <em>¿Cuándo nació Rosario Castellanos?</em> [Ilustración]. https://lacaderadeeva.com/entrevistas/cuando-nacio-rosario-castellanos/13898</p>
                 </div>
@@ -272,7 +342,7 @@
     <!-- FOOTER -->
     <footer class="bg-vino-950 text-white border-t-2 border-dorado-500 mt-auto">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 text-center text-xs text-vino-200/60">
-            &copy; UMA-TIC - Universidad Nacional Rosario Castellanos | Gobierno de México. Todos los derechos reservados. MFM
+            &copy; UMA-TIC - Universidad Nacional Rosario Castellanos | Gobierno de México. Todos los derechos reservados. 
         </div>
     </footer>
 
@@ -280,7 +350,11 @@
     <script src="capsulassociales.js"></script>
     <script src="capsulasprogramacion.js"></script>
     <script src="capsulasmatematicas.js"></script>
+    <script src="capsulasredes.js"></script>
+    <script src="capsulasdatos.js"></script>
+    <script src="capsulasgestion.js"></script>
+    <script src="capsulasinvestigacion.js"></script>
     <script src="main.js"></script>
 
 </body>
-</html>
+</html> MFM
