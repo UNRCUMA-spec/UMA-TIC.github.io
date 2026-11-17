@@ -1,7 +1,7 @@
 const capsulaProgramacion = {
     id: 2,
     titulo: "Introducción a Arreglos Unidimensionales (Vectores) en C++",
-    area: "Programación",
+    area: "Programación y desarrollo de software",
     duracion: "7 min",
     nivel: "Intermedio",
     formato: "Video",
@@ -14,11 +14,10 @@ const capsulaProgramacion = {
         </div>
         <pre class="overflow-x-auto text-emerald-400"><code>#include &lt;iostream&gt;
 using namespace std;
-
 int main() {
     int numeros[5] = {10, 20, 30, 40, 50};
     for(int i = 0; i &lt; 5; i++) {
-        cout &lt;&lt; "Posicion [" &lt;&lt; i &lt;&lt; "]: " &lt;&lt; numeros[i] &lt;&lt; endl;
+        cout &lt;&lt; numeros[i] &lt;&lt; endl;
     }
     return 0;
 }</code></pre>
