@@ -1,7 +1,7 @@
 const capsulaMatematicas = {
     id: 3,
     titulo: "Derivadas por Definición e Interpretación Geométrica",
-    area: "Matemáticas",
+    area: "Matemáticas y ciencias básicas",
     duracion: "8 min",
     nivel: "Intermedio",
     formato: "Quiz",
