@@ -1,4 +1,12 @@
-const listaCapsulas = [capsulaSociales, capsulaProgramacion, capsulaMatematicas];
+const listaCapsulas = [
+    capsulaSociales, 
+    capsulaProgramacion, 
+    capsulaMatematicas, 
+    capsulaRedes, 
+    capsulaDatos, 
+    capsulaGestion, 
+    capsulaInvestigacion
+];
 
 function navegarA(idSeccion) {
     document.querySelectorAll('.seccion-pagina').forEach(sec => sec.classList.add('hidden'));
@@ -25,7 +33,6 @@ function filtrarPorArea(area) {
     navegarA('catalogo');
     document.getElementById('filtroAreaSelect').value = area;
     document.getElementById('filtroFormatoSelect').value = 'Todos';
-    // Limpiar campos de búsqueda al filtrar por categoría para evitar confusiones
     const inputCentral = document.getElementById('busquedaCentral');
     const inputHeader = document.getElementById('busquedaHeader');
     if(inputCentral) inputCentral.value = '';
@@ -37,7 +44,6 @@ function filtrarCapsulas() {
     const area = document.getElementById('filtroAreaSelect').value;
     const formato = document.getElementById('filtroFormatoSelect').value;
     
-    // Capturar texto de búsqueda desde el input central o del header
     const textoCentral = document.getElementById('busquedaCentral') ? document.getElementById('busquedaCentral').value.toLowerCase().trim() : '';
     const textoHeader = document.getElementById('busquedaHeader') ? document.getElementById('busquedaHeader').value.toLowerCase().trim() : '';
     const query = textoCentral || textoHeader;
@@ -48,7 +54,6 @@ function filtrarCapsulas() {
         const cumpleArea = (area === 'Todas' || cap.area === area);
         const cumpleFormato = (formato === 'Todos' || cap.formato === formato);
         
-        // Coincidencia por texto en título, explicación o etiquetas (tags)
         const coincideTexto = !query || 
             cap.titulo.toLowerCase().includes(query) || 
             cap.explicacion.toLowerCase().includes(query) || 
@@ -67,11 +72,45 @@ function filtrarCapsulas() {
     }
 
     filtradas.forEach(cap => {
+        let colorHeader = 'bg-slate-800 border-slate-600 text-amber-200';
+        let colorBoton = 'bg-slate-800 hover:bg-slate-900 border-slate-700 text-white';
+        let colorFormato = 'text-slate-800';
+
+        if(cap.area.includes('Programación')) {
+            colorHeader = 'bg-blue-900 border-blue-500/40 text-amber-200';
+            colorBoton = 'bg-blue-600 hover:bg-blue-700 border-blue-400 text-white';
+            colorFormato = 'text-blue-700';
+        } else if(cap.area.includes('Matemáticas')) {
+            colorHeader = 'bg-amber-900 border-amber-500/40 text-amber-200';
+            colorBoton = 'bg-amber-600 hover:bg-amber-700 border-amber-400 text-white';
+            colorFormato = 'text-amber-700';
+        } else if(cap.area.includes('Infraestructura')) {
+            colorHeader = 'bg-indigo-900 border-indigo-500/40 text-amber-200';
+            colorBoton = 'bg-indigo-600 hover:bg-indigo-700 border-indigo-400 text-white';
+            colorFormato = 'text-indigo-700';
+        } else if(cap.area.includes('Datos')) {
+            colorHeader = 'bg-purple-900 border-purple-500/40 text-amber-200';
+            colorBoton = 'bg-purple-600 hover:bg-purple-700 border-purple-400 text-white';
+            colorFormato = 'text-purple-700';
+        } else if(cap.area.includes('Gestión')) {
+            colorHeader = 'bg-slate-800 border-slate-500/40 text-amber-200';
+            colorBoton = 'bg-slate-700 hover:bg-slate-800 border-slate-600 text-white';
+            colorFormato = 'text-slate-700';
+        } else if(cap.area.includes('Humanidades')) {
+            colorHeader = 'bg-emerald-900 border-emerald-500/40 text-amber-200';
+            colorBoton = 'bg-emerald-600 hover:bg-emerald-700 border-emerald-400 text-white';
+            colorFormato = 'text-emerald-700';
+        } else if(cap.area.includes('Investigación')) {
+            colorHeader = 'bg-rose-900 border-rose-500/40 text-amber-200';
+            colorBoton = 'bg-rose-600 hover:bg-rose-700 border-rose-400 text-white';
+            colorFormato = 'text-rose-700';
+        }
+
         grid.innerHTML += `
             <div class="bg-white rounded-2xl shadow-md border border-slate-200 hover:shadow-xl transition duration-300 flex flex-col overflow-hidden group">
-                <div class="bg-vino-800 text-white p-4 flex justify-between items-center border-b border-dorado-500/40">
-                    <span class="text-xs font-semibold uppercase tracking-wider bg-vino-950 px-2.5 py-0.5 rounded text-amber-200">${cap.area}</span>
-                    <span class="text-xs text-vino-200"><i class="far fa-clock mr-1"></i>${cap.duracion}</span>
+                <div class="${colorHeader} p-4 flex justify-between items-center border-b">
+                    <span class="text-[11px] font-semibold uppercase tracking-wider bg-black/20 px-2.5 py-0.5 rounded">${cap.area}</span>
+                    <span class="text-xs text-slate-200"><i class="far fa-clock mr-1"></i>${cap.duracion}</span>
                 </div>
                 <div class="p-5 flex-grow flex flex-col justify-between">
                     <div>
@@ -81,9 +120,9 @@ function filtrarCapsulas() {
                     <div>
                         <div class="flex items-center justify-between text-xs text-slate-500 border-t border-slate-100 pt-3 mb-4">
                             <span>Nivel: <strong class="text-slate-700">${cap.nivel}</strong></span>
-                            <span>Formato: <strong class="text-vino-800">${cap.formato}</strong></span>
+                            <span>Formato: <strong class="${colorFormato}">${cap.formato}</strong></span>
                         </div>
-                        <button onclick="verDetalleCapsula(${cap.id})" class="w-full bg-vino-800 hover:bg-vino-900 text-white font-medium text-xs py-2.5 rounded-lg transition text-center shadow border border-dorado-500/30">
+                        <button onclick="verDetalleCapsula(${cap.id})" class="w-full ${colorBoton} font-medium text-xs py-2.5 rounded-lg transition text-center shadow border">
                             Ver Cápsula / Iniciar
                         </button>
                     </div>
@@ -99,7 +138,7 @@ function verDetalleCapsula(id) {
 
     const contenedor = document.getElementById('detalleCapsulaContenido');
     contenedor.innerHTML = `
-        <div class="bg-vino-900 text-white p-6 border-b-4 border-dorado-500">
+        <div class="text-white p-6 border-b-4 border-dorado-500" style="background-color: #630037;">
             <span class="text-xs font-bold text-amber-300 uppercase tracking-wider">${cap.area}</span>
             <h2 class="text-2xl font-bold mt-1">${cap.titulo}</h2>
             <p class="text-xs text-vino-200 mt-2">Validado por la Academia UNRC | Nivel ${cap.nivel} • ${cap.duracion}</p>
@@ -130,7 +169,7 @@ function verDetalleCapsula(id) {
                     <p class="text-xs font-bold text-slate-800">${cap.ejercicioPregunta}</p>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                         ${cap.opciones.map((opt, idx) => `
-                            <button onclick="evaluarRespuesta(${idx === cap.respuestaCorrecta})" class="text-left p-2.5 rounded-lg border border-slate-300 bg-white hover:bg-vino-50 hover:border-vino-300 transition text-slate-700">
+                            <button onclick="evaluarRespuesta(${idx === cap.respuestaCorrecta})" class="text-left p-2.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 transition text-slate-700">
                                 ${opt}
                             </button>
                         `).join('')}
@@ -151,7 +190,6 @@ function evaluarRespuesta(esCorrecta) {
 }
 
 function ejecutarBusquedaCentral() {
-    // Al buscar, restablecemos los selects de filtro a "Todas/Todos" para que la búsqueda libre funcione sin restricciones
     const selectArea = document.getElementById('filtroAreaSelect');
     const selectFormato = document.getElementById('filtroFormatoSelect');
     if(selectArea) selectArea.value = 'Todas';
@@ -168,7 +206,6 @@ function buscarHero(e) {
 
 function buscarHeader(e) {
     if(e.key === 'Enter') {
-        // Sincronizar el valor del header con el input central si existe
         const val = document.getElementById('busquedaHeader').value;
         const central = document.getElementById('busquedaCentral');
         if(central) central.value = val;
