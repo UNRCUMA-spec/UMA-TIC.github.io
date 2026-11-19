@@ -5,7 +5,8 @@ const listaCapsulas = [
     capsulaRedes, 
     capsulaDatos, 
     capsulaGestion, 
-    capsulaInvestigacion
+    capsulaInvestigacion,
+    capsulaQuéesVisualStudioCode
 ];
 
 function navegarA(idSeccion) {
