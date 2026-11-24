@@ -4,6 +4,7 @@ const listaCapsulas = [
     capsulaMatematicas, 
     capsulaRedes, 
     capsulaDatos, 
+    capsulaSqlCrud,
     capsulaGestion, 
     capsulaInvestigacion,
     capsulaQuéesVisualStudioCode
