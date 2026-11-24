@@ -6,7 +6,13 @@ const listaCapsulas = [
     capsulaDatos, 
     capsulaGestion, 
     capsulaInvestigacion,
-    capsulaQuéesVisualStudioCode
+    capsulaQuéesVisualStudioCode,
+    capsulaGitGithub,
+    Otros_datos_Git_GitHub,
+    capsulaModeloRelacional,
+    capsulaNormalizacionBD,
+    capsulaLenguajeSQL,
+    capsulaSQLvsNoSQL
 ];
 
 function navegarA(idSeccion) {
@@ -147,6 +153,16 @@ function verDetalleCapsula(id) {
     const cap = listaCapsulas.find(item => item.id === id);
     if(!cap) return;
 
+    const preguntas = cap.quiz?.length
+        ? cap.quiz
+        : [{
+            pregunta: cap.ejercicioPregunta,
+            opciones: cap.opciones,
+            respuestaCorrecta: cap.respuestaCorrecta,
+            retroalimentacionCorrecta: cap.retroalimentacionCorrecta,
+            retroalimentacionIncorrecta: cap.retroalimentacionIncorrecta
+        }];
+
     const contenedor = document.getElementById('detalleCapsulaContenido');
     contenedor.innerHTML = `
         <div class="capsula-encabezado">
@@ -174,20 +190,24 @@ function verDetalleCapsula(id) {
             <div class="space-y-3">
                 <h3 class="text-base font-bold text-vino-900 flex items-center">
                     <span class="bg-vino-800 text-white rounded-full w-6 h-6 inline-flex items-center justify-center text-xs mr-2">3</span>
-                    Ejercicio Práctico
+                    ${cap.quiz?.length ? 'Quiz' : 'Ejercicio Práctico'}
                 </h3>
-                <div class="pl-8 bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
-                    <p class="text-xs font-bold text-slate-800">${cap.ejercicioPregunta}</p>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-                        ${cap.opciones.map((opt, idx) => `
-                            <button onclick="evaluarRespuesta(${idx === cap.respuestaCorrecta}, ${cap.id})"class="text-left p-2.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 transition text-slate-700">
-                                ${opt}
-                            </button>
-                        `).join('')}
-                    </div>
-                    <div id="retroalimentacion-${cap.id}"
-                         role="status"
-                         aria-live="polite"></div>
+                <div class="pl-8 space-y-4">
+                    ${preguntas.map((pregunta, preguntaIdx) => `
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+                            <p class="text-xs font-bold text-slate-800">${pregunta.pregunta}</p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                ${pregunta.opciones.map((opt, idx) => `
+                                    <button onclick="evaluarRespuesta(${idx === pregunta.respuestaCorrecta}, ${cap.id}, ${preguntaIdx})" class="text-left p-2.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 transition text-slate-700">
+                                        ${opt}
+                                    </button>
+                                `).join('')}
+                            </div>
+                            <div id="retroalimentacion-${cap.id}-${preguntaIdx}"
+                                 role="status"
+                                 aria-live="polite"></div>
+                        </div>
+                    `).join('')}
                 </div>
             </div>
         </div>
@@ -201,7 +221,7 @@ function verDetalleCapsula(id) {
     contenedor.classList.add('capsula-entrada');
 }
 
-function evaluarRespuesta(esCorrecta, idCapsula) {
+function evaluarRespuesta(esCorrecta, idCapsula, indicePregunta = 0) {
     const cap = listaCapsulas.find(item => item.id === idCapsula);
 
     if (!cap) {
@@ -209,7 +229,8 @@ function evaluarRespuesta(esCorrecta, idCapsula) {
         return;
     }
 
-    const notificacion = document.getElementById(`retroalimentacion-${idCapsula}`);;
+    const pregunta = cap.quiz?.[indicePregunta] ?? cap;
+    const notificacion = document.getElementById(`retroalimentacion-${idCapsula}-${indicePregunta}`);
 
     if (!notificacion) {
         console.error("No se encontró el espacio de retroalimentación.");
@@ -217,9 +238,11 @@ function evaluarRespuesta(esCorrecta, idCapsula) {
     }
 
     const mensaje = esCorrecta
-        ? (cap.retroalimentacionCorrecta ??
+        ? (pregunta.retroalimentacionCorrecta ??
+            cap.retroalimentacionCorrecta ??
             "¡Respuesta correcta! Has completado el ejercicio con éxito.")
-        : (cap.retroalimentacionIncorrecta ??
+        : (pregunta.retroalimentacionIncorrecta ??
+            cap.retroalimentacionIncorrecta ??
             "Respuesta incorrecta. Revisa el contenido e inténtalo de nuevo.");
 
     const titulo = document.createElement("p");
