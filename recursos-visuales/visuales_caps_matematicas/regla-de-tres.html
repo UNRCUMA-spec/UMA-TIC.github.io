@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Regla de tres | Matemáticas para TIC</title>
+<style>
+:root{
+  --vino:#92400e;
+  --vino-oscuro:#78350f;
+  --vino-suave:#fffbeb;
+  --vino-borde:#fde68a;
+  --dorado:#f59e0b;
+  --dorado-suave:#fef3c7;
+  --fondo:#fefcf6;
+  --texto:#2d2a2e;
+  --gris:#6b6354;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--texto);font:16px/1.6 Arial,Helvetica,sans-serif}
+.wrap{width:min(100% - 24px,1000px);margin:22px auto}
+header{padding:clamp(22px,5vw,42px);background:var(--vino);color:white;border-radius:20px;border-bottom:5px solid var(--dorado)}
+.tag{font-size:.78rem;font-weight:800;letter-spacing:.08em;margin:0 0 6px;color:var(--dorado)}
+header .tag{color:#fde68a}
+h1{font-size:clamp(2rem,5vw,3rem);line-height:1.15;margin:8px 0}
+h2{color:var(--vino);margin:0 0 12px;font-size:clamp(1.4rem,3vw,1.9rem)}
+.panel{background:white;margin-top:18px;padding:clamp(20px,4vw,32px);border-radius:18px;box-shadow:0 5px 18px #78350f10}
+.panel .tag{color:var(--vino)}
+.formula{padding:15px;background:var(--vino-suave);border-left:5px solid var(--vino);border-radius:12px;font-size:1.05rem}
+.consejo{padding:12px 15px;background:var(--dorado-suave);border-left:5px solid var(--dorado);border-radius:10px}
+.tabla{border-collapse:collapse;margin:12px 0;width:min(100%,360px)}
+.tabla th{background:var(--vino);color:white;padding:9px 14px;text-align:left}
+.tabla td{padding:9px 14px;border:1px solid var(--vino-borde)}
+.tabla th:first-child{border-radius:10px 0 0 0}
+.tabla th:last-child{border-radius:0 10px 0 0}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.cards article{padding:20px;background:#fffdf5;border:1px solid var(--vino-borde);border-radius:14px}
+.cards article>span{font-size:2rem}
+.cards h3{color:var(--vino);margin:5px 0}
+.example{padding:10px;background:var(--vino-suave);border-radius:8px;font-weight:bold}
+form{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px}
+label{font-weight:bold}
+input,select{width:100%;padding:11px;border:1px solid #d6c9a8;border-radius:9px;font:inherit;background:white;color:var(--texto)}
+button{font:inherit;padding:11px 17px;background:var(--vino);color:white;border:0;border-radius:9px;font-weight:bold;cursor:pointer;margin:5px 8px 5px 0}
+button:hover:not(:disabled){background:var(--vino-oscuro)}
+button:disabled{opacity:.5;cursor:not-allowed}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #111;outline-offset:3px}
+form button{grid-column:1/-1;justify-self:start}
+.hint{color:var(--gris);font-size:.95rem;margin-bottom:8px}
+.feedback{padding:12px;background:var(--dorado-suave);border-left:5px solid var(--dorado);border-radius:8px}
+.feedback.ok{background:#e9f6ee;border-left-color:#21834e}
+.feedback.bad{background:#fdeeee;border-left-color:#b43c3c}
+.quizhead{display:flex;justify-content:space-between;align-items:center;gap:10px}
+#progress{background:var(--dorado-suave);border:1px solid var(--dorado);border-radius:99px;padding:6px 12px;white-space:nowrap;font-size:.9rem}
+.question{font-weight:bold;font-size:1.1rem}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.options button{text-align:left;background:white;color:var(--texto);border:1px solid #d6c9a8;margin:0}
+.options button:hover:not(:disabled){background:var(--vino-suave)}
+.options button:disabled{opacity:1;cursor:default}
+.options button.correct{background:#e4f7eb;border-color:#16804a;color:#105d35}
+.options button.wrong{background:#fff0f0;border-color:#c93232;color:#8c2020}
+.light{background:var(--vino-suave);color:var(--vino)}
+.light:hover:not(:disabled){background:var(--vino-borde)}
+.final{font-weight:bold;font-size:1.1rem}
+footer{text-align:center;color:var(--gris);padding:20px 8px}
+[hidden]{display:none!important}
+@media(max-width:700px){.cards{grid-template-columns:1fr}}
+@media(max-width:480px){
+  .wrap{width:calc(100% - 14px);margin:7px auto}
+  form,.options{grid-template-columns:1fr}
+  form button{grid-column:auto}
+  .quizhead{align-items:flex-start;flex-direction:column}
+}
+
+/* Ejercicio de arrastrar */
+.dd-progreso{flex-shrink:0;padding:6px 12px;border-radius:999px;background:var(--dorado-suave);border:1px solid var(--dorado);font-size:.9rem;font-weight:700;white-space:nowrap}
+.dd-cab{display:flex;justify-content:space-between;gap:16px;align-items:center}
+.dd-ayuda{color:var(--gris);font-size:.95rem}
+.dd-casillas{display:grid;gap:12px;margin:14px 0}
+.dd-fila{display:grid;grid-template-columns:1fr minmax(170px,250px);gap:6px 14px;align-items:center;padding:12px 14px;background:#fffdf5;border:1px solid var(--vino-borde);border-radius:12px}
+.dd-enun{margin:0;font-weight:700}
+.dd-casilla{min-height:50px;display:flex;align-items:center;justify-content:center;padding:5px;border:2px dashed var(--vino);border-radius:10px;background:white;color:var(--gris);font-size:.9rem;cursor:pointer}
+.dd-casilla:focus-visible,.dd-banco:focus-visible,.dd-chip:focus-visible{outline:3px solid #111;outline-offset:3px}
+.dd-casilla.sobre,.dd-banco.sobre{background:var(--vino-suave);border-style:solid}
+.dd-casilla.ok{border-style:solid;border-color:#16804a;background:#e4f7eb}
+.dd-casilla.mal{border-style:solid;border-color:#c93232;background:#fff0f0}
+.dd-nota{grid-column:1/-1;margin:0;font-size:.92rem}
+.dd-nota:empty{display:none}
+.dd-banco{display:flex;flex-wrap:wrap;gap:10px;padding:14px;min-height:66px;background:var(--dorado-suave);border:1px dashed var(--dorado);border-radius:12px}
+.dd-chip{margin:0;padding:9px 14px;border:1px solid #d6c9a8;border-radius:9px;background:white;color:var(--texto);font:inherit;font-weight:700;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
+.dd-chip:hover:not(:disabled){background:var(--vino-suave);color:var(--texto)}
+.dd-chip[aria-pressed="true"]{border-color:var(--vino);box-shadow:0 0 0 3px var(--vino-borde)}
+.dd-chip.arrastrando{opacity:.35}
+.dd-chip:disabled{cursor:default;opacity:1}
+.dd-ghost{position:fixed;z-index:1000;pointer-events:none;box-shadow:0 8px 20px #0003;transform:rotate(-2deg)}
+.dd-acciones{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.dd-btn{margin:0;padding:11px 18px;border:0;border-radius:10px;font:inherit;font-weight:700;cursor:pointer;background:var(--vino);color:#fff}
+.dd-btn:hover:not(:disabled){background:var(--vino-oscuro);color:#fff}
+.dd-btn:disabled{opacity:.45;cursor:not-allowed}
+.dd-btn.claro{background:var(--vino-suave);color:var(--vino)}
+.dd-btn.claro:hover:not(:disabled){background:var(--vino-borde);color:var(--vino)}
+.dd-resultado{margin:14px 0 0;font-size:1.1rem;font-weight:800}
+.dd-estado{position:absolute;left:-9999px}
+@media(max-width:560px){.dd-fila{grid-template-columns:1fr}.dd-cab{flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body>
+<main class="wrap">
+
+<header>
+  <p class="tag">MATEMÁTICAS PARA TIC · ÁLGEBRA Y LÓGICA</p>
+  <h1>Regla de tres en la vida digital</h1>
+  <p>Aprende a resolver problemas de descargas, datos e impresiones con una sola operación.</p>
+</header>
+
+<section class="panel">
+  <h2>1. ¿Qué es la regla de tres?</h2>
+  <p>Es un método para encontrar un valor desconocido <b>(X)</b> cuando conocemos tres datos que se relacionan de forma proporcional.</p>
+  <p>Se llama <b>directa</b> cuando, al aumentar una cantidad, la otra también aumenta en la misma proporción.</p>
+  <div class="formula">Regla de tres directa: <b>X = (B × C) ÷ A</b></div>
+  <p>Ejemplo: si 5 fotos pesan 20 MB, ¿cuánto pesan 12 fotos?</p>
+  <table class="tabla">
+    <thead><tr><th>Fotos</th><th>Peso (MB)</th></tr></thead>
+    <tbody>
+      <tr><td>5 (A)</td><td>20 (B)</td></tr>
+      <tr><td>12 (C)</td><td><b>X</b></td></tr>
+    </tbody>
+  </table>
+  <p>X = (20 × 12) ÷ 5 = 240 ÷ 5 = <b>48 MB</b>.</p>
+</section>
+
+<section class="panel">
+  <h2>2. Regla de tres inversa</h2>
+  <p>Se usa cuando, al aumentar una cantidad, la otra <b>disminuye</b>. Por ejemplo, más velocidad significa menos tiempo de espera.</p>
+  <div class="formula">Regla de tres inversa: <b>X = (A × B) ÷ C</b></div>
+  <p>Ejemplo: con 3 técnicos se configuran los equipos de un laboratorio en 8 horas. ¿Cuánto tardarán 6 técnicos?</p>
+  <p>X = (3 × 8) ÷ 6 = 24 ÷ 6 = <b>4 horas</b>.</p>
+  <p class="consejo"><b>Cómo distinguirla:</b> si más es más, es directa. Si más es menos, es inversa.</p>
+</section>
+
+<section class="panel">
+  <h2>3. Regla de tres aplicada a las TIC</h2>
+  <div class="cards">
+    <article>
+      <span>📶</span>
+      <h3>Consumo de datos</h3>
+      <p>Un plan ofrece 2 GB por $100. ¿Cuánto cuestan 5 GB?</p>
+      <p class="example">(100 × 5) ÷ 2 = $250</p>
+      <b>Costo: $250</b>
+    </article>
+    <article>
+      <span>🖨️</span>
+      <h3>Impresiones</h3>
+      <p>Una impresora hace 30 hojas en 5 minutos. ¿Cuántas hace en 20 minutos?</p>
+      <p class="example">(30 × 20) ÷ 5 = 120</p>
+      <b>Imprime 120 hojas.</b>
+    </article>
+    <article>
+      <span>⬇️</span>
+      <h3>Descarga (inversa)</h3>
+      <p>A 10 Mbps un archivo tarda 60 s. ¿Y a 20 Mbps?</p>
+      <p class="example">(10 × 60) ÷ 20 = 30 s</p>
+      <b>Tarda 30 segundos.</b>
+    </article>
+  </div>
+</section>
+
+<section class="panel">
+  <h2>4. Prueba tu propio cálculo</h2>
+  <p>Elige el tipo de regla de tres e introduce los tres datos conocidos.</p>
+  <form id="calc">
+    <label for="tipo">Tipo de regla de tres</label>
+    <select id="tipo">
+      <option value="directa">Directa (más es más)</option>
+      <option value="inversa">Inversa (más es menos)</option>
+    </select>
+
+    <label for="datoA">Dato A</label>
+    <input id="datoA" type="number" min="0" step="any" required placeholder="Ej. 5">
+
+    <label for="datoB">Dato B (equivale a A)</label>
+    <input id="datoB" type="number" min="0" step="any" required placeholder="Ej. 20">
+
+    <label for="datoC">Dato C</label>
+    <input id="datoC" type="number" min="0" step="any" required placeholder="Ej. 12">
+
+    <button>Calcular X</button>
+  </form>
+  <p id="calcFormula" class="hint">Fórmula: X = (B × C) ÷ A</p>
+  <p id="calcResult" class="feedback" aria-live="polite">El resultado aparecerá aquí.</p>
+</section>
+
+<section class="panel dd" aria-labelledby="dd-titulo">
+    <div class="dd-cab">
+      <div>
+        <p class="etiqueta tag">PON A PRUEBA LO APRENDIDO</p>
+        <h2 id="dd-titulo">5. Arrastra la respuesta de cada problema</h2>
+      </div>
+      <span id="dd-progreso" class="dd-progreso">Colocadas 0 de 0</span>
+    </div>
+    <p>Cada espacio tiene un problema. Arrastra hasta él su resultado. Sobran dos respuestas que no corresponden a ninguno.</p>
+    <p class="dd-ayuda">Arrastra cada respuesta hasta su espacio. Si no puedes arrastrar, toca una respuesta (o pulsa Enter sobre ella) y luego toca el espacio donde va. Para corregir, toca la respuesta colocada y luego el banco.</p>
+    <div id="dd-casillas" class="dd-casillas"></div>
+    <div id="dd-banco" class="dd-banco" tabindex="0" role="group" aria-label="Banco de respuestas. Aquí se devuelve la respuesta seleccionada"></div>
+    <div class="dd-acciones">
+      <button id="dd-comprobar" class="dd-btn" type="button" disabled>Comprobar respuestas</button>
+      <button id="dd-reiniciar" class="dd-btn claro" type="button" hidden>Volver a intentarlo</button>
+    </div>
+    <p id="dd-resultado" class="dd-resultado" aria-live="polite"></p>
+    <div id="dd-estado" class="dd-estado" aria-live="polite"></div>
+  </section>
+
+<footer><b>Recuerda:</b> primero identifica si la relación es directa o inversa, y después aplica la fórmula que corresponde.</footer>
+
+</main>
+
+<script>
+/* ---------- Calculadora ---------- */
+const form = document.querySelector('#calc');
+const tipo = document.querySelector('#tipo');
+const calcFormula = document.querySelector('#calcFormula');
+const calcResult = document.querySelector('#calcResult');
+
+const fmt = n => n.toLocaleString('es-MX', { maximumFractionDigits: 4 });
+
+tipo.addEventListener('change', () => {
+  calcFormula.textContent = tipo.value === 'directa'
+    ? 'Fórmula: X = (B × C) ÷ A'
+    : 'Fórmula: X = (A × B) ÷ C';
+});
+
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  const a = Number(document.querySelector('#datoA').value);
+  const b = Number(document.querySelector('#datoB').value);
+  const c = Number(document.querySelector('#datoC').value);
+
+  calcResult.className = 'feedback';
+
+  if ([a, b, c].some(n => Number.isNaN(n) || n < 0)) {
+    calcResult.textContent = 'Escribe tres números válidos que no sean negativos.';
+    calcResult.classList.add('bad');
+    return;
+  }
+
+  if (tipo.value === 'directa') {
+    if (a === 0) {
+      calcResult.textContent = 'En la regla de tres directa, el dato A no puede ser 0.';
+      calcResult.classList.add('bad');
+      return;
+    }
+    const x = (b * c) / a;
+    calcResult.textContent = `X = (${fmt(b)} × ${fmt(c)}) ÷ ${fmt(a)} = ${fmt(x)}`;
+  } else {
+    if (c === 0) {
+      calcResult.textContent = 'En la regla de tres inversa, el dato C no puede ser 0.';
+      calcResult.classList.add('bad');
+      return;
+    }
+    const x = (a * b) / c;
+    calcResult.textContent = `X = (${fmt(a)} × ${fmt(b)}) ÷ ${fmt(c)} = ${fmt(x)}`;
+  }
+  calcResult.classList.add('ok');
+});
+
+
+/* ---------- Ejercicio de arrastrar ---------- */
+const DD_ITEMS = [
+ {
+  "enun": "Si 5 fotos pesan 20 MB, ¿cuánto pesan 12 fotos?",
+  "correcta": "48 MB",
+  "explicacion": "Es directa: (20 × 12) ÷ 5 = 48 MB."
+ },
+ {
+  "enun": "Una impresora hace 30 hojas en 5 minutos. ¿Cuántas hace en 20 minutos?",
+  "correcta": "120 hojas",
+  "explicacion": "Es directa: (30 × 20) ÷ 5 = 120 hojas."
+ },
+ {
+  "enun": "A 10 Mbps un archivo tarda 60 segundos. ¿Cuánto tardará a 20 Mbps?",
+  "correcta": "30 segundos",
+  "explicacion": "Es inversa (más velocidad, menos tiempo): (10 × 60) ÷ 20 = 30 segundos."
+ },
+ {
+  "enun": "3 técnicos configuran un laboratorio en 8 horas. ¿Cuánto tardarán 6 técnicos?",
+  "correcta": "4 horas",
+  "explicacion": "Es inversa (más técnicos, menos tiempo): (3 × 8) ÷ 6 = 4 horas."
+ }
+];
+const DD_FICHAS = ["48 MB", "120 hojas", "30 segundos", "4 horas", "40 MB", "16 horas"];
+const DD_FRASES = ["¡Excelente trabajo! Colocaste todas las respuestas correctamente.", "Repasa si cada problema es directo o inverso y vuelve a intentarlo."];
+(function () {
+  const cont = document.getElementById('dd-casillas');
+  const banco = document.getElementById('dd-banco');
+  const btnComp = document.getElementById('dd-comprobar');
+  const btnReset = document.getElementById('dd-reiniciar');
+  const resEl = document.getElementById('dd-resultado');
+  const progEl = document.getElementById('dd-progreso');
+  const estado = document.getElementById('dd-estado');
+  let sel = null, bloqueado = false, ignorar = false;
+  const casillas = [];
+
+  function anunciar(t) { estado.textContent = ''; setTimeout(() => { estado.textContent = t; }, 30); }
+  function mezclar(a) { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; }
+  function etiquetaCasilla(c, i) {
+    const ch = c.querySelector('.dd-chip');
+    c.setAttribute('aria-label', 'Espacio ' + (i + 1) + ': ' + DD_ITEMS[i].enun + '. ' + (ch ? 'Contiene ' + ch.textContent : 'Vacío'));
+  }
+  function actualizar() {
+    let n = 0;
+    casillas.forEach((c, i) => {
+      const hay = !!c.querySelector('.dd-chip');
+      if (hay) n++;
+      const vacio = c.querySelector('.dd-vacio');
+      if (vacio) vacio.hidden = hay;
+      etiquetaCasilla(c, i);
+    });
+    progEl.textContent = 'Colocadas ' + n + ' de ' + DD_ITEMS.length;
+    btnComp.disabled = bloqueado || n < DD_ITEMS.length;
+  }
+  function limpiarMarcas() {
+    casillas.forEach((c) => { c.classList.remove('ok', 'mal'); c.parentElement.querySelector('.dd-nota').textContent = ''; });
+    resEl.textContent = '';
+  }
+  function deseleccionar() { if (sel) { sel.setAttribute('aria-pressed', 'false'); sel = null; } }
+  function mover(chip, destino) {
+    if (bloqueado) return;
+    const ocupante = destino.classList.contains('dd-casilla') ? destino.querySelector('.dd-chip') : null;
+    if (ocupante && ocupante !== chip) banco.appendChild(ocupante);
+    destino.appendChild(chip);
+    limpiarMarcas();
+    actualizar();
+    const donde = destino.classList.contains('dd-casilla') ? 'en el espacio ' + (casillas.indexOf(destino) + 1) : 'en el banco';
+    anunciar(chip.textContent + ' colocada ' + donde + '.');
+  }
+  function crearChip(f) {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'dd-chip'; b.textContent = f; b.dataset.valor = f;
+    b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (ignorar || bloqueado) return;
+      if (sel === b) { deseleccionar(); return; }
+      deseleccionar(); sel = b; b.setAttribute('aria-pressed', 'true');
+      anunciar(f + ' seleccionada. Elige un espacio.');
+    });
+    b.addEventListener('pointerdown', (e) => iniciarArrastre(e, b));
+    return b;
+  }
+  function iniciarArrastre(e, chip) {
+    if (bloqueado || (e.pointerType === 'mouse' && e.button !== 0)) return;
+    const x0 = e.clientX, y0 = e.clientY;
+    let arrastrando = false, ghost = null, objetivo = null, ultimo = null, raf = 0;
+    function bucle() {
+      if (!arrastrando) return;
+      const y = ultimo.clientY;
+      if (y < 70) window.scrollBy(0, -14); else if (y > window.innerHeight - 70) window.scrollBy(0, 14);
+      marcar(ultimo);
+      raf = requestAnimationFrame(bucle);
+    }
+    function marcar(ev) {
+      const el = document.elementFromPoint(ev.clientX, ev.clientY);
+      const nuevo = el ? el.closest('.dd-casilla, .dd-banco') : null;
+      if (nuevo !== objetivo) { if (objetivo) objetivo.classList.remove('sobre'); objetivo = nuevo; if (objetivo) objetivo.classList.add('sobre'); }
+    }
+    function mover_(ev) {
+      if (!arrastrando && Math.hypot(ev.clientX - x0, ev.clientY - y0) > 6) {
+        arrastrando = true; deseleccionar();
+        ghost = chip.cloneNode(true); ghost.className = 'dd-chip dd-ghost'; ghost.removeAttribute('aria-pressed');
+        document.body.appendChild(ghost); chip.classList.add('arrastrando');
+        ultimo = ev; raf = requestAnimationFrame(bucle);
+      }
+      if (arrastrando) {
+        ultimo = ev;
+        ghost.style.left = (ev.clientX - ghost.offsetWidth / 2) + 'px';
+        ghost.style.top = (ev.clientY - ghost.offsetHeight / 2) + 'px';
+        marcar(ev);
+      }
+    }
+    function fin(ev) {
+      document.removeEventListener('pointermove', mover_);
+      document.removeEventListener('pointerup', fin);
+      document.removeEventListener('pointercancel', fin);
+      if (arrastrando) {
+        cancelAnimationFrame(raf);
+        ghost.remove(); chip.classList.remove('arrastrando');
+        if (objetivo) objetivo.classList.remove('sobre');
+        if (ev.type === 'pointerup' && objetivo) mover(chip, objetivo);
+        ignorar = true; setTimeout(() => { ignorar = false; }, 0);
+      }
+    }
+    document.addEventListener('pointermove', mover_);
+    document.addEventListener('pointerup', fin);
+    document.addEventListener('pointercancel', fin);
+  }
+  function alActivar(destino) {
+    return () => { if (sel && !bloqueado) { const c = sel; deseleccionar(); mover(c, destino); } };
+  }
+  function pintar() {
+    bloqueado = false; sel = null; casillas.length = 0;
+    cont.replaceChildren(); banco.replaceChildren();
+    btnReset.hidden = true; resEl.textContent = '';
+    DD_ITEMS.forEach((it, i) => {
+      const fila = document.createElement('div'); fila.className = 'dd-fila';
+      const p = document.createElement('p'); p.className = 'dd-enun'; p.textContent = it.enun;
+      const c = document.createElement('div'); c.className = 'dd-casilla'; c.tabIndex = 0; c.setAttribute('role', 'button');
+      const v = document.createElement('span'); v.className = 'dd-vacio'; v.textContent = 'Suelta aquí';
+      c.appendChild(v);
+      const act = alActivar(c);
+      c.addEventListener('click', act);
+      c.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); act(); } });
+      const nota = document.createElement('p'); nota.className = 'dd-nota';
+      fila.append(p, c, nota); cont.appendChild(fila); casillas.push(c);
+    });
+    mezclar(DD_FICHAS).forEach((f) => banco.appendChild(crearChip(f)));
+    actualizar();
+  }
+  const actBanco = alActivar(banco);
+  banco.addEventListener('click', actBanco);
+  banco.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); actBanco(); } });
+  btnComp.addEventListener('click', () => {
+    let ok = 0; bloqueado = true; deseleccionar();
+    casillas.forEach((c, i) => {
+      const ch = c.querySelector('.dd-chip'); const it = DD_ITEMS[i];
+      const bien = ch && ch.dataset.valor === it.correcta;
+      if (bien) ok++;
+      c.classList.add(bien ? 'ok' : 'mal');
+      c.parentElement.querySelector('.dd-nota').textContent = (bien ? '¡Correcto! ' : 'No pasa nada. ') + it.explicacion;
+    });
+    document.querySelectorAll('#dd-banco .dd-chip, #dd-casillas .dd-chip').forEach((x) => { x.disabled = true; });
+    btnComp.disabled = true; btnReset.hidden = false;
+    const pct = Math.round(ok / DD_ITEMS.length * 100);
+    resEl.textContent = 'Obtuviste ' + ok + ' de ' + DD_ITEMS.length + ' respuestas correctas (' + pct + ' %). ' + (ok === DD_ITEMS.length ? DD_FRASES[0] : DD_FRASES[1]);
+  });
+  btnReset.addEventListener('click', pintar);
+  pintar();
+})();
+</script>
+</body>
+</html>

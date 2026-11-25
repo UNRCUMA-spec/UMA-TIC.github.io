@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Cápsula interactiva: cómo las computadoras representan la información con 0 y 1, y cómo convertir entre decimal y binario.">
+<title>Sistema binario | Matemáticas para TIC</title>
+<style>
+:root{
+  --vino:#92400e; --vino-oscuro:#78350f; --vino-suave:#fffbeb; --vino-borde:#fde68a;
+  --dorado:#f59e0b; --dorado-suave:#fef3c7; --fondo:#fefcf6; --texto:#2d2a2e; --gris:#6b6354;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--texto);font:16px/1.6 Arial,Helvetica,sans-serif}
+[hidden]{display:none!important}
+.wrap{width:min(100% - 24px,1000px);margin:22px auto}
+header{padding:clamp(22px,5vw,42px);background:var(--vino);color:#fff;border-radius:20px;border-bottom:5px solid var(--dorado)}
+.tag{font-size:.78rem;font-weight:800;letter-spacing:.08em;margin:0 0 6px;color:var(--vino)}
+header .tag{color:#fde68a}
+header p:last-child{margin-bottom:0}
+h1{font-size:clamp(2rem,5vw,3rem);line-height:1.15;margin:8px 0}
+h2{color:var(--vino);margin:0 0 12px;font-size:clamp(1.4rem,3vw,1.9rem)}
+h3{color:var(--vino-oscuro);margin:16px 0 6px;font-size:1.1rem}
+.panel{background:#fff;margin-top:18px;padding:clamp(20px,4vw,32px);border-radius:18px;box-shadow:0 5px 18px #78350f10}
+p{margin-top:0}
+code{font-family:Consolas,"Courier New",monospace;background:var(--vino-suave);color:var(--vino-oscuro);padding:1px 6px;border-radius:5px}
+.formula{padding:15px;background:var(--vino-suave);border-left:5px solid var(--vino);border-radius:12px}
+.consejo{padding:12px 15px;background:var(--dorado-suave);border-left:5px solid var(--dorado);border-radius:10px}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.cards article{padding:20px;background:#fffdf5;border:1px solid var(--vino-borde);border-radius:14px}
+.cards .grande{font-size:2.2rem;font-weight:800;color:var(--vino);line-height:1.2}
+.cards h3{margin:0 0 4px}
+.cards p{margin:6px 0 0}
+
+/* Interruptores de bits */
+.bits{display:grid;grid-template-columns:repeat(8,1fr);gap:8px;margin:14px 0 6px}
+.bits .col{display:flex;flex-direction:column;align-items:center;gap:4px}
+.peso{width:100%;text-align:center;font-weight:800;color:var(--vino-oscuro);background:var(--dorado-suave);border:2px solid var(--dorado);border-radius:10px;padding:6px 0;font-size:1.15rem}
+.pot{font-size:.8rem;color:var(--gris)}
+.bitbtn{width:100%;font:inherit;font-size:1.8rem;font-weight:800;padding:12px 0;border-radius:10px;border:2px solid #e5dcc3;background:#f5f0e4;color:#b8ad92;cursor:pointer}
+.bitbtn[aria-pressed="true"]{background:var(--vino);border-color:var(--vino);color:#fff}
+.bitbtn:hover{border-color:var(--vino)}
+.lectura{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+.lectura div{flex:1 1 200px;padding:12px 16px;background:var(--vino-suave);border-radius:12px}
+.lectura small{display:block;color:var(--gris)}
+.lectura strong{font-size:1.5rem;color:var(--vino-oscuro);font-family:Consolas,"Courier New",monospace;word-break:break-all}
+
+/* Formularios */
+form{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;align-items:end}
+label{font-weight:bold}
+input[type=text],input[type=number]{width:100%;padding:11px;border:1px solid #d6c9a8;border-radius:9px;font:inherit;background:#fff;color:var(--texto)}
+button{font:inherit}
+.btn{padding:11px 17px;background:var(--vino);color:#fff;border:0;border-radius:9px;font-weight:bold;cursor:pointer;margin:5px 8px 5px 0}
+.btn:hover:not(:disabled){background:var(--vino-oscuro)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.claro{background:var(--vino-suave);color:var(--vino)}
+.btn.claro:hover:not(:disabled){background:var(--vino-borde)}
+button:focus-visible,input:focus-visible{outline:3px solid #111;outline-offset:3px}
+form .btn{grid-column:1/-1;justify-self:start}
+.salida{margin-top:12px;padding:12px 16px;background:var(--dorado-suave);border-left:5px solid var(--dorado);border-radius:8px}
+.salida.ok{background:#e9f6ee;border-left-color:#21834e}
+.salida.mal{background:#fdeeee;border-left-color:#b43c3c}
+.pasos{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:6px}
+.pasos li{display:flex;justify-content:space-between;gap:10px;padding:8px 14px;background:#fffdf5;border:1px solid var(--vino-borde);border-radius:10px;font-family:Consolas,"Courier New",monospace}
+.pasos .r{background:var(--vino);color:#fff;border-radius:6px;padding:0 10px;font-weight:bold}
+.resultado-bin{font-size:1.4rem;font-weight:800;color:var(--vino-oscuro);font-family:Consolas,"Courier New",monospace;letter-spacing:.08em}
+
+/* Cuestionario */
+.quizhead{display:flex;justify-content:space-between;align-items:center;gap:10px}
+#progress{background:var(--dorado-suave);border:1px solid var(--dorado);border-radius:99px;padding:6px 12px;white-space:nowrap;font-size:.9rem}
+.question{font-weight:bold;font-size:1.1rem}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.options button{text-align:left;background:#fff;color:var(--texto);border:1px solid #d6c9a8;border-radius:9px;padding:11px 15px;font-weight:bold;cursor:pointer;margin:0}
+.options button:hover:not(:disabled){background:var(--vino-suave)}
+.options button:disabled{cursor:default}
+.options button.correct{background:#e4f7eb;border-color:#16804a;color:#105d35}
+.options button.wrong{background:#fff0f0;border-color:#c93232;color:#8c2020}
+.final{font-weight:bold;font-size:1.1rem}
+footer{text-align:center;color:var(--gris);padding:20px 8px}
+
+@media(max-width:700px){.bits{gap:5px}.bitbtn{font-size:1.4rem}.peso{font-size:.95rem}}
+@media(max-width:560px){
+  .cards,.options,form{grid-template-columns:1fr}
+  form .btn{grid-column:auto}
+  .quizhead{align-items:flex-start;flex-direction:column}
+  .wrap{width:calc(100% - 14px);margin:7px auto}
+}
+
+/* Ejercicio de arrastrar */
+.dd-progreso{flex-shrink:0;padding:6px 12px;border-radius:999px;background:var(--dorado-suave);border:1px solid var(--dorado);font-size:.9rem;font-weight:700;white-space:nowrap}
+.dd-cab{display:flex;justify-content:space-between;gap:16px;align-items:center}
+.dd-ayuda{color:var(--gris);font-size:.95rem}
+.dd-casillas{display:grid;gap:12px;margin:14px 0}
+.dd-fila{display:grid;grid-template-columns:1fr minmax(170px,250px);gap:6px 14px;align-items:center;padding:12px 14px;background:#fffdf5;border:1px solid var(--vino-borde);border-radius:12px}
+.dd-enun{margin:0;font-weight:700}
+.dd-casilla{min-height:50px;display:flex;align-items:center;justify-content:center;padding:5px;border:2px dashed var(--vino);border-radius:10px;background:white;color:var(--gris);font-size:.9rem;cursor:pointer}
+.dd-casilla:focus-visible,.dd-banco:focus-visible,.dd-chip:focus-visible{outline:3px solid #111;outline-offset:3px}
+.dd-casilla.sobre,.dd-banco.sobre{background:var(--vino-suave);border-style:solid}
+.dd-casilla.ok{border-style:solid;border-color:#16804a;background:#e4f7eb}
+.dd-casilla.mal{border-style:solid;border-color:#c93232;background:#fff0f0}
+.dd-cod{margin:8px 0 0;padding:10px 12px;background:#2d2a2e;color:#f4ece6;border-radius:8px;font:14px/1.6 Consolas,'DejaVu Sans Mono',monospace;white-space:pre;overflow-x:auto;font-weight:400}
+.dd-nota{grid-column:1/-1;margin:0;font-size:.92rem}
+.dd-nota:empty{display:none}
+.dd-banco{display:flex;flex-wrap:wrap;gap:10px;padding:14px;min-height:66px;background:var(--dorado-suave);border:1px dashed var(--dorado);border-radius:12px}
+.dd-chip{margin:0;padding:9px 14px;border:1px solid #d6c9a8;border-radius:9px;background:white;color:var(--texto);font:inherit;font-weight:700;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
+.dd-chip:hover:not(:disabled){background:var(--vino-suave);color:var(--texto)}
+.dd-chip[aria-pressed="true"]{border-color:var(--vino);box-shadow:0 0 0 3px var(--vino-borde)}
+.dd-chip.arrastrando{opacity:.35}
+.dd-chip:disabled{cursor:default;opacity:1}
+.dd-ghost{position:fixed;z-index:1000;pointer-events:none;box-shadow:0 8px 20px #0003;transform:rotate(-2deg)}
+.dd-acciones{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.dd-btn{margin:0;padding:11px 18px;border:0;border-radius:10px;font:inherit;font-weight:700;cursor:pointer;background:var(--vino);color:#fff}
+.dd-btn:hover:not(:disabled){background:var(--vino-oscuro);color:#fff}
+.dd-btn:disabled{opacity:.45;cursor:not-allowed}
+.dd-btn.claro{background:var(--vino-suave);color:var(--vino)}
+.dd-btn.claro:hover:not(:disabled){background:var(--vino-borde);color:var(--vino)}
+.dd-resultado{margin:14px 0 0;font-size:1.1rem;font-weight:800}
+.dd-estado{position:absolute;left:-9999px}
+@media(max-width:560px){.dd-fila{grid-template-columns:1fr}.dd-cab{flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body>
+<main class="wrap">
+
+<header>
+  <p class="tag">MATEMÁTICAS PARA TIC · MATEMÁTICAS DISCRETAS</p>
+  <h1>Sistema binario</h1>
+  <p>Descubre cómo las computadoras representan la información con 0 y 1 y aprende a convertir entre decimal y binario.</p>
+</header>
+
+<section class="panel">
+  <h2>1. Bits y bytes</h2>
+  <p>Todo lo que hace una computadora (texto, imágenes, sonido y programas) se guarda y se procesa como combinaciones de dos valores: <b>0</b> y <b>1</b>.</p>
+  <div class="cards">
+    <article>
+      <h3>Bit</h3>
+      <div class="grande">0 o 1</div>
+      <p>Cada dígito del sistema binario. Es la unidad mínima de información.</p>
+    </article>
+    <article>
+      <h3>Byte</h3>
+      <div class="grande">8 bits</div>
+      <p>Permite 256 combinaciones, del 0 al 255 (2<sup>8</sup> = 256).</p>
+    </article>
+  </div>
+</section>
+
+<section class="panel">
+  <h2>2. El valor de cada posición</h2>
+  <p>El sistema decimal usa diez dígitos y cada posición vale una potencia de 10. El binario usa solo dos dígitos y <b>cada posición vale una potencia de 2</b>: de derecha a izquierda, cada una vale el doble de la anterior.</p>
+  <p class="consejo"><b>Pruébalo:</b> toca los bits para encenderlos (1) o apagarlos (0) y mira qué número decimal forman.</p>
+  <div class="bits" id="bits" role="group" aria-label="Ocho bits que puedes encender o apagar"></div>
+  <div class="lectura" aria-live="polite">
+    <div><small>Número binario</small><strong id="binOut">00000000</strong></div>
+    <div><small>Suma de las posiciones encendidas</small><strong id="sumOut">0</strong></div>
+    <div><small>Valor decimal</small><strong id="decOut">0</strong></div>
+  </div>
+  <button type="button" class="btn claro" id="resetBits">Apagar todos</button>
+  <div class="formula">Ejemplo: el número 13 es <b>1101</b>, porque 8 + 4 + 0 + 1 = 13.</div>
+</section>
+
+<section class="panel">
+  <h2>3. De decimal a binario</h2>
+  <p>Se divide el número entre 2, se anota el <b>residuo</b> y se repite con el cociente hasta llegar a 0. Los residuos, leídos <b>de abajo hacia arriba</b>, forman el número binario.</p>
+  <p>Ejemplo con 13:</p>
+  <ul class="pasos" aria-label="Ejemplo de divisiones del número 13">
+    <li><span>13 ÷ 2 = 6</span><span class="r">residuo 1</span></li>
+    <li><span>6 ÷ 2 = 3</span><span class="r">residuo 0</span></li>
+    <li><span>3 ÷ 2 = 1</span><span class="r">residuo 1</span></li>
+    <li><span>1 ÷ 2 = 0</span><span class="r">residuo 1</span></li>
+  </ul>
+  <p style="margin-top:10px">De abajo hacia arriba: <span class="resultado-bin">1101</span></p>
+
+  <h3>Convierte tu propio número</h3>
+  <form id="formDec">
+    <label for="decIn">Número decimal (0 a 65535)</label>
+    <input id="decIn" type="number" min="0" max="65535" step="1" required placeholder="Ej. 25" inputmode="numeric">
+    <button class="btn">Convertir a binario</button>
+  </form>
+  <div id="decRes" class="salida" aria-live="polite">El resultado aparecerá aquí.</div>
+</section>
+
+<section class="panel">
+  <h2>4. De binario a decimal</h2>
+  <p>Se suma el valor de las posiciones que tienen 1. Las posiciones con 0 no aportan nada.</p>
+  <div class="formula">1101 = 1×8 + 1×4 + 0×2 + 1×1 = 8 + 4 + 0 + 1 = <b>13</b></div>
+  <p class="consejo" style="margin-top:12px"><b>Los ceros a la izquierda no cambian el valor:</b> 1101 y 00001101 son el mismo número.</p>
+
+  <h3>Convierte tu propio número</h3>
+  <form id="formBin">
+    <label for="binIn">Número binario (hasta 16 dígitos)</label>
+    <input id="binIn" type="text" required placeholder="Ej. 101101" inputmode="numeric" autocomplete="off" maxlength="16">
+    <button class="btn">Convertir a decimal</button>
+  </form>
+  <div id="binRes" class="salida" aria-live="polite">El resultado aparecerá aquí.</div>
+</section>
+
+<section class="panel dd" aria-labelledby="dd-titulo">
+    <div class="dd-cab">
+      <div>
+        <p class="etiqueta tag">PON A PRUEBA LO APRENDIDO</p>
+        <h2 id="dd-titulo">5. Arrastra la respuesta de cada pregunta</h2>
+      </div>
+      <span id="dd-progreso" class="dd-progreso">Colocadas 0 de 0</span>
+    </div>
+    <p>Cada espacio tiene una pregunta. Arrastra hasta él su respuesta. Sobran dos respuestas que no corresponden a ninguna.</p>
+    <p class="dd-ayuda">Arrastra cada respuesta hasta su espacio. Si no puedes arrastrar, toca una respuesta (o pulsa Enter sobre ella) y luego toca el espacio donde va. Para corregir, toca la respuesta colocada y luego el banco.</p>
+    <div id="dd-casillas" class="dd-casillas"></div>
+    <div id="dd-banco" class="dd-banco" tabindex="0" role="group" aria-label="Banco de respuestas. Aquí se devuelve la respuesta seleccionada"></div>
+    <div class="dd-acciones">
+      <button id="dd-comprobar" class="dd-btn" type="button" disabled>Comprobar respuestas</button>
+      <button id="dd-reiniciar" class="dd-btn claro" type="button" hidden>Volver a intentarlo</button>
+    </div>
+    <p id="dd-resultado" class="dd-resultado" aria-live="polite"></p>
+    <div id="dd-estado" class="dd-estado" aria-live="polite"></div>
+  </section>
+
+<footer><b>Recuerda:</b> cada posición vale el doble de la que está a su derecha. Para pasar a binario, divide entre 2; para pasar a decimal, suma los pesos de los unos.</footer>
+
+</main>
+
+<script>
+/* ---------- Interruptores de bits ---------- */
+const pesos = [128, 64, 32, 16, 8, 4, 2, 1];
+const estado = new Array(8).fill(0);
+const bitsEl = document.querySelector('#bits');
+const binOut = document.querySelector('#binOut');
+const sumOut = document.querySelector('#sumOut');
+const decOut = document.querySelector('#decOut');
+
+function pintarBits() {
+  bitsEl.querySelectorAll('.bitbtn').forEach((b, i) => {
+    b.textContent = estado[i];
+    b.setAttribute('aria-pressed', String(estado[i] === 1));
+    b.setAttribute('aria-label', `Bit de valor ${pesos[i]}: ${estado[i] === 1 ? 'encendido (1)' : 'apagado (0)'}`);
+  });
+  const total = estado.reduce((s, v, i) => s + v * pesos[i], 0);
+  const encendidos = pesos.filter((p, i) => estado[i] === 1);
+  binOut.textContent = estado.join('');
+  sumOut.textContent = encendidos.length ? encendidos.join(' + ') : '0';
+  decOut.textContent = total;
+}
+
+pesos.forEach((p, i) => {
+  const col = document.createElement('div');
+  col.className = 'col';
+  const peso = document.createElement('div');
+  peso.className = 'peso';
+  peso.textContent = p;
+  const pot = document.createElement('div');
+  pot.className = 'pot';
+  pot.innerHTML = `2<sup>${7 - i}</sup>`;
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'bitbtn';
+  btn.addEventListener('click', () => { estado[i] = estado[i] ? 0 : 1; pintarBits(); });
+  col.append(peso, pot, btn);
+  bitsEl.appendChild(col);
+});
+document.querySelector('#resetBits').addEventListener('click', () => { estado.fill(0); pintarBits(); });
+pintarBits();
+
+/* ---------- Decimal a binario ---------- */
+const decRes = document.querySelector('#decRes');
+function mostrar(el, nodos, tipo) {
+  el.className = 'salida' + (tipo ? ' ' + tipo : '');
+  el.replaceChildren(...nodos);
+}
+function texto(t) { const p = document.createElement('p'); p.style.margin = '0 0 6px'; p.textContent = t; return p; }
+
+document.querySelector('#formDec').addEventListener('submit', e => {
+  e.preventDefault();
+  const raw = document.querySelector('#decIn').value.trim();
+  const n = Number(raw);
+  if (raw === '' || !Number.isInteger(n) || n < 0 || n > 65535) {
+    mostrar(decRes, [texto('Escribe un número entero entre 0 y 65535.')], 'mal');
+    return;
+  }
+  if (n === 0) {
+    mostrar(decRes, [texto('El número 0 en binario es 0.')], 'ok');
+    return;
+  }
+  const lista = document.createElement('ul');
+  lista.className = 'pasos';
+  const residuos = [];
+  let q = n;
+  while (q > 0) {
+    const r = q % 2;
+    const c = Math.floor(q / 2);
+    residuos.push(r);
+    const li = document.createElement('li');
+    const izq = document.createElement('span');
+    izq.textContent = `${q} ÷ 2 = ${c}`;
+    const der = document.createElement('span');
+    der.className = 'r';
+    der.textContent = `residuo ${r}`;
+    li.append(izq, der);
+    lista.appendChild(li);
+    q = c;
+  }
+  const bin = residuos.reverse().join('');
+  const res = document.createElement('p');
+  res.style.margin = '10px 0 0';
+  res.append('De abajo hacia arriba, ' + n + ' en binario es ');
+  const b = document.createElement('span');
+  b.className = 'resultado-bin';
+  b.textContent = bin;
+  res.appendChild(b);
+  mostrar(decRes, [lista, res], 'ok');
+});
+
+/* ---------- Binario a decimal ---------- */
+const binRes = document.querySelector('#binRes');
+document.querySelector('#formBin').addEventListener('submit', e => {
+  e.preventDefault();
+  const raw = document.querySelector('#binIn').value.replace(/\s+/g, '');
+  if (!/^[01]{1,16}$/.test(raw)) {
+    mostrar(binRes, [texto('Escribe solo ceros y unos, hasta 16 dígitos.')], 'mal');
+    return;
+  }
+  const largo = raw.length;
+  const partes = [], sumandos = [];
+  let total = 0;
+  [...raw].forEach((d, i) => {
+    const peso = 2 ** (largo - 1 - i);
+    partes.push(`${d}×${peso}`);
+    sumandos.push(Number(d) * peso);
+    total += Number(d) * peso;
+  });
+  mostrar(binRes, [
+    texto(`${raw} = ${partes.join(' + ')}`),
+    texto(`= ${sumandos.join(' + ')}`),
+    texto(`= ${total}`)
+  ], 'ok');
+  binRes.lastChild.style.fontWeight = '800';
+  binRes.lastChild.style.fontSize = '1.2rem';
+  binRes.lastChild.style.margin = '0';
+});
+
+/* ---------- Cuestionario ---------- */
+
+/* ---------- Ejercicio de arrastrar ---------- */
+const DD_ITEMS = [
+ {
+  "enun": "¿Cuál es el número 13 escrito en binario?",
+  "correcta": "1101",
+  "explicacion": "Con la suma de pesos: 8 + 4 + 0 + 1 = 13, que se escribe 1101. Con divisiones, los residuos de abajo hacia arriba también dan 1101."
+ },
+ {
+  "enun": "¿Cuántos bits tiene un byte?",
+  "correcta": "8 bits",
+  "explicacion": "Un byte es un conjunto de 8 bits y permite 2⁸ = 256 combinaciones."
+ },
+ {
+  "enun": "¿Cuál es el número 25 escrito en binario?",
+  "correcta": "11001",
+  "explicacion": "25 ÷ 2 = 12 (r 1); 12 ÷ 2 = 6 (r 0); 6 ÷ 2 = 3 (r 0); 3 ÷ 2 = 1 (r 1); 1 ÷ 2 = 0 (r 1). De abajo hacia arriba: 11001. También: 16 + 8 + 1 = 25."
+ },
+ {
+  "enun": "¿Cuál es el valor decimal del número binario 101101?",
+  "correcta": "45",
+  "explicacion": "Las posiciones con 1 valen 32, 8, 4 y 1. Su suma es 32 + 8 + 4 + 1 = 45."
+ }
+];
+const DD_FICHAS = ["1101", "8 bits", "11001", "45", "1011", "41"];
+const DD_FRASES = ["¡Excelente trabajo! Colocaste todas las respuestas correctamente.", "Repasa los ejemplos y vuelve a intentarlo."];
+(function () {
+  const cont = document.getElementById('dd-casillas');
+  const banco = document.getElementById('dd-banco');
+  const btnComp = document.getElementById('dd-comprobar');
+  const btnReset = document.getElementById('dd-reiniciar');
+  const resEl = document.getElementById('dd-resultado');
+  const progEl = document.getElementById('dd-progreso');
+  const estado = document.getElementById('dd-estado');
+  let sel = null, bloqueado = false, ignorar = false;
+  const casillas = [];
+
+  function anunciar(t) { estado.textContent = ''; setTimeout(() => { estado.textContent = t; }, 30); }
+  function mezclar(a) { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; }
+  function etiquetaCasilla(c, i) {
+    const ch = c.querySelector('.dd-chip');
+    c.setAttribute('aria-label', 'Espacio ' + (i + 1) + ': ' + DD_ITEMS[i].enun + '. ' + (ch ? 'Contiene ' + ch.textContent : 'Vacío'));
+  }
+  function actualizar() {
+    let n = 0;
+    casillas.forEach((c, i) => {
+      const hay = !!c.querySelector('.dd-chip');
+      if (hay) n++;
+      const vacio = c.querySelector('.dd-vacio');
+      if (vacio) vacio.hidden = hay;
+      etiquetaCasilla(c, i);
+    });
+    progEl.textContent = 'Colocadas ' + n + ' de ' + DD_ITEMS.length;
+    btnComp.disabled = bloqueado || n < DD_ITEMS.length;
+  }
+  function limpiarMarcas() {
+    casillas.forEach((c) => { c.classList.remove('ok', 'mal'); c.parentElement.querySelector('.dd-nota').textContent = ''; });
+    resEl.textContent = '';
+  }
+  function deseleccionar() { if (sel) { sel.setAttribute('aria-pressed', 'false'); sel = null; } }
+  function mover(chip, destino) {
+    if (bloqueado) return;
+    const ocupante = destino.classList.contains('dd-casilla') ? destino.querySelector('.dd-chip') : null;
+    if (ocupante && ocupante !== chip) banco.appendChild(ocupante);
+    destino.appendChild(chip);
+    limpiarMarcas();
+    actualizar();
+    const donde = destino.classList.contains('dd-casilla') ? 'en el espacio ' + (casillas.indexOf(destino) + 1) : 'en el banco';
+    anunciar(chip.textContent + ' colocada ' + donde + '.');
+  }
+  function crearChip(f) {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'dd-chip'; b.textContent = f; b.dataset.valor = f;
+    b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (ignorar || bloqueado) return;
+      if (sel === b) { deseleccionar(); return; }
+      deseleccionar(); sel = b; b.setAttribute('aria-pressed', 'true');
+      anunciar(f + ' seleccionada. Elige un espacio.');
+    });
+    b.addEventListener('pointerdown', (e) => iniciarArrastre(e, b));
+    return b;
+  }
+  function iniciarArrastre(e, chip) {
+    if (bloqueado || (e.pointerType === 'mouse' && e.button !== 0)) return;
+    const x0 = e.clientX, y0 = e.clientY;
+    let arrastrando = false, ghost = null, objetivo = null, ultimo = null, raf = 0;
+    function bucle() {
+      if (!arrastrando) return;
+      const y = ultimo.clientY;
+      if (y < 70) window.scrollBy(0, -14); else if (y > window.innerHeight - 70) window.scrollBy(0, 14);
+      marcar(ultimo);
+      raf = requestAnimationFrame(bucle);
+    }
+    function marcar(ev) {
+      const el = document.elementFromPoint(ev.clientX, ev.clientY);
+      const nuevo = el ? el.closest('.dd-casilla, .dd-banco') : null;
+      if (nuevo !== objetivo) { if (objetivo) objetivo.classList.remove('sobre'); objetivo = nuevo; if (objetivo) objetivo.classList.add('sobre'); }
+    }
+    function mover_(ev) {
+      if (!arrastrando && Math.hypot(ev.clientX - x0, ev.clientY - y0) > 6) {
+        arrastrando = true; deseleccionar();
+        ghost = chip.cloneNode(true); ghost.className = 'dd-chip dd-ghost'; ghost.removeAttribute('aria-pressed');
+        document.body.appendChild(ghost); chip.classList.add('arrastrando');
+        ultimo = ev; raf = requestAnimationFrame(bucle);
+      }
+      if (arrastrando) {
+        ultimo = ev;
+        ghost.style.left = (ev.clientX - ghost.offsetWidth / 2) + 'px';
+        ghost.style.top = (ev.clientY - ghost.offsetHeight / 2) + 'px';
+        marcar(ev);
+      }
+    }
+    function fin(ev) {
+      document.removeEventListener('pointermove', mover_);
+      document.removeEventListener('pointerup', fin);
+      document.removeEventListener('pointercancel', fin);
+      if (arrastrando) {
+        cancelAnimationFrame(raf);
+        ghost.remove(); chip.classList.remove('arrastrando');
+        if (objetivo) objetivo.classList.remove('sobre');
+        if (ev.type === 'pointerup' && objetivo) mover(chip, objetivo);
+        ignorar = true; setTimeout(() => { ignorar = false; }, 0);
+      }
+    }
+    document.addEventListener('pointermove', mover_);
+    document.addEventListener('pointerup', fin);
+    document.addEventListener('pointercancel', fin);
+  }
+  function alActivar(destino) {
+    return () => { if (sel && !bloqueado) { const c = sel; deseleccionar(); mover(c, destino); } };
+  }
+  function pintar() {
+    bloqueado = false; sel = null; casillas.length = 0;
+    cont.replaceChildren(); banco.replaceChildren();
+    btnReset.hidden = true; resEl.textContent = '';
+    DD_ITEMS.forEach((it, i) => {
+      const fila = document.createElement('div'); fila.className = 'dd-fila';
+      const izq = document.createElement('div');
+      const p = document.createElement('p'); p.className = 'dd-enun'; p.textContent = it.enun; izq.appendChild(p);
+      if (it.codigo) { const pre = document.createElement('pre'); pre.className = 'dd-cod'; pre.textContent = it.codigo; izq.appendChild(pre); }
+      const c = document.createElement('div'); c.className = 'dd-casilla'; c.tabIndex = 0; c.setAttribute('role', 'button');
+      const v = document.createElement('span'); v.className = 'dd-vacio'; v.textContent = 'Suelta aquí';
+      c.appendChild(v);
+      const act = alActivar(c);
+      c.addEventListener('click', act);
+      c.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); act(); } });
+      const nota = document.createElement('p'); nota.className = 'dd-nota';
+      fila.append(izq, c, nota); cont.appendChild(fila); casillas.push(c);
+    });
+    mezclar(DD_FICHAS).forEach((f) => banco.appendChild(crearChip(f)));
+    actualizar();
+  }
+  const actBanco = alActivar(banco);
+  banco.addEventListener('click', actBanco);
+  banco.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); actBanco(); } });
+  btnComp.addEventListener('click', () => {
+    let ok = 0; bloqueado = true; deseleccionar();
+    casillas.forEach((c, i) => {
+      const ch = c.querySelector('.dd-chip'); const it = DD_ITEMS[i];
+      const bien = ch && ch.dataset.valor === it.correcta;
+      if (bien) ok++;
+      c.classList.add(bien ? 'ok' : 'mal');
+      c.parentElement.querySelector('.dd-nota').textContent = (bien ? '¡Correcto! ' : 'No pasa nada. ') + it.explicacion;
+    });
+    document.querySelectorAll('#dd-banco .dd-chip, #dd-casillas .dd-chip').forEach((x) => { x.disabled = true; });
+    btnComp.disabled = true; btnReset.hidden = false;
+    const pct = Math.round(ok / DD_ITEMS.length * 100);
+    resEl.textContent = 'Obtuviste ' + ok + ' de ' + DD_ITEMS.length + ' respuestas correctas (' + pct + ' %). ' + (ok === DD_ITEMS.length ? DD_FRASES[0] : DD_FRASES[1]);
+  });
+  btnReset.addEventListener('click', pintar);
+  pintar();
+})();
+</script>
+</body>
+</html>
