@@ -45,37 +45,50 @@
     <!-- ENCABEZADO (HEADER) -->
     <header class="text-white sticky top-0 z-50 shadow-lg border-b border-vino-950" style="background-color: #630037;">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="uma-cabecera-fila">
+            <div class="flex items-center justify-between h-20">
                 
                 <!-- LOGOTIPO UMA-TIC -->
-                <button type="button" class="uma-logo" onclick="navegarA('inicio'); cerrarMenuMobil()">
+                <div class="flex items-center space-x-3 cursor-pointer py-1.5" onclick="navegarA('inicio')">
                     <img src="LOGOUMATIC2,0.PNG" alt="UMA-TIC Unidades de Microaprendizaje en TIC" class="h-12 sm:h-19 w-auto object-contain bg-white/95 px-2.5 py-1 rounded-lg shadow-md border-2 border-dorado-500">
-                </button>
+                </div>
+
+                <!-- NAVEGACIÓN -->
+                <nav class="hidden md:flex space-x-1 lg:space-x-3 items-center text-sm">
+                    <button onclick="navegarA('inicio')" class="px-3 py-1.5 rounded-md font-medium text-white hover:bg-black/20 transition">Inicio</button>
+                    <button onclick="filtrarPorArea('Programación y desarrollo de software')" class="px-3 py-1.5 rounded-md font-medium text-vino-100 hover:bg-black/20 transition">Programación</button>
+                    <button onclick="filtrarPorArea('Matemáticas y ciencias básicas')" class="px-3 py-1.5 rounded-md font-medium text-vino-100 hover:bg-black/20 transition">Matemáticas</button>
+                    <button onclick="filtrarPorArea('Humanidades, ciencias sociales y formación ética')" class="px-3 py-1.5 rounded-md font-medium text-vino-100 hover:bg-black/20 transition">Sociales</button>
+                    <button onclick="navegarA('acerca')" class="px-3 py-1.5 rounded-md font-medium text-vino-100 hover:bg-black/20 transition">Acerca del Proyecto</button>
+                </nav>
 
                 <!-- BUSCADOR EN HEADER -->
-                <div class="uma-busqueda">
-                    <input type="text" id="busquedaHeader" onkeypress="buscarHeader(event)" placeholder="Buscar cápsula..." aria-label="Buscar cápsulas">
-                    <i class="fas fa-search" aria-hidden="true"></i>
+                <div class="hidden lg:flex items-center space-x-2">
+                    <div class="relative">
+                        <input type="text" id="busquedaHeader" onkeypress="buscarHeader(event)" placeholder="Buscar cápsula..." class="bg-vino-950/80 text-white placeholder-vino-300 text-sm rounded-full pl-9 pr-4 py-1.5 focus:outline-none focus:ring-2 focus:ring-dorado-500 w-44 transition-all focus:w-56 border border-vino-700">
+                        <i class="fas fa-search absolute left-3 top-2.5 text-vino-300 text-xs"></i>
+                    </div>
                 </div>
 
                 <!-- BOTÓN MENÚ MÓVIL -->
-                <button type="button" id="btnMobileMenu" onclick="toggleMenuMobil()" class="uma-menu-boton" aria-controls="mobileMenu" aria-expanded="false" aria-label="Abrir menú de navegación">
-                    <i class="fas fa-bars" aria-hidden="true"></i>
-                </button>
+                <div class="md:hidden flex items-center">
+                    <button id="btnMobileMenu" onclick="toggleMenuMobil()" class="text-white hover:text-amber-200 focus:outline-none p-1">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
             </div>
+        </div>
 
-            <!-- NAVEGACIÓN COMPARTIDA PARA ESCRITORIO Y MÓVIL -->
-            <nav id="mobileMenu" class="uma-navegacion" aria-label="Navegación principal">
-                <button type="button" onclick="navegarA('inicio'); cerrarMenuMobil()">Inicio</button>
-                <button type="button" onclick="filtrarPorArea('Programación y desarrollo de software'); cerrarMenuMobil()">Programación</button>
-                <button type="button" onclick="filtrarPorArea('Matemáticas y ciencias básicas'); cerrarMenuMobil()">Matemáticas</button>
-                <button type="button" onclick="filtrarPorArea('Infraestructura, arquitectura, redes y ciberseguridad'); cerrarMenuMobil()">Infraestructura y Redes</button>
-                <button type="button" onclick="filtrarPorArea('Datos, sistemas de información e inteligencia artificial'); cerrarMenuMobil()">Datos e IA</button>
-                <button type="button" onclick="filtrarPorArea('Gestión, innovación y administración tecnológica'); cerrarMenuMobil()">Gestión Tecnológica</button>
-                <button type="button" onclick="filtrarPorArea('Humanidades, ciencias sociales y formación ética'); cerrarMenuMobil()">Sociales</button>
-                <button type="button" onclick="filtrarPorArea('Investigación, integración y práctica profesional'); cerrarMenuMobil()">Práctica Profesional</button>
-                <button type="button" onclick="navegarA('acerca'); cerrarMenuMobil()">Acerca del Proyecto</button>
-            </nav>
+        <!-- MENÚ MÓVIL DESPLEGABLE -->
+        <div id="mobileMenu" class="hidden md:hidden bg-vino-950 border-t border-vino-800 px-4 pt-2 pb-4 space-y-2">
+            <button onclick="navegarA('inicio'); toggleMenuMobil()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-white hover:bg-vino-800">Inicio</button>
+            <button onclick="filtrarPorArea('Programación y desarrollo de software'); toggleMenuMobil()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-vino-200 hover:bg-vino-800">Programación</button>
+            <button onclick="filtrarPorArea('Matemáticas y ciencias básicas'); toggleMenuMobil()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-vino-200 hover:bg-vino-800">Matemáticas</button>
+            <button onclick="filtrarPorArea('Infraestructura, arquitectura, redes y ciberseguridad'); toggleMenuMobil()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-vino-200 hover:bg-vino-800">Infraestructura y Redes</button>
+            <button onclick="filtrarPorArea('Datos, sistemas de información e inteligencia artificial'); toggleMenuMobil()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-vino-200 hover:bg-vino-800">Bases de Datos e IA</button>
+            <button onclick="filtrarPorArea('Gestión, innovación y administración tecnológica'); toggleMenuMobil()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-vino-200 hover:bg-vino-800">Gestión Tecnológica</button>
+            <button onclick="filtrarPorArea('Humanidades, ciencias sociales y formación ética'); toggleMenuMobil()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-vino-200 hover:bg-vino-800">Humanidades y Sociales</button>
+            <button onclick="filtrarPorArea('Investigación, integración y práctica profesional'); toggleMenuMobil()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-vino-200 hover:bg-vino-800">Práctica Profesional</button>
+            <button onclick="navegarA('acerca'); toggleMenuMobil()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-vino-200 hover:bg-vino-800">Acerca del Proyecto</button>
         </div>
     </header>
 
@@ -260,7 +273,6 @@
                         <option value="Infografía">Infografía</option>
                         <option value="Video">Video</option>
                         <option value="Lectura breve con apoyo visual">Lectura breve con apoyo visual</option>
-                        <option value="Lectura breve con apoyo visual y quiz">Lectura breve con apoyo visual y quiz</option>
                         <option value="Quiz">Quiz Interactivo</option>
                     </select>
                 </div>
@@ -334,14 +346,6 @@
             &copy; UMA-TIC - Universidad Nacional Rosario Castellanos | Gobierno de México. Todos los derechos reservados. 
         </div>
     </footer>
-<dialog id="visorImagen" class="visor-imagen"
-        aria-label="Imagen ampliada">
-    <form method="dialog" class="visor-cierre">
-        <button type="submit" autofocus>✕ Cerrar</button>
-    </form>
-
-    <img id="imagenAmpliada" alt="">
-</dialog>
 
     <!-- SCRIPTS -->
     <script src="capsulassociales.js"></script>
@@ -349,7 +353,6 @@
     <script src="capsulasmatematicas.js"></script>
     <script src="capsulasredes.js"></script>
     <script src="capsulasdatos.js"></script>
-    <script src="capsulasqlcrud.js"></script>
     <script src="capsulasgestion.js"></script>
     <script src="capsulasinvestigacion.js"></script>
     <script src="main.js"></script>

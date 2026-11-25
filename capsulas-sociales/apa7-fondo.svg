@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 520">
+  <g fill="none" stroke="#dcebdd" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M75 104h300m-300 34h210m-210 34h270" stroke-width="4" opacity=".22"/>
+    <path d="M430 385h260m-260 32h190m-190 32h235" stroke-width="4" opacity=".16"/>
+    <path d="M800 82h220m-220 32h170m-170 32h205" stroke-width="4" opacity=".14"/>
+    <rect x="1170" y="40" width="350" height="435" rx="14" fill="#dcebdd" fill-opacity=".08" stroke-width="3" opacity=".45"/>
+    <path d="M1210 156h265m-265 34h230m-230 34h255m-255 34h190m-190 34h255m-255 34h220m-220 34h245" stroke-width="4" opacity=".25"/>
+    <path d="M1210 112h110m15 0h145" stroke-width="7" opacity=".24"/>
+    <circle cx="1080" cy="374" r="52" stroke-width="4" opacity=".2"/>
+    <path d="m1055 392 9-27 29-29 19 19-29 29z" fill="#dcebdd" fill-opacity=".12" stroke-width="4" opacity=".32"/>
+    <path d="m1064 365 19 19m10-48 19 19m-57 37 15-5-10-10z" stroke-width="3" opacity=".32"/>
+    <path d="M125 322c18-28 36-28 54 0 18-28 36-28 54 0" stroke-width="6" opacity=".2"/>
+  </g>
+  <g fill="#dcebdd" font-family="system-ui, sans-serif" opacity=".24">
+    <text x="1210" y="91" font-size="21" font-weight="700" letter-spacing="3">REFERENCIAS</text>
+    <text x="1210" y="138" font-size="16">Autor. (2024). Título.</text>
+    <text x="1210" y="386" font-size="16">(Autor, año)</text>
+    <text x="104" y="390" font-size="23" font-weight="700">APA 7</text>
+  </g>
+</svg>
