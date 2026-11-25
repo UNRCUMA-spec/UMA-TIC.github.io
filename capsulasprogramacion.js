@@ -50,3 +50,44 @@ const capsulaQuéesVisualStudioCode= {
     retroalimentacionCorrecta: "¡Correcto! VS Code va más allá del texto plano; su arquitectura basada en extensiones permite adaptar el editor a cualquier lenguaje, mientras que herramientas integradas como la terminal y el autocompletado lo convierten en un entorno escalable y productivo, manteniendo un rendimiento ligero, gratuito y multiplataforma.",
     retroalimentacionIncorrecta: "Inténtalo de nuevo. Piensa en las herramientas que VS Code ofrece además de editar texto."
 };
+ 
+const capsulaCondicionales = {
+    id: 101,
+    titulo: "Condicionales (if / else)",
+    area: "Programación y desarrollo de software",
+    duracion: "8 min",
+    nivel: "Inicial",
+    formato: "Infografía",
+    tags: ["Python", "Condicionales", "Programación"],
+    explicacion: "Los condicionales permiten que un programa tome decisiones: ejecuta un bloque de código solo si se cumple una condición y otro si no se cumple. Aprende la sintaxis de if, elif y else y practica con ejemplos.",
+    recursoHtml: `<img src="recursos-visuales/visuales_caps_programacion/condicionales.png" alt="Infografía sobre condicionales if y else" class="w-full rounded-xl border border-slate-200">
+        <a href="recursos-visuales/visuales_caps_programacion/condicionales.html" target="_blank" rel="noopener" class="inline-block mt-4 px-4 py-2 rounded-lg bg-blue-700 text-white font-semibold">Abrir la práctica interactiva</a>`,
+    ejercicioPregunta: "¿Qué operador se usa para comprobar si dos valores son iguales?",
+    opciones: [
+        "=",
+        "==",
+        "!=",
+        "=>"
+    ],
+    respuestaCorrecta: 1
+};
+const capsulaTiposDatos = {
+    id: 106,
+    titulo: "Variables y tipos de datos",
+    area: "Programación y desarrollo de software",
+    duracion: "7 min",
+    nivel: "Inicial",
+    formato: "Infografía",
+    tags: ["Python", "Variables", "Tipos de datos", "Programación"],
+    explicacion: "Una variable es una caja con nombre donde un programa guarda un dato. Conoce los cuatro tipos de datos básicos (texto, entero, decimal y booleano) y practica arrastrando cada tipo a su ejemplo.",
+    recursoHtml: `<img src="recursos-visuales/visuales_caps_programacion/tiposdedatos.png" alt="Infografía sobre variables y tipos de datos" class="w-full rounded-xl border border-slate-200">
+        <a href="recursos-visuales/visuales_caps_programacion/tipos-de-datos.html" target="_blank" rel="noopener" class="inline-block mt-4 px-4 py-2 rounded-lg bg-blue-700 text-white font-semibold">Abrir la práctica interactiva</a>`,
+    ejercicioPregunta: "¿Qué tipo de dato representa 3.14?",
+    opciones: [
+        "Texto (String)",
+        "Entero (Integer)",
+        "Decimal (Float)",
+        "Booleano (Boolean)"
+    ],
+    respuestaCorrecta: 2
+};

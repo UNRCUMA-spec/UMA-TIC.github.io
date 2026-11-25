@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Cápsula interactiva: la matriz de Eisenhower para priorizar tareas según lo urgente y lo importante.">
+<title>Matriz de Eisenhower | Gestión del tiempo</title>
+<style>
+:root{
+  --vino:#334155; --vino-oscuro:#1e293b; --vino-suave:#f1f5f9; --vino-borde:#cbd5e1;
+  --dorado:#c8a46a; --dorado-suave:#f8efdd; --fondo:#f6f8fa; --texto:#2d2a2e; --gris:#5b6677;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--texto);font:16px/1.6 Arial,Helvetica,sans-serif}
+[hidden]{display:none!important}
+.wrap{width:min(100% - 24px,1000px);margin:22px auto}
+header{padding:clamp(22px,5vw,42px);background:var(--vino);color:#fff;border-radius:20px;border-bottom:5px solid var(--dorado)}
+.tag{font-size:.78rem;font-weight:800;letter-spacing:.08em;margin:0 0 6px;color:var(--vino)}
+header .tag{color:#f0d9a8}
+header p:last-child{margin-bottom:0}
+h1{font-size:clamp(2rem,5vw,3rem);line-height:1.15;margin:8px 0}
+h2{color:var(--vino);margin:0 0 12px;font-size:clamp(1.4rem,3vw,1.9rem)}
+h3{color:var(--vino-oscuro);margin:16px 0 6px;font-size:1.1rem}
+.panel{background:#fff;margin-top:18px;padding:clamp(20px,4vw,32px);border-radius:18px;box-shadow:0 5px 18px #1e293b10}
+p{margin-top:0}
+code{font-family:Consolas,"Courier New",monospace;background:var(--vino-suave);color:var(--vino-oscuro);padding:1px 6px;border-radius:5px}
+.formula{padding:15px;background:var(--vino-suave);border-left:5px solid var(--vino);border-radius:12px}
+.consejo{padding:12px 15px;background:var(--dorado-suave);border-left:5px solid var(--dorado);border-radius:10px}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.cards article{padding:20px;background:#f8fafc;border:1px solid var(--vino-borde);border-radius:14px}
+.cards .grande{font-size:2.2rem;font-weight:800;color:var(--vino);line-height:1.2}
+.cards h3{margin:0 0 4px}
+.cards p{margin:6px 0 0}
+
+
+/* Código y simulador */
+pre.codigo{margin:12px 0;padding:14px 0;background:#2d2a2e;color:#f1f5f9;border-radius:12px;font:15px/1.7 Consolas,"Courier New",monospace;overflow-x:auto}
+pre.codigo .l{display:block;padding:0 16px;border-left:5px solid transparent;white-space:pre}
+pre.codigo .l.on{background:#1e293b99;border-left-color:var(--dorado);color:#fff}
+pre.codigo .l.off{opacity:.45}
+.kw{color:#cbd5e1}.st{color:#f0d9a8}.nm{color:#9fd3c7}
+.eval{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+.eval div{flex:1 1 200px;padding:12px 16px;background:var(--vino-suave);border-radius:12px}
+.eval small{display:block;color:var(--gris)}
+.eval strong{font-size:1.25rem;color:var(--vino-oscuro);font-family:Consolas,"Courier New",monospace}
+.eval .verdad strong{color:#105d35}.eval .falso strong{color:#8c2020}
+.fila{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin:8px 0}
+.fila label{flex:0 0 100%}
+.fila input{flex:0 1 160px}
+table.op{width:100%;border-collapse:collapse;margin:10px 0}
+table.op th,table.op td{padding:9px 12px;border:1px solid var(--vino-borde);text-align:left}
+table.op th{background:var(--vino);color:#fff}
+table.op td:first-child{font-family:Consolas,"Courier New",monospace;font-weight:800;color:var(--vino-oscuro);background:var(--dorado-suave)}
+.blank{display:inline-block;min-width:7ch;padding:0 8px;border-radius:6px;background:var(--dorado);color:#3a2a10;font-weight:800;text-align:center}
+.blank.ok{background:#bfe8cf;color:#105d35}.blank.mal{background:#f6c7c7;color:#8c2020}
+.cards.tres{grid-template-columns:repeat(3,1fr)}
+/* Formularios */
+form{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;align-items:end}
+label{font-weight:bold}
+input[type=text],input[type=number]{width:100%;padding:11px;border:1px solid #94a3b8;border-radius:9px;font:inherit;background:#fff;color:var(--texto)}
+button{font:inherit}
+.btn{padding:11px 17px;background:var(--vino);color:#fff;border:0;border-radius:9px;font-weight:bold;cursor:pointer;margin:5px 8px 5px 0}
+.btn:hover:not(:disabled){background:var(--vino-oscuro)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.claro{background:var(--vino-suave);color:var(--vino)}
+.btn.claro:hover:not(:disabled){background:var(--vino-borde)}
+button:focus-visible,input:focus-visible{outline:3px solid #111;outline-offset:3px}
+form .btn{grid-column:1/-1;justify-self:start}
+.salida{margin-top:12px;padding:12px 16px;background:var(--dorado-suave);border-left:5px solid var(--dorado);border-radius:8px}
+.salida.ok{background:#e9f6ee;border-left-color:#21834e}
+.salida.mal{background:#fdeeee;border-left-color:#b43c3c}
+.pasos{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:6px}
+.pasos li{display:flex;justify-content:space-between;gap:10px;padding:8px 14px;background:#f8fafc;border:1px solid var(--vino-borde);border-radius:10px;font-family:Consolas,"Courier New",monospace}
+.pasos .r{background:var(--vino);color:#fff;border-radius:6px;padding:0 10px;font-weight:bold}
+.resultado-bin{font-size:1.4rem;font-weight:800;color:var(--vino-oscuro);font-family:Consolas,"Courier New",monospace;letter-spacing:.08em}
+
+/* Cuestionario */
+.quizhead{display:flex;justify-content:space-between;align-items:center;gap:10px}
+#progress{background:var(--dorado-suave);border:1px solid var(--dorado);border-radius:99px;padding:6px 12px;white-space:nowrap;font-size:.9rem}
+.question{font-weight:bold;font-size:1.1rem}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.options button{text-align:left;background:#fff;color:var(--texto);border:1px solid #94a3b8;border-radius:9px;padding:11px 15px;font-weight:bold;cursor:pointer;margin:0}
+.options button:hover:not(:disabled){background:var(--vino-suave)}
+.options button:disabled{cursor:default}
+.options button.correct{background:#e4f7eb;border-color:#16804a;color:#105d35}
+.options button.wrong{background:#fff0f0;border-color:#c93232;color:#8c2020}
+.final{font-weight:bold;font-size:1.1rem}
+footer{text-align:center;color:var(--gris);padding:20px 8px}
+
+@media(max-width:700px){.cards.tres{grid-template-columns:1fr}pre.codigo{font-size:13px}}
+@media(max-width:560px){
+  .cards,.cards.tres,.options,form{grid-template-columns:1fr}
+  form .btn{grid-column:auto}
+  .quizhead{align-items:flex-start;flex-direction:column}
+  .wrap{width:calc(100% - 14px);margin:7px auto}
+}
+
+/* Triple restricción */
+.tri{display:grid;grid-template-columns:minmax(220px,300px) 1fr;gap:18px;align-items:center}
+.tri svg{width:100%;height:auto}
+.rango{margin:14px 0}
+.rango label{display:flex;justify-content:space-between;gap:10px}
+.rango output{font-family:Consolas,"Courier New",monospace;color:var(--vino-oscuro);font-weight:800}
+input[type=range]{width:100%;accent-color:var(--vino);height:34px;margin:2px 0}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
+.tile{padding:12px 16px;background:var(--vino-suave);border-radius:12px}
+.tile small{display:block;color:var(--gris)}
+.tile strong{font-size:1.35rem;color:var(--vino-oscuro);font-family:Consolas,"Courier New",monospace}
+.veredicto{padding:14px 16px;border-radius:12px;border-left:5px solid var(--dorado);background:var(--dorado-suave)}
+.veredicto.ok{background:#e9f6ee;border-left-color:#21834e}
+.veredicto.mal{background:#fdeeee;border-left-color:#b43c3c}
+.veredicto h3{margin:0 0 6px}
+.caminos{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.camino{padding:14px;background:#fff;border:1px solid var(--vino-borde);border-radius:12px;display:flex;flex-direction:column;gap:6px}
+.camino h4{margin:0;color:var(--vino-oscuro)}
+.camino p{margin:0;font-size:.95rem}
+.camino .btn{margin:auto 0 0;align-self:flex-start}
+.supuestos{font-size:.9rem;color:var(--gris)}
+.supuestos ul{margin:6px 0 0;padding-left:20px}
+@media(max-width:700px){.tri{grid-template-columns:1fr}.caminos,.tiles{grid-template-columns:1fr}}
+
+
+/* Matriz de Eisenhower */
+.ejes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px;text-align:center;font-size:.85rem;font-weight:800;color:var(--gris);letter-spacing:.06em}
+.eje{display:grid;grid-template-columns:28px 1fr;gap:6px}
+.eje .v{writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;font-size:.85rem;font-weight:800;color:var(--gris);letter-spacing:.04em}
+.eje .h{grid-column:2;text-align:center;font-size:.85rem;font-weight:800;color:var(--gris);letter-spacing:.04em}
+.matriz{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.q{padding:16px;border-radius:14px;border:2px solid var(--vino-borde);background:#f8fafc;min-height:120px}
+.q h3{margin:0 0 2px}
+.q .acc{font-weight:800;color:var(--vino);margin:0 0 6px}
+.q p{margin:0;font-size:.95rem}
+.q.q1{background:var(--vino);border-color:var(--vino);color:#fff}
+.q.q1 h3,.q.q1 .acc{color:#fff}
+.q.q2{background:var(--dorado-suave);border-color:var(--dorado)}
+.q.q3{background:var(--vino-suave)}
+.q ul{margin:8px 0 0;padding-left:18px;font-size:.92rem}
+.q ul:empty{display:none}
+.tareas{display:grid;gap:12px;margin-top:10px}
+.tarea{padding:14px 16px;background:#f8fafc;border:1px solid var(--vino-borde);border-radius:14px}
+.tarea p{margin:0 0 8px;font-weight:bold}
+.cuad{display:flex;flex-wrap:wrap;gap:8px}
+.cuad button{background:#fff;color:var(--texto);border:1px solid #94a3b8;border-radius:9px;padding:8px 14px;font-weight:bold;cursor:pointer;margin:0}
+.cuad button:hover:not(:disabled){background:var(--vino-suave)}
+.cuad button:disabled{cursor:default}
+.cuad button.correct{background:#e4f7eb;border-color:#16804a;color:#105d35}
+.cuad button.wrong{background:#fff0f0;border-color:#c93232;color:#8c2020}
+.tarea .salida{margin-top:8px}
+.agregar{display:grid;grid-template-columns:1fr;gap:8px}
+.checks{display:flex;flex-wrap:wrap;gap:8px 22px}
+.checks label{display:flex;align-items:center;gap:8px;font-weight:normal}
+.checks input{width:20px;height:20px;accent-color:var(--vino)}
+@media(max-width:560px){.matriz{grid-template-columns:1fr}.ejes{display:none}}
+
+/* Ejercicio de arrastrar */
+.dd-progreso{flex-shrink:0;padding:6px 12px;border-radius:999px;background:var(--dorado-suave);border:1px solid var(--dorado);font-size:.9rem;font-weight:700;white-space:nowrap}
+.dd-cab{display:flex;justify-content:space-between;gap:16px;align-items:center}
+.dd-ayuda{color:var(--gris);font-size:.95rem}
+.dd-casillas{display:grid;gap:12px;margin:14px 0}
+.dd-fila{display:grid;grid-template-columns:1fr minmax(170px,250px);gap:6px 14px;align-items:center;padding:12px 14px;background:#f8fafc;border:1px solid var(--vino-borde);border-radius:12px}
+.dd-enun{margin:0;font-weight:700}
+.dd-casilla{min-height:50px;display:flex;align-items:center;justify-content:center;padding:5px;border:2px dashed var(--vino);border-radius:10px;background:white;color:var(--gris);font-size:.9rem;cursor:pointer}
+.dd-casilla:focus-visible,.dd-banco:focus-visible,.dd-chip:focus-visible{outline:3px solid #111;outline-offset:3px}
+.dd-casilla.sobre,.dd-banco.sobre{background:var(--vino-suave);border-style:solid}
+.dd-casilla.ok{border-style:solid;border-color:#16804a;background:#e4f7eb}
+.dd-casilla.mal{border-style:solid;border-color:#c93232;background:#fff0f0}
+.dd-cod{margin:8px 0 0;padding:10px 12px;background:#2d2a2e;color:#f4ece6;border-radius:8px;font:14px/1.6 Consolas,'DejaVu Sans Mono',monospace;white-space:pre;overflow-x:auto;font-weight:400}
+.dd-nota{grid-column:1/-1;margin:0;font-size:.92rem}
+.dd-nota:empty{display:none}
+.dd-banco{display:flex;flex-wrap:wrap;gap:10px;padding:14px;min-height:66px;background:var(--dorado-suave);border:1px dashed var(--dorado);border-radius:12px}
+.dd-chip{margin:0;padding:9px 14px;border:1px solid #94a3b8;border-radius:9px;background:white;color:var(--texto);font:inherit;font-weight:700;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
+.dd-chip:hover:not(:disabled){background:var(--vino-suave);color:var(--texto)}
+.dd-chip[aria-pressed="true"]{border-color:var(--vino);box-shadow:0 0 0 3px var(--vino-borde)}
+.dd-chip.arrastrando{opacity:.35}
+.dd-chip:disabled{cursor:default;opacity:1}
+.dd-ghost{position:fixed;z-index:1000;pointer-events:none;box-shadow:0 8px 20px #0003;transform:rotate(-2deg)}
+.dd-acciones{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.dd-btn{margin:0;padding:11px 18px;border:0;border-radius:10px;font:inherit;font-weight:700;cursor:pointer;background:var(--vino);color:#fff}
+.dd-btn:hover:not(:disabled){background:var(--vino-oscuro);color:#fff}
+.dd-btn:disabled{opacity:.45;cursor:not-allowed}
+.dd-btn.claro{background:var(--vino-suave);color:var(--vino)}
+.dd-btn.claro:hover:not(:disabled){background:var(--vino-borde);color:var(--vino)}
+.dd-resultado{margin:14px 0 0;font-size:1.1rem;font-weight:800}
+.dd-estado{position:absolute;left:-9999px}
+@media(max-width:560px){.dd-fila{grid-template-columns:1fr}.dd-cab{flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body>
+<main class="wrap">
+
+<header>
+  <p class="tag">GESTIÓN TECNOLÓGICA · ADMINISTRACIÓN DEL TIEMPO</p>
+  <h1>Matriz de Eisenhower</h1>
+  <p>Aprende a priorizar tus tareas separando lo urgente de lo importante.</p>
+</header>
+
+<section class="panel">
+  <h2>1. Urgente no es lo mismo que importante</h2>
+  <p>Lo <b>urgente</b> exige acción inmediata y tiene consecuencias claras si se espera. Lo <b>importante</b> acerca a tus metas a largo plazo y puede no pedir atención inmediata. La matriz cruza las dos ideas y deja cuatro cuadrantes, cada uno con una acción.</p>
+  <div class="ejes"><span>URGENTE</span><span>NO URGENTE</span></div>
+  <div class="matriz">
+      <div class="q q1"><h3>Urgente e importante</h3><p class="acc">HACER PRIMERO</p><p>Actúa ya. Tiene fecha límite cercana y consecuencias claras.</p></div>
+      <div class="q q2"><h3>Importante, no urgente</h3><p class="acc">PROGRAMAR</p><p>Reserva un día y una hora para hacerla. Aquí están tus metas a largo plazo.</p></div>
+      <div class="q q3"><h3>Urgente, no importante</h3><p class="acc">DELEGAR</p><p>Pásala a otra persona si se puede, o resuélvela rápido sin dedicarle mucho tiempo.</p></div>
+      <div class="q"><h3>Ni urgente ni importante</h3><p class="acc">ELIMINAR</p><p>Quítala de la lista o déjala para el final.</p></div>
+    </div>
+  
+  <p class="consejo" style="margin-top:14px">Un mismo asunto puede cambiar de cuadrante según tu situación. Por eso la matriz sirve para decidir, no para memorizar respuestas.</p>
+</section>
+
+<section class="panel">
+  <h2>2. Clasifica la tarea</h2>
+  <p>Elige en qué cuadrante pondrías cada tarea de un estudiante.</p>
+  <div id="tareas" class="tareas"></div>
+  <p id="puntaje" class="final" aria-live="polite"></p>
+  <button id="reiniciar" class="btn claro" type="button" hidden>Intentar de nuevo</button>
+</section>
+
+<section class="panel">
+  <h2>3. Arma tu propia matriz</h2>
+  <p>Escribe una tarea tuya y marca si es urgente y si es importante. Se colocará en su cuadrante.</p>
+  <form id="form" class="agregar" novalidate>
+    <label for="nombre">Tarea</label>
+    <input id="nombre" type="text" maxlength="60" autocomplete="off" placeholder="Ejemplo: preparar la exposición del viernes">
+    <div class="checks">
+      <label for="urg"><input id="urg" type="checkbox"> Es urgente</label>
+      <label for="imp"><input id="imp" type="checkbox"> Es importante</label>
+    </div>
+    <div>
+      <button class="btn" type="submit">Colocar en la matriz</button>
+      <button id="limpiar" class="btn claro" type="button">Vaciar matriz</button>
+    </div>
+  </form>
+  <p id="aviso" class="salida" aria-live="polite" hidden></p>
+  <div class="ejes" style="margin-top:14px"><span>URGENTE</span><span>NO URGENTE</span></div>
+  <div class="matriz">
+    <div class="q q1"><h3>Hacer primero</h3><p class="acc">Urgente e importante</p><ul id="l-both"></ul></div>
+    <div class="q q2"><h3>Programar</h3><p class="acc">Importante, no urgente</p><ul id="l-imp"></ul></div>
+    <div class="q q3"><h3>Delegar</h3><p class="acc">Urgente, no importante</p><ul id="l-urg"></ul></div>
+    <div class="q"><h3>Eliminar</h3><p class="acc">Ni urgente ni importante</p><ul id="l-none"></ul></div>
+  </div>
+</section>
+
+<section class="panel dd" aria-labelledby="dd-titulo">
+    <div class="dd-cab">
+      <div>
+        <p class="etiqueta tag">PON A PRUEBA LO APRENDIDO</p>
+        <h2 id="dd-titulo">4. Arrastra la respuesta de cada pregunta</h2>
+      </div>
+      <span id="dd-progreso" class="dd-progreso">Colocadas 0 de 0</span>
+    </div>
+    <p>Cada espacio tiene una pregunta. Arrastra hasta él su respuesta. Sobran dos respuestas que no corresponden a ninguna.</p>
+    <p class="dd-ayuda">Arrastra cada respuesta hasta su espacio. Si no puedes arrastrar, toca una respuesta (o pulsa Enter sobre ella) y luego toca el espacio donde va. Para corregir, toca la respuesta colocada y luego el banco.</p>
+    <div id="dd-casillas" class="dd-casillas"></div>
+    <div id="dd-banco" class="dd-banco" tabindex="0" role="group" aria-label="Banco de respuestas. Aquí se devuelve la respuesta seleccionada"></div>
+    <div class="dd-acciones">
+      <button id="dd-comprobar" class="dd-btn" type="button" disabled>Comprobar respuestas</button>
+      <button id="dd-reiniciar" class="dd-btn claro" type="button" hidden>Volver a intentarlo</button>
+    </div>
+    <p id="dd-resultado" class="dd-resultado" aria-live="polite"></p>
+    <div id="dd-estado" class="dd-estado" aria-live="polite"></div>
+  </section>
+
+<footer><b>Recuerda:</b> lo urgente llama tu atención; lo importante construye tus metas. Primero decide, luego actúa.</footer>
+
+</main>
+
+<script>
+const CU = ['Hacer primero', 'Programar', 'Delegar', 'Eliminar'];
+
+/* ---------- Clasifica la tarea ---------- */
+const tareas = [
+  { t: 'Entregar hoy una tarea que vence a medianoche.', c: 0,
+    why: 'Es urgente (vence hoy) e importante (afecta tu calificación): se hace primero.' },
+  { t: 'Estudiar con calma para un examen que será dentro de un mes.', c: 1,
+    why: 'Es importante pero todavía no urgente: conviene programar horarios de estudio.' },
+  { t: 'Recibir un paquete que llega hoy mientras estás en clase.', c: 2,
+    why: 'Es urgente (llega hoy) pero no necesita que lo hagas tú: se puede delegar en alguien de casa.' },
+  { t: 'Ver videos sin rumbo en redes sociales durante una hora.', c: 3,
+    why: 'No es urgente ni importante: es candidata a eliminarse o dejarse para el final.' },
+  { t: 'Armar un plan de ahorro para un viaje del próximo año.', c: 1,
+    why: 'Es importante para una meta a largo plazo y no tiene prisa: se programa.' },
+  { t: 'Cerrar la llave de una fuga de agua que está inundando la cocina.', c: 0,
+    why: 'Tiene consecuencias inmediatas y graves: urgente e importante, se hace primero.' },
+  { t: 'Contestar una llamada de un número desconocido que ofrece una promoción.', c: 2,
+    why: 'Suena urgente pero no es importante para ti: se puede dejar pasar o pasar a otra persona.' },
+  { t: 'Revisar sin objetivo los correos de promociones.', c: 3,
+    why: 'No es urgente ni importante: se elimina de la lista.' }
+];
+const tEl = document.getElementById('tareas');
+const puntajeEl = document.getElementById('puntaje');
+const reiniciar = document.getElementById('reiniciar');
+let respondidas = 0, aciertos = 0;
+function pintarTareas() {
+  respondidas = 0; aciertos = 0;
+  puntajeEl.textContent = '';
+  reiniciar.hidden = true;
+  tEl.replaceChildren();
+  tareas.forEach(a => {
+    const box = document.createElement('div'); box.className = 'tarea';
+    const p = document.createElement('p'); p.textContent = a.t;
+    const g = document.createElement('div'); g.className = 'cuad';
+    g.setAttribute('role', 'group'); g.setAttribute('aria-label', 'Cuadrante para: ' + a.t);
+    const fb = document.createElement('p'); fb.className = 'salida'; fb.hidden = true;
+    fb.setAttribute('aria-live', 'polite');
+    CU.forEach((m, j) => {
+      const b = document.createElement('button'); b.type = 'button'; b.textContent = m;
+      b.addEventListener('click', () => {
+        const ok = j === a.c;
+        [...g.children].forEach((x, k) => { x.disabled = true; if (k === a.c) x.classList.add('correct'); });
+        if (!ok) b.classList.add('wrong');
+        fb.hidden = false; fb.className = 'salida ' + (ok ? 'ok' : 'mal');
+        fb.textContent = (ok ? '¡Correcto! ' : 'No pasa nada. ') + a.why;
+        respondidas++; if (ok) aciertos++;
+        if (respondidas === tareas.length) {
+          puntajeEl.textContent = `Clasificaste bien ${aciertos} de ${tareas.length} tareas. ${aciertos === tareas.length ? '¡Excelente trabajo!' : 'Repasa los cuadrantes y vuelve a intentarlo.'}`;
+          reiniciar.hidden = false;
+        }
+      });
+      g.appendChild(b);
+    });
+    box.append(p, g, fb); tEl.appendChild(box);
+  });
+}
+reiniciar.addEventListener('click', pintarTareas);
+pintarTareas();
+
+/* ---------- Arma tu propia matriz ---------- */
+const form = document.getElementById('form');
+const nombre = document.getElementById('nombre');
+const urg = document.getElementById('urg');
+const imp = document.getElementById('imp');
+const aviso = document.getElementById('aviso');
+const listas = { both: document.getElementById('l-both'), imp: document.getElementById('l-imp'),
+                 urg: document.getElementById('l-urg'), none: document.getElementById('l-none') };
+const accion = { both: 'Hacer primero', imp: 'Programar', urg: 'Delegar', none: 'Eliminar' };
+let total = 0;
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  const txt = nombre.value.trim();
+  aviso.hidden = false;
+  if (!txt) { aviso.className = 'salida mal'; aviso.textContent = 'Escribe primero el nombre de una tarea.'; nombre.focus(); return; }
+  if (total >= 12) { aviso.className = 'salida mal'; aviso.textContent = 'La matriz ya tiene 12 tareas. Vacíala para empezar de nuevo.'; return; }
+  const k = urg.checked ? (imp.checked ? 'both' : 'urg') : (imp.checked ? 'imp' : 'none');
+  const li = document.createElement('li'); li.textContent = txt;
+  listas[k].appendChild(li); total++;
+  aviso.className = 'salida ok';
+  aviso.textContent = `«${txt}» va en: ${accion[k]}.`;
+  nombre.value = ''; urg.checked = false; imp.checked = false; nombre.focus();
+});
+document.getElementById('limpiar').addEventListener('click', () => {
+  Object.values(listas).forEach(l => l.replaceChildren());
+  total = 0; aviso.hidden = false; aviso.className = 'salida'; aviso.textContent = 'La matriz quedó vacía.';
+});
+
+/* ---------- Cuestionario ---------- */
+
+/* ---------- Ejercicio de arrastrar ---------- */
+const DD_ITEMS = [
+ {
+  "enun": "¿Qué hacer con una tarea urgente e importante?",
+  "correcta": "Hacerla primero",
+  "explicacion": "Tiene fecha cercana y consecuencias claras, así que va al principio de la lista."
+ },
+ {
+  "enun": "Una tarea importante que todavía no es urgente se...",
+  "correcta": "Programa",
+  "explicacion": "Se programa con día y hora para que avance antes de volverse urgente."
+ },
+ {
+  "enun": "Una tarea urgente que no es importante para ti se...",
+  "correcta": "Delega si se puede",
+  "explicacion": "Exige respuesta rápida pero no acerca tus metas: conviene pasarla a alguien más o resolverla pronto."
+ },
+ {
+  "enun": "¿Qué idea distingue a lo importante de lo urgente?",
+  "correcta": "Lo importante acerca a tus metas y puede no ser inmediato",
+  "explicacion": "Lo urgente pide acción inmediata; lo importante acerca a tus metas a largo plazo."
+ }
+];
+const DD_FICHAS = ["Hacerla primero", "Programa", "Delega si se puede", "Lo importante acerca a tus metas y puede no ser inmediato", "Eliminarla", "No hay ninguna diferencia"];
+const DD_FRASES = ["¡Excelente trabajo! Colocaste todas las respuestas correctamente.", "Repasa los ejemplos y vuelve a intentarlo."];
+(function () {
+  const cont = document.getElementById('dd-casillas');
+  const banco = document.getElementById('dd-banco');
+  const btnComp = document.getElementById('dd-comprobar');
+  const btnReset = document.getElementById('dd-reiniciar');
+  const resEl = document.getElementById('dd-resultado');
+  const progEl = document.getElementById('dd-progreso');
+  const estado = document.getElementById('dd-estado');
+  let sel = null, bloqueado = false, ignorar = false;
+  const casillas = [];
+
+  function anunciar(t) { estado.textContent = ''; setTimeout(() => { estado.textContent = t; }, 30); }
+  function mezclar(a) { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; }
+  function etiquetaCasilla(c, i) {
+    const ch = c.querySelector('.dd-chip');
+    c.setAttribute('aria-label', 'Espacio ' + (i + 1) + ': ' + DD_ITEMS[i].enun + '. ' + (ch ? 'Contiene ' + ch.textContent : 'Vacío'));
+  }
+  function actualizar() {
+    let n = 0;
+    casillas.forEach((c, i) => {
+      const hay = !!c.querySelector('.dd-chip');
+      if (hay) n++;
+      const vacio = c.querySelector('.dd-vacio');
+      if (vacio) vacio.hidden = hay;
+      etiquetaCasilla(c, i);
+    });
+    progEl.textContent = 'Colocadas ' + n + ' de ' + DD_ITEMS.length;
+    btnComp.disabled = bloqueado || n < DD_ITEMS.length;
+  }
+  function limpiarMarcas() {
+    casillas.forEach((c) => { c.classList.remove('ok', 'mal'); c.parentElement.querySelector('.dd-nota').textContent = ''; });
+    resEl.textContent = '';
+  }
+  function deseleccionar() { if (sel) { sel.setAttribute('aria-pressed', 'false'); sel = null; } }
+  function mover(chip, destino) {
+    if (bloqueado) return;
+    const ocupante = destino.classList.contains('dd-casilla') ? destino.querySelector('.dd-chip') : null;
+    if (ocupante && ocupante !== chip) banco.appendChild(ocupante);
+    destino.appendChild(chip);
+    limpiarMarcas();
+    actualizar();
+    const donde = destino.classList.contains('dd-casilla') ? 'en el espacio ' + (casillas.indexOf(destino) + 1) : 'en el banco';
+    anunciar(chip.textContent + ' colocada ' + donde + '.');
+  }
+  function crearChip(f) {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'dd-chip'; b.textContent = f; b.dataset.valor = f;
+    b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (ignorar || bloqueado) return;
+      if (sel === b) { deseleccionar(); return; }
+      deseleccionar(); sel = b; b.setAttribute('aria-pressed', 'true');
+      anunciar(f + ' seleccionada. Elige un espacio.');
+    });
+    b.addEventListener('pointerdown', (e) => iniciarArrastre(e, b));
+    return b;
+  }
+  function iniciarArrastre(e, chip) {
+    if (bloqueado || (e.pointerType === 'mouse' && e.button !== 0)) return;
+    const x0 = e.clientX, y0 = e.clientY;
+    let arrastrando = false, ghost = null, objetivo = null, ultimo = null, raf = 0;
+    function bucle() {
+      if (!arrastrando) return;
+      const y = ultimo.clientY;
+      if (y < 70) window.scrollBy(0, -14); else if (y > window.innerHeight - 70) window.scrollBy(0, 14);
+      marcar(ultimo);
+      raf = requestAnimationFrame(bucle);
+    }
+    function marcar(ev) {
+      const el = document.elementFromPoint(ev.clientX, ev.clientY);
+      const nuevo = el ? el.closest('.dd-casilla, .dd-banco') : null;
+      if (nuevo !== objetivo) { if (objetivo) objetivo.classList.remove('sobre'); objetivo = nuevo; if (objetivo) objetivo.classList.add('sobre'); }
+    }
+    function mover_(ev) {
+      if (!arrastrando && Math.hypot(ev.clientX - x0, ev.clientY - y0) > 6) {
+        arrastrando = true; deseleccionar();
+        ghost = chip.cloneNode(true); ghost.className = 'dd-chip dd-ghost'; ghost.removeAttribute('aria-pressed');
+        document.body.appendChild(ghost); chip.classList.add('arrastrando');
+        ultimo = ev; raf = requestAnimationFrame(bucle);
+      }
+      if (arrastrando) {
+        ultimo = ev;
+        ghost.style.left = (ev.clientX - ghost.offsetWidth / 2) + 'px';
+        ghost.style.top = (ev.clientY - ghost.offsetHeight / 2) + 'px';
+        marcar(ev);
+      }
+    }
+    function fin(ev) {
+      document.removeEventListener('pointermove', mover_);
+      document.removeEventListener('pointerup', fin);
+      document.removeEventListener('pointercancel', fin);
+      if (arrastrando) {
+        cancelAnimationFrame(raf);
+        ghost.remove(); chip.classList.remove('arrastrando');
+        if (objetivo) objetivo.classList.remove('sobre');
+        if (ev.type === 'pointerup' && objetivo) mover(chip, objetivo);
+        ignorar = true; setTimeout(() => { ignorar = false; }, 0);
+      }
+    }
+    document.addEventListener('pointermove', mover_);
+    document.addEventListener('pointerup', fin);
+    document.addEventListener('pointercancel', fin);
+  }
+  function alActivar(destino) {
+    return () => { if (sel && !bloqueado) { const c = sel; deseleccionar(); mover(c, destino); } };
+  }
+  function pintar() {
+    bloqueado = false; sel = null; casillas.length = 0;
+    cont.replaceChildren(); banco.replaceChildren();
+    btnReset.hidden = true; resEl.textContent = '';
+    DD_ITEMS.forEach((it, i) => {
+      const fila = document.createElement('div'); fila.className = 'dd-fila';
+      const izq = document.createElement('div');
+      const p = document.createElement('p'); p.className = 'dd-enun'; p.textContent = it.enun; izq.appendChild(p);
+      if (it.codigo) { const pre = document.createElement('pre'); pre.className = 'dd-cod'; pre.textContent = it.codigo; izq.appendChild(pre); }
+      const c = document.createElement('div'); c.className = 'dd-casilla'; c.tabIndex = 0; c.setAttribute('role', 'button');
+      const v = document.createElement('span'); v.className = 'dd-vacio'; v.textContent = 'Suelta aquí';
+      c.appendChild(v);
+      const act = alActivar(c);
+      c.addEventListener('click', act);
+      c.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); act(); } });
+      const nota = document.createElement('p'); nota.className = 'dd-nota';
+      fila.append(izq, c, nota); cont.appendChild(fila); casillas.push(c);
+    });
+    mezclar(DD_FICHAS).forEach((f) => banco.appendChild(crearChip(f)));
+    actualizar();
+  }
+  const actBanco = alActivar(banco);
+  banco.addEventListener('click', actBanco);
+  banco.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); actBanco(); } });
+  btnComp.addEventListener('click', () => {
+    let ok = 0; bloqueado = true; deseleccionar();
+    casillas.forEach((c, i) => {
+      const ch = c.querySelector('.dd-chip'); const it = DD_ITEMS[i];
+      const bien = ch && ch.dataset.valor === it.correcta;
+      if (bien) ok++;
+      c.classList.add(bien ? 'ok' : 'mal');
+      c.parentElement.querySelector('.dd-nota').textContent = (bien ? '¡Correcto! ' : 'No pasa nada. ') + it.explicacion;
+    });
+    document.querySelectorAll('#dd-banco .dd-chip, #dd-casillas .dd-chip').forEach((x) => { x.disabled = true; });
+    btnComp.disabled = true; btnReset.hidden = false;
+    const pct = Math.round(ok / DD_ITEMS.length * 100);
+    resEl.textContent = 'Obtuviste ' + ok + ' de ' + DD_ITEMS.length + ' respuestas correctas (' + pct + ' %). ' + (ok === DD_ITEMS.length ? DD_FRASES[0] : DD_FRASES[1]);
+  });
+  btnReset.addEventListener('click', pintar);
+  pintar();
+})();
+</script>
+</body>
+</html>

@@ -6,7 +6,15 @@ const listaCapsulas = [
     capsulaDatos, 
     capsulaGestion, 
     capsulaInvestigacion,
-    capsulaQuéesVisualStudioCode
+    capsulaQuéesVisualStudioCode,
+    capsulaCondicionales,
+    capsulaTiposDatos,
+    capsulaSistemaBinario,
+    capsulaReglaDeTres,
+    capsulaTripleRestriccion,
+    capsulaModelosIngresos,
+    capsulaMatrizEisenhower
+    
 ];
 
 function navegarA(idSeccion) {

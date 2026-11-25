@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Cápsula interactiva: cómo alcance, tiempo y costo se afectan entre sí en un proyecto.">
+<title>Triple restricción de un proyecto | Gestión de proyectos TIC</title>
+<style>
+:root{
+  --vino:#334155; --vino-oscuro:#1e293b; --vino-suave:#f1f5f9; --vino-borde:#cbd5e1;
+  --dorado:#c8a46a; --dorado-suave:#f8efdd; --fondo:#f6f8fa; --texto:#2d2a2e; --gris:#5b6677;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--texto);font:16px/1.6 Arial,Helvetica,sans-serif}
+[hidden]{display:none!important}
+.wrap{width:min(100% - 24px,1000px);margin:22px auto}
+header{padding:clamp(22px,5vw,42px);background:var(--vino);color:#fff;border-radius:20px;border-bottom:5px solid var(--dorado)}
+.tag{font-size:.78rem;font-weight:800;letter-spacing:.08em;margin:0 0 6px;color:var(--vino)}
+header .tag{color:#f0d9a8}
+header p:last-child{margin-bottom:0}
+h1{font-size:clamp(2rem,5vw,3rem);line-height:1.15;margin:8px 0}
+h2{color:var(--vino);margin:0 0 12px;font-size:clamp(1.4rem,3vw,1.9rem)}
+h3{color:var(--vino-oscuro);margin:16px 0 6px;font-size:1.1rem}
+.panel{background:#fff;margin-top:18px;padding:clamp(20px,4vw,32px);border-radius:18px;box-shadow:0 5px 18px #1e293b10}
+p{margin-top:0}
+code{font-family:Consolas,"Courier New",monospace;background:var(--vino-suave);color:var(--vino-oscuro);padding:1px 6px;border-radius:5px}
+.formula{padding:15px;background:var(--vino-suave);border-left:5px solid var(--vino);border-radius:12px}
+.consejo{padding:12px 15px;background:var(--dorado-suave);border-left:5px solid var(--dorado);border-radius:10px}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.cards article{padding:20px;background:#f8fafc;border:1px solid var(--vino-borde);border-radius:14px}
+.cards .grande{font-size:2.2rem;font-weight:800;color:var(--vino);line-height:1.2}
+.cards h3{margin:0 0 4px}
+.cards p{margin:6px 0 0}
+
+
+/* Código y simulador */
+pre.codigo{margin:12px 0;padding:14px 0;background:#2d2a2e;color:#f1f5f9;border-radius:12px;font:15px/1.7 Consolas,"Courier New",monospace;overflow-x:auto}
+pre.codigo .l{display:block;padding:0 16px;border-left:5px solid transparent;white-space:pre}
+pre.codigo .l.on{background:#1e293b99;border-left-color:var(--dorado);color:#fff}
+pre.codigo .l.off{opacity:.45}
+.kw{color:#cbd5e1}.st{color:#f0d9a8}.nm{color:#9fd3c7}
+.eval{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+.eval div{flex:1 1 200px;padding:12px 16px;background:var(--vino-suave);border-radius:12px}
+.eval small{display:block;color:var(--gris)}
+.eval strong{font-size:1.25rem;color:var(--vino-oscuro);font-family:Consolas,"Courier New",monospace}
+.eval .verdad strong{color:#105d35}.eval .falso strong{color:#8c2020}
+.fila{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin:8px 0}
+.fila label{flex:0 0 100%}
+.fila input{flex:0 1 160px}
+table.op{width:100%;border-collapse:collapse;margin:10px 0}
+table.op th,table.op td{padding:9px 12px;border:1px solid var(--vino-borde);text-align:left}
+table.op th{background:var(--vino);color:#fff}
+table.op td:first-child{font-family:Consolas,"Courier New",monospace;font-weight:800;color:var(--vino-oscuro);background:var(--dorado-suave)}
+.blank{display:inline-block;min-width:7ch;padding:0 8px;border-radius:6px;background:var(--dorado);color:#3a2a10;font-weight:800;text-align:center}
+.blank.ok{background:#bfe8cf;color:#105d35}.blank.mal{background:#f6c7c7;color:#8c2020}
+.cards.tres{grid-template-columns:repeat(3,1fr)}
+/* Formularios */
+form{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;align-items:end}
+label{font-weight:bold}
+input[type=text],input[type=number]{width:100%;padding:11px;border:1px solid #94a3b8;border-radius:9px;font:inherit;background:#fff;color:var(--texto)}
+button{font:inherit}
+.btn{padding:11px 17px;background:var(--vino);color:#fff;border:0;border-radius:9px;font-weight:bold;cursor:pointer;margin:5px 8px 5px 0}
+.btn:hover:not(:disabled){background:var(--vino-oscuro)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.claro{background:var(--vino-suave);color:var(--vino)}
+.btn.claro:hover:not(:disabled){background:var(--vino-borde)}
+button:focus-visible,input:focus-visible{outline:3px solid #111;outline-offset:3px}
+form .btn{grid-column:1/-1;justify-self:start}
+.salida{margin-top:12px;padding:12px 16px;background:var(--dorado-suave);border-left:5px solid var(--dorado);border-radius:8px}
+.salida.ok{background:#e9f6ee;border-left-color:#21834e}
+.salida.mal{background:#fdeeee;border-left-color:#b43c3c}
+.pasos{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:6px}
+.pasos li{display:flex;justify-content:space-between;gap:10px;padding:8px 14px;background:#f8fafc;border:1px solid var(--vino-borde);border-radius:10px;font-family:Consolas,"Courier New",monospace}
+.pasos .r{background:var(--vino);color:#fff;border-radius:6px;padding:0 10px;font-weight:bold}
+.resultado-bin{font-size:1.4rem;font-weight:800;color:var(--vino-oscuro);font-family:Consolas,"Courier New",monospace;letter-spacing:.08em}
+
+/* Cuestionario */
+.quizhead{display:flex;justify-content:space-between;align-items:center;gap:10px}
+#progress{background:var(--dorado-suave);border:1px solid var(--dorado);border-radius:99px;padding:6px 12px;white-space:nowrap;font-size:.9rem}
+.question{font-weight:bold;font-size:1.1rem}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.options button{text-align:left;background:#fff;color:var(--texto);border:1px solid #94a3b8;border-radius:9px;padding:11px 15px;font-weight:bold;cursor:pointer;margin:0}
+.options button:hover:not(:disabled){background:var(--vino-suave)}
+.options button:disabled{cursor:default}
+.options button.correct{background:#e4f7eb;border-color:#16804a;color:#105d35}
+.options button.wrong{background:#fff0f0;border-color:#c93232;color:#8c2020}
+.final{font-weight:bold;font-size:1.1rem}
+footer{text-align:center;color:var(--gris);padding:20px 8px}
+
+@media(max-width:700px){.cards.tres{grid-template-columns:1fr}pre.codigo{font-size:13px}}
+@media(max-width:560px){
+  .cards,.cards.tres,.options,form{grid-template-columns:1fr}
+  form .btn{grid-column:auto}
+  .quizhead{align-items:flex-start;flex-direction:column}
+  .wrap{width:calc(100% - 14px);margin:7px auto}
+}
+
+/* Triple restricción */
+.tri{display:grid;grid-template-columns:minmax(220px,300px) 1fr;gap:18px;align-items:center}
+.tri svg{width:100%;height:auto}
+.rango{margin:14px 0}
+.rango label{display:flex;justify-content:space-between;gap:10px}
+.rango output{font-family:Consolas,"Courier New",monospace;color:var(--vino-oscuro);font-weight:800}
+input[type=range]{width:100%;accent-color:var(--vino);height:34px;margin:2px 0}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
+.tile{padding:12px 16px;background:var(--vino-suave);border-radius:12px}
+.tile small{display:block;color:var(--gris)}
+.tile strong{font-size:1.35rem;color:var(--vino-oscuro);font-family:Consolas,"Courier New",monospace}
+.veredicto{padding:14px 16px;border-radius:12px;border-left:5px solid var(--dorado);background:var(--dorado-suave)}
+.veredicto.ok{background:#e9f6ee;border-left-color:#21834e}
+.veredicto.mal{background:#fdeeee;border-left-color:#b43c3c}
+.veredicto h3{margin:0 0 6px}
+.caminos{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.camino{padding:14px;background:#fff;border:1px solid var(--vino-borde);border-radius:12px;display:flex;flex-direction:column;gap:6px}
+.camino h4{margin:0;color:var(--vino-oscuro)}
+.camino p{margin:0;font-size:.95rem}
+.camino .btn{margin:auto 0 0;align-self:flex-start}
+.supuestos{font-size:.9rem;color:var(--gris)}
+.supuestos ul{margin:6px 0 0;padding-left:20px}
+@media(max-width:700px){.tri{grid-template-columns:1fr}.caminos,.tiles{grid-template-columns:1fr}}
+
+/* Ejercicio de arrastrar */
+.dd-progreso{flex-shrink:0;padding:6px 12px;border-radius:999px;background:var(--dorado-suave);border:1px solid var(--dorado);font-size:.9rem;font-weight:700;white-space:nowrap}
+.dd-cab{display:flex;justify-content:space-between;gap:16px;align-items:center}
+.dd-ayuda{color:var(--gris);font-size:.95rem}
+.dd-casillas{display:grid;gap:12px;margin:14px 0}
+.dd-fila{display:grid;grid-template-columns:1fr minmax(170px,250px);gap:6px 14px;align-items:center;padding:12px 14px;background:#f8fafc;border:1px solid var(--vino-borde);border-radius:12px}
+.dd-enun{margin:0;font-weight:700}
+.dd-casilla{min-height:50px;display:flex;align-items:center;justify-content:center;padding:5px;border:2px dashed var(--vino);border-radius:10px;background:white;color:var(--gris);font-size:.9rem;cursor:pointer}
+.dd-casilla:focus-visible,.dd-banco:focus-visible,.dd-chip:focus-visible{outline:3px solid #111;outline-offset:3px}
+.dd-casilla.sobre,.dd-banco.sobre{background:var(--vino-suave);border-style:solid}
+.dd-casilla.ok{border-style:solid;border-color:#16804a;background:#e4f7eb}
+.dd-casilla.mal{border-style:solid;border-color:#c93232;background:#fff0f0}
+.dd-cod{margin:8px 0 0;padding:10px 12px;background:#2d2a2e;color:#f4ece6;border-radius:8px;font:14px/1.6 Consolas,'DejaVu Sans Mono',monospace;white-space:pre;overflow-x:auto;font-weight:400}
+.dd-nota{grid-column:1/-1;margin:0;font-size:.92rem}
+.dd-nota:empty{display:none}
+.dd-banco{display:flex;flex-wrap:wrap;gap:10px;padding:14px;min-height:66px;background:var(--dorado-suave);border:1px dashed var(--dorado);border-radius:12px}
+.dd-chip{margin:0;padding:9px 14px;border:1px solid #94a3b8;border-radius:9px;background:white;color:var(--texto);font:inherit;font-weight:700;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
+.dd-chip:hover:not(:disabled){background:var(--vino-suave);color:var(--texto)}
+.dd-chip[aria-pressed="true"]{border-color:var(--vino);box-shadow:0 0 0 3px var(--vino-borde)}
+.dd-chip.arrastrando{opacity:.35}
+.dd-chip:disabled{cursor:default;opacity:1}
+.dd-ghost{position:fixed;z-index:1000;pointer-events:none;box-shadow:0 8px 20px #0003;transform:rotate(-2deg)}
+.dd-acciones{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.dd-btn{margin:0;padding:11px 18px;border:0;border-radius:10px;font:inherit;font-weight:700;cursor:pointer;background:var(--vino);color:#fff}
+.dd-btn:hover:not(:disabled){background:var(--vino-oscuro);color:#fff}
+.dd-btn:disabled{opacity:.45;cursor:not-allowed}
+.dd-btn.claro{background:var(--vino-suave);color:var(--vino)}
+.dd-btn.claro:hover:not(:disabled){background:var(--vino-borde);color:var(--vino)}
+.dd-resultado{margin:14px 0 0;font-size:1.1rem;font-weight:800}
+.dd-estado{position:absolute;left:-9999px}
+@media(max-width:560px){.dd-fila{grid-template-columns:1fr}.dd-cab{flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body>
+<main class="wrap">
+
+<header>
+  <p class="tag">GESTIÓN TECNOLÓGICA · ADMINISTRACIÓN DE PROYECTOS</p>
+  <h1>La triple restricción: alcance, tiempo y costo</h1>
+  <p>Descubre por qué en un proyecto no se puede cambiar una cosa sin que se muevan las otras dos.</p>
+</header>
+
+<section class="panel">
+  <h2>1. ¿Qué es la triple restricción?</h2>
+  <p>Todo proyecto, desde una app hasta la renovación de una red, se mueve entre tres límites que dependen uno del otro. Quien lo dirige tiene que equilibrarlos.</p>
+  <div class="tri">
+    <svg viewBox="0 0 300 290" role="img" aria-label="Triángulo con alcance arriba, tiempo abajo a la izquierda y costo abajo a la derecha, y calidad en el centro">
+      <polygon points="150,48 30,236 270,236" fill="#f1f5f9" stroke="#334155" stroke-width="5" stroke-linejoin="round"/>
+      <circle cx="150" cy="48" r="14" fill="#c8a46a"/><circle cx="30" cy="236" r="14" fill="#c8a46a"/><circle cx="270" cy="236" r="14" fill="#c8a46a"/>
+      <text x="150" y="22" text-anchor="middle" font-size="18" font-weight="800" fill="#1e293b">Alcance</text>
+      <text x="40" y="276" text-anchor="middle" font-size="18" font-weight="800" fill="#1e293b">Tiempo</text>
+      <text x="260" y="276" text-anchor="middle" font-size="18" font-weight="800" fill="#1e293b">Costo</text>
+      <text x="150" y="190" text-anchor="middle" font-size="18" font-weight="800" fill="#334155">Calidad</text>
+    </svg>
+    <div class="cards" style="grid-template-columns:1fr">
+      <article><h3>Alcance</h3><p>Qué se va a entregar: las funciones y el trabajo que incluye el proyecto.</p></article>
+      <article><h3>Tiempo</h3><p>En cuánto tiempo se debe entregar: el cronograma o la fecha límite.</p></article>
+      <article><h3>Costo</h3><p>Cuánto dinero se puede gastar: el presupuesto, que incluye al equipo.</p></article>
+    </div>
+  </div>
+  <p class="consejo" style="margin-top:14px">La <b>calidad</b> va al centro porque depende de cómo se equilibren las tres. Si se aprieta una restricción sin ajustar las otras, la calidad es la que suele pagar.</p>
+</section>
+
+<section class="panel">
+  <h2>2. Pruébalo: ¿alcanza el tiempo?</h2>
+  <p>Un equipo de desarrollo tiene que entregar un sistema. Mueve el alcance y el tiempo y mira qué pasa.</p>
+  <div class="rango">
+    <label for="alcance"><span>Alcance: funciones por entregar</span><output id="alcanceOut" for="alcance">10</output></label>
+    <input id="alcance" type="range" min="4" max="16" step="1" value="10">
+  </div>
+  <div class="rango">
+    <label for="tiempo"><span>Tiempo: semanas disponibles</span><output id="tiempoOut" for="tiempo">10</output></label>
+    <input id="tiempo" type="range" min="4" max="16" step="1" value="10">
+  </div>
+  <div class="tiles" aria-live="polite">
+    <div class="tile"><small>Tiempo necesario con el equipo base</small><strong id="tNec">10 semanas</strong></div>
+    <div class="tile"><small>Costo del proyecto</small><strong id="costo">$200,000</strong></div>
+    <div class="tile"><small>Estado</small><strong id="estado">Equilibrado</strong></div>
+  </div>
+  <div id="veredicto" class="veredicto ok" aria-live="polite"></div>
+  <div id="caminos" class="caminos" hidden></div>
+  <div class="supuestos">
+    <p style="margin:12px 0 0"><b>Modelo simplificado para practicar:</b></p>
+    <ul>
+      <li>El equipo base tiene 4 personas y cada una termina 0.25 funciones por semana, es decir, el equipo entrega 1 función por semana.</li>
+      <li>Cada persona cuesta $5,000 por semana.</li>
+      <li>Cada persona extra por encima de 4 suma 10 % de costo por coordinación.</li>
+      <li>El máximo realista es un equipo de 8 personas.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="panel">
+  <h2>3. Tres formas de resolver el choque</h2>
+  <p>Cuando el tiempo no alcanza, solo hay tres caminos. Todos tienen un precio:</p>
+  <div class="cards tres">
+    <article><h3>Recortar el alcance</h3><p>Se entregan menos funciones. El costo no sube, pero el cliente recibe menos.</p></article>
+    <article><h3>Ampliar el plazo</h3><p>Se entrega más tarde. Se cumple el alcance, pero se retrasa el cliente y el equipo cuesta más semanas.</p></article>
+    <article><h3>Agregar recursos</h3><p>Se suma gente. Se acorta el tiempo, pero sube el costo y no siempre rinde lo mismo.</p></article>
+  </div>
+  <p class="consejo" style="margin-top:14px"><b>Si no se ajusta nada,</b> el equipo trabaja con prisa y baja la calidad: más errores y más retrabajo.</p>
+</section>
+
+<section class="panel dd" aria-labelledby="dd-titulo">
+    <div class="dd-cab">
+      <div>
+        <p class="etiqueta tag">PON A PRUEBA LO APRENDIDO</p>
+        <h2 id="dd-titulo">4. Arrastra la respuesta de cada pregunta</h2>
+      </div>
+      <span id="dd-progreso" class="dd-progreso">Colocadas 0 de 0</span>
+    </div>
+    <p>Cada espacio tiene una pregunta. Arrastra hasta él su respuesta. Sobran dos respuestas que no corresponden a ninguna.</p>
+    <p class="dd-ayuda">Arrastra cada respuesta hasta su espacio. Si no puedes arrastrar, toca una respuesta (o pulsa Enter sobre ella) y luego toca el espacio donde va. Para corregir, toca la respuesta colocada y luego el banco.</p>
+    <div id="dd-casillas" class="dd-casillas"></div>
+    <div id="dd-banco" class="dd-banco" tabindex="0" role="group" aria-label="Banco de respuestas. Aquí se devuelve la respuesta seleccionada"></div>
+    <div class="dd-acciones">
+      <button id="dd-comprobar" class="dd-btn" type="button" disabled>Comprobar respuestas</button>
+      <button id="dd-reiniciar" class="dd-btn claro" type="button" hidden>Volver a intentarlo</button>
+    </div>
+    <p id="dd-resultado" class="dd-resultado" aria-live="polite"></p>
+    <div id="dd-estado" class="dd-estado" aria-live="polite"></div>
+  </section>
+
+<footer><b>Recuerda:</b> alcance, tiempo y costo están conectados. Si cambias uno, otro (o la calidad) tiene que moverse.</footer>
+
+</main>
+
+<script>
+const PERSONAS_BASE = 4, FUNC_SEMANA_PERSONA = 0.25, COSTO_PERSONA = 5000, MAX_PERSONAS = 8;
+const alcance = document.getElementById('alcance');
+const tiempo = document.getElementById('tiempo');
+const alcanceOut = document.getElementById('alcanceOut');
+const tiempoOut = document.getElementById('tiempoOut');
+const tNec = document.getElementById('tNec');
+const costoEl = document.getElementById('costo');
+const estado = document.getElementById('estado');
+const veredicto = document.getElementById('veredicto');
+const caminos = document.getElementById('caminos');
+const dinero = n => '$' + Math.round(n).toLocaleString('es-MX');
+
+function costoEquipo(personas, semanas) {
+  const recargo = 1 + 0.1 * Math.max(0, personas - PERSONAS_BASE);
+  return personas * semanas * COSTO_PERSONA * recargo;
+}
+function nodo(tag, texto, cls) { const e = document.createElement(tag); e.textContent = texto; if (cls) e.className = cls; return e; }
+
+function camino(titulo, detalle, textoBtn, accion) {
+  const d = document.createElement('div');
+  d.className = 'camino';
+  d.append(nodo('h4', titulo), nodo('p', detalle));
+  if (accion) {
+    const b = nodo('button', textoBtn, 'btn claro');
+    b.type = 'button';
+    b.addEventListener('click', accion);
+    d.append(b);
+  }
+  return d;
+}
+
+function simular() {
+  const A = Number(alcance.value), T = Number(tiempo.value);
+  alcanceOut.textContent = A;
+  tiempoOut.textContent = T;
+  const necesario = A / (PERSONAS_BASE * FUNC_SEMANA_PERSONA);   // semanas con el equipo base
+  tNec.textContent = necesario + (necesario === 1 ? ' semana' : ' semanas');
+  caminos.hidden = true;
+  caminos.replaceChildren();
+  veredicto.replaceChildren();
+
+  if (T >= necesario) {
+    const costo = costoEquipo(PERSONAS_BASE, necesario);
+    costoEl.textContent = dinero(costo);
+    estado.textContent = T === necesario ? 'Equilibrado' : 'Con holgura';
+    veredicto.className = 'veredicto ok';
+    veredicto.append(nodo('h3', T === necesario ? 'El plan es viable' : 'Sobra tiempo'));
+    veredicto.append(nodo('p', T === necesario
+      ? `Con el equipo base se entregan ${A} funciones en ${T} semanas y el costo es ${dinero(costo)}.`
+      : `El equipo base termina en ${necesario} semanas y sobran ${T - necesario}. Puede aprovecharse como margen para imprevistos o para sumar más alcance.`));
+    return;
+  }
+
+  // El tiempo no alcanza
+  const falta = necesario - T;
+  estado.textContent = 'No alcanza';
+  veredicto.className = 'veredicto mal';
+  veredicto.append(nodo('h3', `Faltan ${falta} ${falta === 1 ? 'semana' : 'semanas'}`));
+  veredicto.append(nodo('p', `Entregar ${A} funciones necesita ${necesario} semanas con el equipo base, pero solo hay ${T}. Hay que mover algo. Elige un camino:`));
+  costoEl.textContent = dinero(costoEquipo(PERSONAS_BASE, necesario));
+
+  caminos.hidden = false;
+  caminos.append(camino('Recortar el alcance',
+    `Entregar ${T} funciones en ${T} semanas. Costo: ${dinero(costoEquipo(PERSONAS_BASE, T))}. Se entregan ${A - T} funciones menos.`,
+    'Aplicar', () => { alcance.value = T; simular(); }));
+  caminos.append(camino('Ampliar el plazo',
+    `Entregar las ${A} funciones en ${necesario} semanas. Costo: ${dinero(costoEquipo(PERSONAS_BASE, necesario))}. Se retrasa la entrega ${falta} ${falta === 1 ? 'semana' : 'semanas'}.`,
+    'Aplicar', () => { tiempo.value = necesario; simular(); }));
+  const p = Math.ceil(A / (FUNC_SEMANA_PERSONA * T));
+  if (p <= MAX_PERSONAS) {
+    const extra = costoEquipo(p, T), base = costoEquipo(PERSONAS_BASE, necesario);
+    const dif = Math.round((extra / base - 1) * 100);
+    caminos.append(camino('Agregar personas',
+      `Con ${p} personas se cumplen ${A} funciones en ${T} semanas. Costo: ${dinero(extra)} (${dif >= 0 ? '+' : ''}${dif} % frente al plan base).`));
+  } else {
+    caminos.append(camino('Agregar personas',
+      `Haría falta un equipo de ${p} personas y el máximo realista es ${MAX_PERSONAS}. Sumar gente no resuelve este caso: hay que recortar alcance o ampliar plazo.`));
+  }
+}
+alcance.addEventListener('input', simular);
+tiempo.addEventListener('input', simular);
+simular();
+
+/* ---------- Cuestionario ---------- */
+
+/* ---------- Ejercicio de arrastrar ---------- */
+const DD_ITEMS = [
+ {
+  "enun": "¿Cuáles son las tres restricciones de un proyecto?",
+  "correcta": "Alcance, tiempo y costo",
+  "explicacion": "La triple restricción son el alcance (qué se entrega), el tiempo (cuándo) y el costo (con cuánto dinero). La calidad depende del equilibrio entre las tres."
+ },
+ {
+  "enun": "El cliente pide adelantar la fecha de entrega, pero quiere las mismas funciones. ¿Qué suele pasar?",
+  "correcta": "Hay que sumar recursos (sube el costo) o recortar alcance",
+  "explicacion": "Si se reduce el tiempo y el alcance se mantiene, normalmente hay que agregar personas u horas (más costo) o entregar menos funciones."
+ },
+ {
+  "enun": "Se agregan funciones al proyecto sin cambiar la fecha ni el presupuesto. Si nada más se ajusta, ¿qué se pone en riesgo?",
+  "correcta": "La calidad",
+  "explicacion": "Más trabajo en el mismo tiempo y con el mismo dinero obliga a ir con prisa, y eso suele traducirse en más errores y menor calidad."
+ },
+ {
+  "enun": "¿Cuál restricción describe cuánto trabajo y cuántas funciones incluye el proyecto?",
+  "correcta": "Alcance",
+  "explicacion": "El alcance define lo que se va a entregar. El tiempo es el plazo y el costo es el presupuesto."
+ }
+];
+const DD_FICHAS = ["Alcance, tiempo y costo", "Hay que sumar recursos (sube el costo) o recortar alcance", "La calidad", "Alcance", "No cambia nada más", "El logotipo"];
+const DD_FRASES = ["¡Excelente trabajo! Colocaste todas las respuestas correctamente.", "Repasa los ejemplos y vuelve a intentarlo."];
+(function () {
+  const cont = document.getElementById('dd-casillas');
+  const banco = document.getElementById('dd-banco');
+  const btnComp = document.getElementById('dd-comprobar');
+  const btnReset = document.getElementById('dd-reiniciar');
+  const resEl = document.getElementById('dd-resultado');
+  const progEl = document.getElementById('dd-progreso');
+  const estado = document.getElementById('dd-estado');
+  let sel = null, bloqueado = false, ignorar = false;
+  const casillas = [];
+
+  function anunciar(t) { estado.textContent = ''; setTimeout(() => { estado.textContent = t; }, 30); }
+  function mezclar(a) { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; }
+  function etiquetaCasilla(c, i) {
+    const ch = c.querySelector('.dd-chip');
+    c.setAttribute('aria-label', 'Espacio ' + (i + 1) + ': ' + DD_ITEMS[i].enun + '. ' + (ch ? 'Contiene ' + ch.textContent : 'Vacío'));
+  }
+  function actualizar() {
+    let n = 0;
+    casillas.forEach((c, i) => {
+      const hay = !!c.querySelector('.dd-chip');
+      if (hay) n++;
+      const vacio = c.querySelector('.dd-vacio');
+      if (vacio) vacio.hidden = hay;
+      etiquetaCasilla(c, i);
+    });
+    progEl.textContent = 'Colocadas ' + n + ' de ' + DD_ITEMS.length;
+    btnComp.disabled = bloqueado || n < DD_ITEMS.length;
+  }
+  function limpiarMarcas() {
+    casillas.forEach((c) => { c.classList.remove('ok', 'mal'); c.parentElement.querySelector('.dd-nota').textContent = ''; });
+    resEl.textContent = '';
+  }
+  function deseleccionar() { if (sel) { sel.setAttribute('aria-pressed', 'false'); sel = null; } }
+  function mover(chip, destino) {
+    if (bloqueado) return;
+    const ocupante = destino.classList.contains('dd-casilla') ? destino.querySelector('.dd-chip') : null;
+    if (ocupante && ocupante !== chip) banco.appendChild(ocupante);
+    destino.appendChild(chip);
+    limpiarMarcas();
+    actualizar();
+    const donde = destino.classList.contains('dd-casilla') ? 'en el espacio ' + (casillas.indexOf(destino) + 1) : 'en el banco';
+    anunciar(chip.textContent + ' colocada ' + donde + '.');
+  }
+  function crearChip(f) {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'dd-chip'; b.textContent = f; b.dataset.valor = f;
+    b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (ignorar || bloqueado) return;
+      if (sel === b) { deseleccionar(); return; }
+      deseleccionar(); sel = b; b.setAttribute('aria-pressed', 'true');
+      anunciar(f + ' seleccionada. Elige un espacio.');
+    });
+    b.addEventListener('pointerdown', (e) => iniciarArrastre(e, b));
+    return b;
+  }
+  function iniciarArrastre(e, chip) {
+    if (bloqueado || (e.pointerType === 'mouse' && e.button !== 0)) return;
+    const x0 = e.clientX, y0 = e.clientY;
+    let arrastrando = false, ghost = null, objetivo = null, ultimo = null, raf = 0;
+    function bucle() {
+      if (!arrastrando) return;
+      const y = ultimo.clientY;
+      if (y < 70) window.scrollBy(0, -14); else if (y > window.innerHeight - 70) window.scrollBy(0, 14);
+      marcar(ultimo);
+      raf = requestAnimationFrame(bucle);
+    }
+    function marcar(ev) {
+      const el = document.elementFromPoint(ev.clientX, ev.clientY);
+      const nuevo = el ? el.closest('.dd-casilla, .dd-banco') : null;
+      if (nuevo !== objetivo) { if (objetivo) objetivo.classList.remove('sobre'); objetivo = nuevo; if (objetivo) objetivo.classList.add('sobre'); }
+    }
+    function mover_(ev) {
+      if (!arrastrando && Math.hypot(ev.clientX - x0, ev.clientY - y0) > 6) {
+        arrastrando = true; deseleccionar();
+        ghost = chip.cloneNode(true); ghost.className = 'dd-chip dd-ghost'; ghost.removeAttribute('aria-pressed');
+        document.body.appendChild(ghost); chip.classList.add('arrastrando');
+        ultimo = ev; raf = requestAnimationFrame(bucle);
+      }
+      if (arrastrando) {
+        ultimo = ev;
+        ghost.style.left = (ev.clientX - ghost.offsetWidth / 2) + 'px';
+        ghost.style.top = (ev.clientY - ghost.offsetHeight / 2) + 'px';
+        marcar(ev);
+      }
+    }
+    function fin(ev) {
+      document.removeEventListener('pointermove', mover_);
+      document.removeEventListener('pointerup', fin);
+      document.removeEventListener('pointercancel', fin);
+      if (arrastrando) {
+        cancelAnimationFrame(raf);
+        ghost.remove(); chip.classList.remove('arrastrando');
+        if (objetivo) objetivo.classList.remove('sobre');
+        if (ev.type === 'pointerup' && objetivo) mover(chip, objetivo);
+        ignorar = true; setTimeout(() => { ignorar = false; }, 0);
+      }
+    }
+    document.addEventListener('pointermove', mover_);
+    document.addEventListener('pointerup', fin);
+    document.addEventListener('pointercancel', fin);
+  }
+  function alActivar(destino) {
+    return () => { if (sel && !bloqueado) { const c = sel; deseleccionar(); mover(c, destino); } };
+  }
+  function pintar() {
+    bloqueado = false; sel = null; casillas.length = 0;
+    cont.replaceChildren(); banco.replaceChildren();
+    btnReset.hidden = true; resEl.textContent = '';
+    DD_ITEMS.forEach((it, i) => {
+      const fila = document.createElement('div'); fila.className = 'dd-fila';
+      const izq = document.createElement('div');
+      const p = document.createElement('p'); p.className = 'dd-enun'; p.textContent = it.enun; izq.appendChild(p);
+      if (it.codigo) { const pre = document.createElement('pre'); pre.className = 'dd-cod'; pre.textContent = it.codigo; izq.appendChild(pre); }
+      const c = document.createElement('div'); c.className = 'dd-casilla'; c.tabIndex = 0; c.setAttribute('role', 'button');
+      const v = document.createElement('span'); v.className = 'dd-vacio'; v.textContent = 'Suelta aquí';
+      c.appendChild(v);
+      const act = alActivar(c);
+      c.addEventListener('click', act);
+      c.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); act(); } });
+      const nota = document.createElement('p'); nota.className = 'dd-nota';
+      fila.append(izq, c, nota); cont.appendChild(fila); casillas.push(c);
+    });
+    mezclar(DD_FICHAS).forEach((f) => banco.appendChild(crearChip(f)));
+    actualizar();
+  }
+  const actBanco = alActivar(banco);
+  banco.addEventListener('click', actBanco);
+  banco.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); actBanco(); } });
+  btnComp.addEventListener('click', () => {
+    let ok = 0; bloqueado = true; deseleccionar();
+    casillas.forEach((c, i) => {
+      const ch = c.querySelector('.dd-chip'); const it = DD_ITEMS[i];
+      const bien = ch && ch.dataset.valor === it.correcta;
+      if (bien) ok++;
+      c.classList.add(bien ? 'ok' : 'mal');
+      c.parentElement.querySelector('.dd-nota').textContent = (bien ? '¡Correcto! ' : 'No pasa nada. ') + it.explicacion;
+    });
+    document.querySelectorAll('#dd-banco .dd-chip, #dd-casillas .dd-chip').forEach((x) => { x.disabled = true; });
+    btnComp.disabled = true; btnReset.hidden = false;
+    const pct = Math.round(ok / DD_ITEMS.length * 100);
+    resEl.textContent = 'Obtuviste ' + ok + ' de ' + DD_ITEMS.length + ' respuestas correctas (' + pct + ' %). ' + (ok === DD_ITEMS.length ? DD_FRASES[0] : DD_FRASES[1]);
+  });
+  btnReset.addEventListener('click', pintar);
+  pintar();
+})();
+</script>
+</body>
+</html>
