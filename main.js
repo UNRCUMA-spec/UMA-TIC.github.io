@@ -193,6 +193,38 @@ function verDetalleCapsula(id) {
                     Recurso Multimedia / Interactivo
                 </h3>
                 <div class="pl-8">${cap.recursoHtml}</div>
+                ${cap.videoId ? `
+                    <div class="pl-8 space-y-2">
+                        <p class="text-sm font-semibold text-slate-800">Video complementario en español: ${cap.videoTitulo}</p>
+                        <div class="w-full max-w-3xl">
+                            <button
+                                type="button"
+                                class="video-preview group relative block w-full cursor-pointer overflow-hidden rounded-xl border border-slate-200 bg-slate-900 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
+                                style="aspect-ratio: 16 / 9;"
+                                data-video-id="${cap.videoId}"
+                                data-video-title="${cap.videoTitulo}"
+                                aria-label="Reproducir video: ${cap.videoTitulo}">
+                                <img
+                                    class="video-thumbnail absolute inset-0 h-full w-full object-cover"
+                                    src="https://i.ytimg.com/vi/${cap.videoId}/hqdefault.jpg"
+                                    alt=""
+                                    loading="eager">
+                                <span class="absolute inset-0 flex items-center justify-center bg-transparent transition-colors group-hover:bg-black/10">
+                                    <span class="flex h-14 w-20 items-center justify-center rounded-xl bg-red-600 shadow-lg transition-transform group-hover:scale-110">
+                                        <svg aria-hidden="true" viewBox="0 0 24 24" class="h-8 w-8 fill-white">
+                                            <path d="M8 5v14l11-7z"></path>
+                                        </svg>
+                                    </span>
+                                </span>
+                            </button>
+                        </div>
+                        <a href="https://www.youtube.com/watch?v=${cap.videoId}"
+                           target="_blank" rel="noopener noreferrer"
+                           class="inline-block text-sm text-blue-700 underline hover:text-blue-900">
+                            Si el video no se reproduce, ábrelo en YouTube
+                        </a>
+                    </div>
+                ` : ''}
             </div>
 
             <div class="space-y-3">
@@ -219,6 +251,21 @@ function verDetalleCapsula(id) {
                 </div>
             </div>
 
+            ${cap.actividadInteractiva ? `
+                <div class="space-y-3">
+                    <h3 class="text-base font-bold text-vino-900">Reto práctico</h3>
+                    <div class="pl-8 space-y-3">
+                        <p class="text-sm text-slate-700 leading-relaxed">${cap.actividadInteractiva.instrucciones}</p>
+                        <details class="rounded-xl border border-blue-200 bg-blue-50 p-4">
+                            <summary class="cursor-pointer text-sm font-semibold text-blue-900">
+                                Ver una posible solución
+                            </summary>
+                            <p class="mt-3 text-sm text-slate-700 leading-relaxed">${cap.actividadInteractiva.solucion}</p>
+                        </details>
+                    </div>
+                </div>
+            ` : ''}
+
             ${cap.referencias?.length ? `
                 <div class="space-y-3">
                     <h3 class="text-base font-bold text-vino-900">Referencias bibliográficas</h3>
@@ -236,6 +283,28 @@ function verDetalleCapsula(id) {
             ` : ''}
         </div>
     `;
+    contenedor.querySelectorAll('.video-preview').forEach(boton => {
+        boton.addEventListener('click', () => {
+            const videoId = boton.dataset.videoId;
+            const videoTitle = boton.dataset.videoTitle;
+
+            if (!videoId || !videoTitle) {
+                console.error("Faltan los datos necesarios para reproducir el video.");
+                return;
+            }
+
+            const reproductor = document.createElement('iframe');
+            reproductor.className = "w-full max-w-3xl rounded-xl border border-slate-200";
+            reproductor.style.aspectRatio = "16 / 9";
+            reproductor.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1&rel=0&playsinline=1`;
+            reproductor.title = videoTitle;
+            reproductor.loading = "lazy";
+            reproductor.referrerPolicy = "strict-origin-when-cross-origin";
+            reproductor.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+            reproductor.allowFullscreen = true;
+            boton.replaceWith(reproductor);
+        });
+    });
     activarImagenesAmpliables(contenedor);
     navegarA('capsula');
 
@@ -330,7 +399,7 @@ function abrirImagenAmpliada(imagen) {
 }
 
 function activarImagenesAmpliables(contenedor) {
-    contenedor.querySelectorAll('img').forEach(imagen => {
+    contenedor.querySelectorAll('img:not(.video-thumbnail)').forEach(imagen => {
         imagen.classList.add('imagen-ampliable');
         imagen.tabIndex = 0;
         imagen.setAttribute('role', 'button');

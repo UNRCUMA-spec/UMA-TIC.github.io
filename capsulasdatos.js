@@ -37,6 +37,8 @@ const capsulaModeloRelacional = {
     recursoHtml: `
         <img src="recursos-visuales/visuales_caps_programacion/modelorelacional.jpg"
          alt="Diagrama Entidad-Relación del Modelo Relacional">`,
+    videoId: "ZZQhNYlN9QU",
+    videoTitulo: "Modelo Entidad-Relación y llaves primarias y foráneas — J. Alberto Bernal",
     ejercicioPregunta: "¿Cuál es la función principal de una Llave Primaria (Primary Key) dentro de una tabla relacional?",
     opciones: [
         "A) Permitir que existan registros duplicados para agilizar las búsquedas.",
@@ -117,8 +119,16 @@ const capsulaModeloRelacional = {
         {
             titulo: "W3Schools. SQL FOREIGN KEY Constraint.",
             url: "https://www.w3schools.com/sql/sql_foreignkey.asp"
+        },
+        {
+            titulo: "J. Alberto Bernal. Modelo Entidad-Relación y llaves primarias y foráneas (video en español).",
+            url: "https://www.youtube.com/watch?v=ZZQhNYlN9QU"
         }
-    ]
+    ],
+    actividadInteractiva: {
+        instrucciones: "Diseña las tablas Clientes y Pedidos para registrar varias compras por cliente. Define la llave primaria de cada tabla y el campo que las relaciona.",
+        solucion: "Una solución posible es Clientes(id_cliente PK, nombre, correo) y Pedidos(id_pedido PK, fecha, cliente_id FK que referencia Clientes.id_cliente). Así cada pedido apunta a un cliente existente."
+    }
 };
 
 const capsulaNormalizacionBD = {
@@ -139,6 +149,8 @@ const capsulaNormalizacionBD = {
     recursoHtml: `
         <img src="recursos-visuales/visuales_caps_programacion/normalizacionbd.jpg"
          alt="Esquema comparativo antes y después de normalizar">`,
+    videoId: "kvt2wE-q-yY",
+    videoTitulo: "Normalización en bases de datos con ejercicio — TodoCode",
     ejercicioPregunta: "¿Cuál es el objetivo principal de aplicar la normalización en el diseño de una base de datos relacional?",
     opciones: [
         "A) Aumentar la duplicidad de datos para tener respaldos en cada tabla.",
@@ -223,8 +235,16 @@ const capsulaNormalizacionBD = {
         {
             titulo: "W3Schools. SQL FOREIGN KEY Constraint.",
             url: "https://www.w3schools.com/sql/sql_foreignkey.asp"
+        },
+        {
+            titulo: "TodoCode. Normalización en bases de datos con ejercicio (video en español).",
+            url: "https://www.youtube.com/watch?v=kvt2wE-q-yY"
         }
-    ]
+    ],
+    actividadInteractiva: {
+        instrucciones: "Una tabla Pedidos repite nombre_cliente, correo_cliente y producto cada vez que hay una compra. Propón una separación que reduzca duplicados y permita varios productos por pedido.",
+        solucion: "Separa Clientes(id_cliente PK, nombre, correo), Pedidos(id_pedido PK, fecha, cliente_id FK) y DetallePedido(id_pedido FK, producto_id FK, cantidad). Los datos del cliente se guardan una vez y el detalle resuelve los productos de cada pedido."
+    }
 };
 
 const capsulaLenguajeSQL = {
@@ -245,6 +265,8 @@ const capsulaLenguajeSQL = {
     recursoHtml: `
         <img src="recursos-visuales/visuales_caps_programacion/comandossql.jpg"
          alt="Infografía de comandos SQL DDL y DML">`,
+    videoId: "YpTK1_hA43Q",
+    videoTitulo: "Tipos de comandos SQL: DDL, DML, DCL y TCL — Ingenioteka",
     ejercicioPregunta: "¿A qué sublenguaje de SQL pertenecen los comandos CREATE, ALTER y DROP?",
     opciones: [
         "A) DML (Lenguaje de Manipulación de Datos).",
@@ -329,8 +351,16 @@ const capsulaLenguajeSQL = {
         {
             titulo: "W3Schools. SQL UPDATE Statement.",
             url: "https://www.w3schools.com/sql/sql_update.asp"
+        },
+        {
+            titulo: "Ingenioteka. Tipos de comandos SQL: DDL, DML, DCL y TCL (video en español).",
+            url: "https://www.youtube.com/watch?v=YpTK1_hA43Q"
         }
-    ]
+    ],
+    actividadInteractiva: {
+        instrucciones: "En una tabla alumnos(id, nombre, correo, semestre), escribe una consulta para listar nombre y correo de quienes cursan el semestre 7. Después actualiza el correo de la alumna con id 10 sin afectar a otras filas.",
+        solucion: "Consulta: SELECT nombre, correo FROM alumnos WHERE semestre = 7;. Actualización: UPDATE alumnos SET correo = 'ana@ejemplo.com' WHERE id = 10;. El filtro WHERE limita el cambio al registro indicado."
+    }
 };
 
 const capsulaSQLvsNoSQL = {
@@ -351,6 +381,8 @@ const capsulaSQLvsNoSQL = {
     recursoHtml: `
         <img src="recursos-visuales/visuales_caps_programacion/sqlvsnosql.jpg"
          alt="Diagrama comparativo entre bases de datos SQL y NoSQL">`,
+    videoId: "8K1PKSqHFRQ",
+    videoTitulo: "¿SQL o NoSQL? ¿Cuál base de datos es mejor? — EDteam",
     ejercicioPregunta: "¿Cuál es una característica distintiva de las bases de datos NoSQL orientadas a documentos como MongoDB?",
     opciones: [
         "A) Obligan a definir todas las columnas y tipos de datos antes de insertar el primer registro.",
@@ -435,6 +467,14 @@ const capsulaSQLvsNoSQL = {
         {
             titulo: "MongoDB Manual. What is MongoDB?",
             url: "https://www.mongodb.com/docs/manual/"
+        },
+        {
+            titulo: "EDteam. ¿SQL o NoSQL? ¿Cuál base de datos es mejor? (video en español).",
+            url: "https://www.youtube.com/watch?v=8K1PKSqHFRQ"
         }
-    ]
+    ],
+    actividadInteractiva: {
+        instrucciones: "Elige un tipo de base de datos para cada caso y explica tu decisión: (1) transferencias bancarias que requieren consistencia transaccional; (2) catálogo de productos con atributos distintos según su categoría.",
+        solucion: "Para las transferencias, SQL es una opción natural por sus transacciones ACID y relaciones explícitas. Para el catálogo variable, una base documental NoSQL puede facilitar documentos con campos distintos. La elección final también depende de requisitos de consistencia, consultas y operación."
+    }
 };
