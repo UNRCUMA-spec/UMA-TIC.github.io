@@ -105,7 +105,7 @@ const capsulaTiposDatos = {
 };
 
 const capsulaGitGithub = {
-    id: 9,
+    id: 108,
     titulo: "Git y GitHub: Control de Versiones",
     area: "Programación y desarrollo de software",
     duracion: "5 a 7 minutos",
