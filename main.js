@@ -218,6 +218,22 @@ function verDetalleCapsula(id) {
                     `).join('')}
                 </div>
             </div>
+
+            ${cap.referencias?.length ? `
+                <div class="space-y-3">
+                    <h3 class="text-base font-bold text-vino-900">Referencias bibliográficas</h3>
+                    <ul class="pl-8 list-disc space-y-2 text-sm text-slate-700">
+                        ${cap.referencias.map(referencia => `
+                            <li>
+                                <a href="${referencia.url}" target="_blank" rel="noopener noreferrer"
+                                   class="text-blue-700 underline hover:text-blue-900">
+                                    ${referencia.titulo}
+                                </a>
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+            ` : ''}
         </div>
     `;
     activarImagenesAmpliables(contenedor);
