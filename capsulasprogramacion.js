@@ -32,7 +32,7 @@ const capsulaQuéesVisualStudioCode= {
     area: "Programación y desarrollo de software",
     duracion: "5 min",
     nivel: "Inicial",
-    formato: "Lectura breve con apoyo visual",
+    formato: "Lectura breve con apoyo visual y quiz",
     tags: ["VSCode", "Programacion", "EditorDeCodigo", "Extensiones",           "DesarrolloSoftware"],
     explicacion: 
         `Para los estudiantes de Tecnologías de la Información, dominar herramientas estándar de la industria es fundamental. Visual Studio Code (VS Code) es actualmente el entorno de código preferido a nivel mundial, ya que agiliza el desarrollo de software y prepara al alumno para integrarse rápidamente a flujos de trabajo profesionales y corporativos modernos. <br> 
@@ -50,6 +50,8 @@ const capsulaQuéesVisualStudioCode= {
     recursoHtml: `
         <img src="recursos-visuales/visuales_caps_programacion/1.2.2.-interfaz-vscode-imagen.png"
          alt="Imagen de Visual Studio Code">`,
+    videoId: "TbzrOz8HbFM",
+    videoTitulo: "Curso de Visual Studio Code desde CERO (Completo) — Soy Dalto",
     ejercicioPregunta: 
         "¿Cuál de las siguientes opciones describe mejor la ventaja operativa de Visual Studio Code frente a editores de texto básicos como el Bloc de Notas?",
     opciones: [
@@ -60,7 +62,59 @@ const capsulaQuéesVisualStudioCode= {
         ],
     respuestaCorrecta: 2,
     retroalimentacionCorrecta: "¡Correcto! VS Code va más allá del texto plano; su arquitectura basada en extensiones permite adaptar el editor a cualquier lenguaje, mientras que herramientas integradas como la terminal y el autocompletado lo convierten en un entorno escalable y productivo, manteniendo un rendimiento ligero, gratuito y multiplataforma.",
-    retroalimentacionIncorrecta: "Inténtalo de nuevo. Piensa en las herramientas que VS Code ofrece además de editar texto."
+    retroalimentacionIncorrecta: "Inténtalo de nuevo. Piensa en las herramientas que VS Code ofrece además de editar texto.",
+    quiz: [
+        {
+            pregunta: "En un proyecto Python, necesitas ejecutar `main.py` y depurar errores sin salir del editor. ¿Qué flujo de trabajo es el más adecuado en VS Code?",
+            opciones: [
+                "A) Instalar la extensión de Python, seleccionar el intérprete del proyecto y ejecutar o depurar el archivo.",
+                "B) Cambiar la extensión del archivo a .html.",
+                "C) Instalar una extensión de formato para CSS.",
+                "D) Abrir el archivo como texto sin formato."
+            ],
+            respuestaCorrecta: 0,
+            retroalimentacionCorrecta: "¡Correcto! La extensión de Python y el intérprete seleccionado permiten ejecutar y depurar el proyecto con el entorno que realmente utiliza.",
+            retroalimentacionIncorrecta: "Revisa cómo VS Code configura el soporte del lenguaje y el intérprete del proyecto."
+        },
+        {
+            pregunta: "Al ejecutar el proyecto, aparece `ModuleNotFoundError`, aunque instalaste el paquete requerido. ¿Qué deberías revisar primero?",
+            opciones: [
+                "A) Si VS Code tiene seleccionado el mismo intérprete o entorno virtual donde instalaste el paquete.",
+                "B) Si el nombre de la carpeta del proyecto está en mayúsculas.",
+                "C) Si el archivo tiene un tema de color instalado.",
+                "D) Si el paquete aparece en la lista de extensiones de temas."
+            ],
+            respuestaCorrecta: 0,
+            retroalimentacionCorrecta: "¡Correcto! El paquete puede estar instalado en otro entorno; selecciona en VS Code el intérprete asociado al proyecto.",
+            retroalimentacionIncorrecta: "Comprueba qué intérprete está activo y en qué entorno instalaste el paquete."
+        },
+        {
+            pregunta: "Quieres detener el programa en una línea específica y revisar el valor de una variable. ¿Qué herramienta de VS Code debes usar?",
+            opciones: [
+                "A) El formato automático del documento.",
+                "B) El minimapa del editor.",
+                "C) Un punto de interrupción (breakpoint) y la vista Ejecutar y depurar.",
+                "D) El cambio de tema de color."
+            ],
+            respuestaCorrecta: 2,
+            retroalimentacionCorrecta: "¡Correcto! Un breakpoint pausa la ejecución y permite inspeccionar variables desde la vista de depuración.",
+            retroalimentacionIncorrecta: "Busca la herramienta que pausa la ejecución para inspeccionar el estado del programa."
+        }
+    ],
+    referencias: [
+        {
+            titulo: "Microsoft. Documentación de Visual Studio Code.",
+            url: "https://code.visualstudio.com/docs"
+        },
+        {
+            titulo: "Soy Dalto. Curso de Visual Studio Code desde CERO (video en español).",
+            url: "https://www.youtube.com/watch?v=TbzrOz8HbFM"
+        }
+    ],
+    actividadInteractiva: {
+        instrucciones: "Crea un archivo llamado saludo.py en un proyecto de prueba, escribe un programa que imprima Hola, mundo, ejecútalo desde VS Code y coloca un punto de interrupción en la línea de impresión.",
+        solucion: "Selecciona el intérprete de Python del proyecto, usa Ejecutar archivo de Python en terminal y después inicia la depuración con el breakpoint para inspeccionar la ejecución."
+    }
 };
  
 const capsulaCondicionales = {
@@ -110,7 +164,7 @@ const capsulaGitGithub = {
     area: "Programación y desarrollo de software",
     duracion: "5 a 7 minutos",
     nivel: "Inicial",
-    formato: "Lectura breve con apoyo visual",
+    formato: "Lectura breve con apoyo visual y quiz",
     tags: ["Git", "GitHub", "ControlDeVersiones", "TrabajoColaborativo", "Repositorios"],
     explicacion: `En el desarrollo de software actual, trabajar en equipo sin sobrescribir el código de otros es un reto. Git y GitHub son herramientas estándar de la industria que resuelven este problema, permitiendo a los estudiantes de Tecnologías de la Información gestionar el historial de sus proyectos, automatizar tareas y colaborar de manera segura a nivel global.
 
@@ -126,7 +180,9 @@ const capsulaGitGithub = {
     recursoHtml: `
         <img src="recursos-visuales/visuales_caps_programacion/flujo-git-github.png"
          alt="Imagen del flujo de trabajo de Git y GitHub">`,
-    ejercicioPregunta: "Estás trabajando en un proyecto grupal y terminaste de escribir una nueva función en tu computadora. Ya guardaste los cambios en tu repositorio local con el comando git commit. ¿Qué comando debes utilizar para subir esos cambios al repositorio compartido en GitHub para que tu equipo los vea?",
+    videoId: "jGehuhFhtnE",
+    videoTitulo: "¿Qué es Git y cómo funciona? — EDteam",
+    ejercicioPregunta: "Guardaste tus cambios con git commit y quieres compartirlos en GitHub. ¿Qué comando debes usar?",
     opciones: [
         "A) git clone",
         "B) git pull",
@@ -134,8 +190,88 @@ const capsulaGitGithub = {
         "D) git init"
     ],
     respuestaCorrecta: 2,
-    retroalimentacionCorrecta: "¡Correcto! La opción C es correcta porque git push se encarga de 'empujar' o transferir los commits de tu repositorio local hacia el repositorio remoto (GitHub). El comando git clone es para descargar un proyecto, git pull para actualizar tu entorno local con cambios de otros, y git init para inicializar un proyecto nuevo desde cero.",
-    retroalimentacionIncorrecta: "Inténtalo de nuevo."
+    retroalimentacionCorrecta: "¡Correcto! git push envía los commits locales al repositorio remoto para compartirlos con el equipo.",
+    retroalimentacionIncorrecta: "git clone descarga un repositorio y git pull recibe cambios; para enviar tus commits usa git push.",
+    quiz: [
+        {
+            pregunta: "Guardaste tus cambios con git commit y quieres compartirlos en GitHub. ¿Qué comando debes usar?",
+            opciones: [
+                "A) git clone",
+                "B) git pull",
+                "C) git push",
+                "D) git init"
+            ],
+            respuestaCorrecta: 2,
+            retroalimentacionCorrecta: "¡Correcto! git push envía los commits locales al repositorio remoto para compartirlos con el equipo.",
+            retroalimentacionIncorrecta: "git clone descarga un repositorio y git pull recibe cambios; para enviar tus commits usa git push."
+        },
+        {
+            pregunta: "¿Cuál es la diferencia principal entre Git y GitHub?",
+            opciones: [
+                "A) Git es una plataforma web y GitHub es un editor de código.",
+                "B) Git controla versiones localmente y GitHub aloja repositorios Git para colaborar en la nube.",
+                "C) Git y GitHub son dos nombres del mismo comando.",
+                "D) GitHub reemplaza la necesidad de guardar cambios con Git."
+            ],
+            respuestaCorrecta: 1,
+            retroalimentacionCorrecta: "¡Correcto! Git registra el historial de versiones; GitHub aloja repositorios Git y facilita la colaboración remota.",
+            retroalimentacionIncorrecta: "Recuerda: Git es el sistema de control de versiones; GitHub es una plataforma que hospeda repositorios."
+        },
+        {
+            pregunta: "¿Qué hace git add README.md antes de crear un commit?",
+            opciones: [
+                "A) Prepara el archivo para incluirlo en el siguiente commit.",
+                "B) Envía el archivo directamente a GitHub.",
+                "C) Borra el historial del repositorio.",
+                "D) Descarga la última versión del repositorio remoto."
+            ],
+            respuestaCorrecta: 0,
+            retroalimentacionCorrecta: "¡Correcto! git add coloca los cambios seleccionados en el área de preparación para el siguiente commit.",
+            retroalimentacionIncorrecta: "git add prepara cambios localmente; no los envía al remoto ni los confirma por sí solo."
+        },
+        {
+            pregunta: "Después de preparar los cambios con git add, ¿qué comando guarda una nueva versión en el historial local?",
+            opciones: [
+                "A) git push",
+                "B) git commit",
+                "C) git clone",
+                "D) git fetch"
+            ],
+            respuestaCorrecta: 1,
+            retroalimentacionCorrecta: "¡Correcto! git commit registra los cambios preparados en el historial local.",
+            retroalimentacionIncorrecta: "El comando que crea una entrada en el historial local es git commit."
+        },
+        {
+            pregunta: "Quieres desarrollar una mejora sin alterar directamente la rama principal. ¿Qué recurso de Git te ayuda?",
+            opciones: [
+                "A) El archivo README.",
+                "B) Una rama (branch) independiente.",
+                "C) El comando git push --force.",
+                "D) Una copia del historial en un documento de texto."
+            ],
+            respuestaCorrecta: 1,
+            retroalimentacionCorrecta: "¡Correcto! Una rama permite trabajar de forma aislada y después integrar los cambios cuando estén listos.",
+            retroalimentacionIncorrecta: "Crea una rama para trabajar en la mejora sin modificar directamente la rama principal."
+        }
+    ],
+    actividadInteractiva: {
+        instrucciones: "En un repositorio de práctica que ya tenga un remoto configurado, cambia una línea del README. Revisa el estado, prepara solo ese archivo, crea un commit y compártelo con el equipo.",
+        solucion: "Ejecuta git status, git add README.md y git commit -m \"Update README\". Para compartir el commit, usa git push origin main si estás trabajando en main; si estás en otra rama, reemplaza main por su nombre."
+    },
+    referencias: [
+        {
+            titulo: "W3Schools. Git Tutorial.",
+            url: "https://www.w3schools.com/git/"
+        },
+        {
+            titulo: "Git. Getting Started - About Version Control.",
+            url: "https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control"
+        },
+        {
+            titulo: "EDteam. ¿Qué es Git y cómo funciona? (video en español).",
+            url: "https://www.youtube.com/watch?v=jGehuhFhtnE"
+        }
+    ]
 };
 
 const Otros_datos_Git_GitHub = {
@@ -144,7 +280,7 @@ const Otros_datos_Git_GitHub = {
     area: "Programación y desarrollo de software",
     duracion: "5 a 7 minutos",
     nivel: "Inicial",
-    formato: "Lectura breve con apoyo visual",
+    formato: "Lectura breve con apoyo visual y quiz",
     tags: ["Git", "GitHub", "ControlDeVersiones", "TrabajoColaborativo", "Repositorios"],
     explicacion: `Una vez dominado el guardado básico del código, los estudiantes de Tecnologías de la Información deben aprender a escalar sus proyectos. El verdadero poder de Git y GitHub radica en su capacidad para manejar múltiples versiones simultáneas, ignorar archivos innecesarios y gestionar la revisión de código en equipo mediante ramificaciones y Pull Requests.
 
@@ -162,6 +298,8 @@ const Otros_datos_Git_GitHub = {
     recursoHtml: `
         <img src="recursos-visuales/visuales_caps_programacion/git-ramas-merge-imagen.jpg"
          alt="Diagrama de ramas y fusión en Git">`,
+    videoId: "dSE-9ThG320",
+    videoTitulo: "Git Flow Explicado Fácil: Ramas, Pull Request y Merge — ryudevcode",
     ejercicioPregunta: "Estás a punto de subir tu código a GitHub, pero te das cuenta de que hay un archivo con contraseñas locales que no debe hacerse público. ¿Qué elemento de Git debes utilizar para evitar que este archivo se suba al repositorio remoto?",
     opciones: [
         "A) Crear una nueva rama con git branch.",
@@ -171,5 +309,65 @@ const Otros_datos_Git_GitHub = {
     ],
     respuestaCorrecta: 2,
     retroalimentacionCorrecta: "¡Correcto! La opción C es correcta porque .gitignore le indica a Git qué archivos debe excluir del control de versiones. Esto evita que se agreguen archivos locales o privados por accidente, siempre que Git aún no los esté siguiendo. Nunca guardes contraseñas en el repositorio.",
-    retroalimentacionIncorrecta: "Inténtalo de nuevo."
+    retroalimentacionIncorrecta: "Inténtalo de nuevo.",
+    quiz: [
+        {
+            pregunta: "Antes de compartir un repositorio, detectas que `config.local` contiene datos privados y todavía no está bajo seguimiento de Git. ¿Qué haces para excluirlo?",
+            opciones: [
+                "A) Añadir `config.local` a `.gitignore` antes de agregarlo al repositorio.",
+                "B) Crear una rama con el mismo nombre que el archivo.",
+                "C) Ejecutar `git clone` sobre el repositorio.",
+                "D) Renombrar el archivo después de subirlo."
+            ],
+            respuestaCorrecta: 0,
+            retroalimentacionCorrecta: "¡Correcto! `.gitignore` evita que Git agregue archivos no rastreados que coincidan con sus reglas. No elimina archivos que ya estén en el historial.",
+            retroalimentacionIncorrecta: "Usa `.gitignore` antes de agregar el archivo. Si ya fue rastreado, ignorarlo no lo quita del historial."
+        },
+        {
+            pregunta: "Vas a desarrollar una función nueva sin modificar `main`. ¿Qué comando crea y cambia a una rama independiente llamada `feature/busqueda`?",
+            opciones: [
+                "A) `git pull feature/busqueda`",
+                "B) `git switch -c feature/busqueda`",
+                "C) `git init feature/busqueda`",
+                "D) `git merge main`"
+            ],
+            respuestaCorrecta: 1,
+            retroalimentacionCorrecta: "¡Correcto! `git switch -c` crea la rama y te cambia a ella para trabajar de forma aislada.",
+            retroalimentacionIncorrecta: "Elige el comando que crea una rama nueva y cambia a ella."
+        },
+        {
+            pregunta: "Terminaste la rama `feature/busqueda` y quieres que el equipo revise tus commits antes de integrarlos a `main`. ¿Qué flujo corresponde?",
+            opciones: [
+                "A) Borrar la rama antes de compartirla.",
+                "B) Ejecutar `git init` y reemplazar el repositorio remoto.",
+                "C) Enviar la rama al remoto con `git push` y abrir un Pull Request en GitHub.",
+                "D) Ejecutar `git clone` sobre tu copia local."
+            ],
+            respuestaCorrecta: 2,
+            retroalimentacionCorrecta: "¡Correcto! El push publica la rama y el Pull Request permite revisar los cambios antes de fusionarlos.",
+            retroalimentacionIncorrecta: "Primero publica tu rama en el remoto; después abre el Pull Request para revisión."
+        }
+    ],
+    actividadInteractiva: {
+        instrucciones: "En un repositorio de práctica, crea una rama feature/busqueda, modifica el README, guarda un commit y prepara el cambio para revisión. No incluyas archivos privados.",
+        solucion: "Prueba el comando git switch -c feature/busqueda, realiza el cambio, ejecuta git add README.md y git commit -m \"Add search feature\". Luego publica la rama con git push -u origin feature/busqueda y abre un Pull Request hacia main."
+    },
+    referencias: [
+        {
+            titulo: "W3Schools. Git Tutorial.",
+            url: "https://www.w3schools.com/git/"
+        },
+        {
+            titulo: "W3Schools. Git Branches.",
+            url: "https://www.w3schools.com/git/git_branch.asp"
+        },
+        {
+            titulo: "GitHub Docs. About pull requests.",
+            url: "https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests"
+        },
+        {
+            titulo: "ryudevcode. Git Flow Explicado Fácil: Ramas, Pull Request y Merge (video en español).",
+            url: "https://www.youtube.com/watch?v=dSE-9ThG320"
+        }
+    ]
 };
