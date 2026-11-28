@@ -35,18 +35,7 @@ const capsulaQuéesVisualStudioCode= {
     formato: "Lectura breve con apoyo visual y quiz",
     tags: ["VSCode", "Programacion", "EditorDeCodigo", "Extensiones",           "DesarrolloSoftware"],
     explicacion: 
-        `Para los estudiantes de Tecnologías de la Información, dominar herramientas estándar de la industria es fundamental. Visual Studio Code (VS Code) es actualmente el entorno de código preferido a nivel mundial, ya que agiliza el desarrollo de software y prepara al alumno para integrarse rápidamente a flujos de trabajo profesionales y corporativos modernos. <br> 
-        
-        <br>Visual Studio Code es un editor de código fuente optimizado, gratuito y desarrollado por Microsoft. A diferencia de un IDE tradicional complejo, es ligero y altamente personalizable de acuerdo con el proyecto que se esté trabajando.<br>
-        
-        <br><strong>Sus características más destacadas son:<br></strong>  
-        <br><strong>Multiplataforma</strong> : Disponible de forma nativa en Windows, macOS y Linux.<br>
-        
-        <br><strong>Soporte Universal:</strong> Compatible con casi cualquier lenguaje de programación (Python, C++, Java, JavaScript, etc.).<br>
-       
-        <br><strong>Extensiones:</strong> Su Marketplace permite instalar complementos para autocompletado avanzado (IntelliSense), formato automático, resaltado de sintaxis y conexión directa con bases de datos.<br> 
-        
-        <br><strong>Terminal Integrada:</strong> Permite compilar código, ejecutar scripts o utilizar herramientas de control de versiones (Git) sin tener que abandonar la interfaz del editor.<br>`,
+        "Para los estudiantes de Tecnologías de la Información, dominar herramientas estándar de la industria es fundamental. Visual Studio Code (VS Code) es actualmente el entorno de código preferido a nivel mundial, ya que agiliza el desarrollo de software y prepara al alumno para integrarse rápidamente a flujos de trabajo profesionales y corporativos modernos. <br> <br> Visual Studio Code es un editor de código fuente optimizado, gratuito y desarrollado por Microsoft. A diferencia de un IDE tradicional complejo, es ligero y altamente personalizable de acuerdo con el proyecto que se esté trabajando. Sus características más destacadas son: Multiplataforma: Disponible de forma nativa en Windows, macOS y Linux. Soporte Universal: Compatible con casi cualquier lenguaje de programación (Python, C++, Java, JavaScript, etc.). Extensiones: Su Marketplace permite instalar complementos para autocompletado avanzado (IntelliSense), formato automático, resaltado de sintaxis y conexión directa con bases de datos. Terminal Integrada: Permite compilar código, ejecutar scripts o utilizar herramientas de control de versiones (Git) sin tener que abandonar la interfaz del editor.",
     recursoHtml: `
         <img src="recursos-visuales/visuales_caps_programacion/1.2.2.-interfaz-vscode-imagen.png"
          alt="Imagen de Visual Studio Code">`,
