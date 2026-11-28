@@ -347,6 +347,13 @@
         </div>
     </footer>
 
+    <dialog id="visorImagen" class="visor-imagen">
+        <button type="button" class="visor-cerrar" onclick="document.getElementById('visorImagen').close()" aria-label="Cerrar imagen ampliada">
+            <i class="fas fa-times" aria-hidden="true"></i>
+        </button>
+        <img id="imagenAmpliada" src="" alt="Imagen ampliada de la cápsula">
+    </dialog>
+
     <!-- SCRIPTS -->
     <script src="capsulassociales.js"></script>
     <script src="capsulasprogramacion.js"></script>

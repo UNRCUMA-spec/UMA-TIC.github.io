@@ -12,3 +12,37 @@ body {
 .smooth-transition {
     transition: all 0.3s ease-in-out;
 }
+
+.visor-imagen {
+    max-width: min(90vw, 1100px);
+    max-height: 90vh;
+    padding: 1rem;
+    border: 0;
+    border-radius: 0.75rem;
+    background: white;
+}
+
+.visor-imagen::backdrop {
+    background: rgba(15, 23, 42, 0.85);
+}
+
+.visor-imagen img {
+    display: block;
+    max-width: 100%;
+    max-height: calc(90vh - 2rem);
+    object-fit: contain;
+}
+
+.visor-cerrar {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 1;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 0;
+    border-radius: 9999px;
+    background: #5A0020;
+    color: white;
+    cursor: pointer;
+}
